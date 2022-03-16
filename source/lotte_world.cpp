@@ -88,10 +88,6 @@ int main()
 	int total_price=0;	// 총 수량에 따른 가격 
 	int final_price=0;	// 최종가격 
 	
-
-
-
-
 	printf("롯데월드에 오신 여러분을 환영합니다.\n");
 
 // 옵션1 입력 - 이용시설 
@@ -147,33 +143,33 @@ int main()
 		count_age_months+=12;
 		count_age_years--;
 	} 
- 
+
 	// 나이에 기반한 정가 가격 확인
-	if((count_age_years>=Adult_Min_Age||count_age_years<=Adult_Max_Age)&&option1==1&&option1==1) // 성인,종합이용권,종일 
+	if((count_age_years>=Adult_Min_Age&&count_age_years<=Adult_Max_Age)&&option1==1&&option1==1) // 성인,종합이용권,종일 
 		price = Package_Day_Adult_Price;
-	else if((count_age_years>=Adult_Min_Age||count_age_years<=Adult_Max_Age)&&option1==1&&option1==2) // 성인,종합이용권,오후 
+	else if((count_age_years>=Adult_Min_Age&&count_age_years<=Adult_Max_Age)&&option1==1&&option1==2) // 성인,종합이용권,오후 
 		price = Package_After4_Adult_Price;
-	else if((count_age_years>=Adult_Min_Age||count_age_years<=Adult_Max_Age)&&option1==2&&option1==1) // 성인,파크이용권,종일 
+	else if((count_age_years>=Adult_Min_Age&&count_age_years<=Adult_Max_Age)&&option1==2&&option1==1) // 성인,파크이용권,종일 
 		price = OnlyPark_Day_Adult_Price;
-	else if((count_age_years>=Adult_Min_Age||count_age_years<=Adult_Max_Age)&&option1==2&&option1==2) // 성인,파크이용권,오후 
+	else if((count_age_years>=Adult_Min_Age&&count_age_years<=Adult_Max_Age)&&option1==2&&option1==2) // 성인,파크이용권,오후 
 		price = OnlyPark_After4_Adult_Price;
 		
-	else if((count_age_years>=Youth_Min_Age||count_age_years<=Youth_Max_Age)&&option1==1&&option1==1) // 청소년,종합이용권,종일 
+	else if((count_age_years>=Youth_Min_Age&&count_age_years<=Youth_Max_Age)&&option1==1&&option1==1) // 청소년,종합이용권,종일 
 		price = Package_Day_Youth_Price;
-	else if((count_age_years>=Youth_Min_Age||count_age_years<=Youth_Max_Age)&&option1==1&&option1==2) // 청소년,종합이용권,오후 
+	else if((count_age_years>=Youth_Min_Age&&count_age_years<=Youth_Max_Age)&&option1==1&&option1==2) // 청소년,종합이용권,오후 
 		price = Package_After4_Youth_Price;
-	else if((count_age_years>=Youth_Min_Age||count_age_years<=Youth_Max_Age)&&option1==2&&option1==1) // 청소년,파크이용권,종일 
+	else if((count_age_years>=Youth_Min_Age&&count_age_years<=Youth_Max_Age)&&option1==2&&option1==1) // 청소년,파크이용권,종일 
 		price = OnlyPark_Day_Youth_Price;
-	else if((count_age_years>=Youth_Min_Age||count_age_years<=Youth_Max_Age)&&option1==2&&option1==2) // 청소년,파크이용권,오후 
+	else if((count_age_years>=Youth_Min_Age&&count_age_years<=Youth_Max_Age)&&option1==2&&option1==2) // 청소년,파크이용권,오후 
 		price = OnlyPark_After4_Youth_Price;
 	
-	else if(((count_age_years*12+count_age_months>=Child_Min_Month||count_age_years<=Child_Max_Age)||count_age_years>=65)&&option1==1&&option1==1) // 어린이,종합이용권,종일 
+	else if(((count_age_years*12+count_age_months>=Child_Min_Month&&count_age_years<=Child_Max_Age)||count_age_years>=65)&&option1==1&&option1==1) // 어린이,종합이용권,종일 
 		price = Package_Day_Child_Price;
-	else if(((count_age_years*12+count_age_months>=Child_Min_Month||count_age_years<=Child_Max_Age)||count_age_years>=65)&&option1==1&&option1==2) // 어린이,종합이용권,오후 
+	else if(((count_age_years*12+count_age_months>=Child_Min_Month&&count_age_years<=Child_Max_Age)||count_age_years>=65)&&option1==1&&option1==2) // 어린이,종합이용권,오후 
 		price = Package_After4_Child_Price;
-	else if(((count_age_years*12+count_age_months>=Child_Min_Month||count_age_years<=Child_Max_Age)||count_age_years>=65)&&option1==2&&option1==1) // 어린이,파크이용권,종일 
+	else if(((count_age_years*12+count_age_months>=Child_Min_Month&&count_age_years<=Child_Max_Age)||count_age_years>=65)&&option1==2&&option1==1) // 어린이,파크이용권,종일 
 		price = OnlyPark_Day_Child_Price;
-	else if(((count_age_years*12+count_age_months>=Child_Min_Month||count_age_years<=Child_Max_Age)||count_age_years>=65)&&option1==2&&option1==2) // 어린이,파크이용권,오후 
+	else if(((count_age_years*12+count_age_months>=Child_Min_Month&&count_age_years<=Child_Max_Age)||count_age_years>=65)&&option1==2&&option1==2) // 어린이,파크이용권,오후 
 		price = OnlyPark_After4_Child_Price;
 	
 	else if((count_age_years*12+count_age_months<=Baby1_Max_Month)&&option1==1&&option1==1) // 어린이,종합이용권,종일 
