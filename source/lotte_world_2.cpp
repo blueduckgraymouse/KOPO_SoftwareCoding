@@ -71,7 +71,7 @@ const float Soldier_DiscountRate = 0.49;
 const float Pregnant_DiscountRate = 0.5;
 const float MultipleChildren_DiscountRate = 0.3;
 
-
+// 사용자 정의 함수 
 int selectOption1();
 int selectOption2();
 long long insertID();
@@ -86,6 +86,15 @@ int main()
 {
 	int final_price=0;		// 최종가격
 	int d=1;
+	
+	/*
+		반복된 결과 값을 저장하는 것
+		 -> 몇번 반복할지 모른다?
+		 	아이디어 
+		  	1) 배열 동적할당?
+			2) 어차피 파일로 저장해야하는거 반복할 때마다 쓰고 종료되면 저장하고 그걸 다시 읽어오는 방법?
+	*/
+	
 	
 	while(d)
 	{
@@ -188,10 +197,11 @@ int checkPrice(int option1, int option2, long long ID)
 		years = birth/10000+1900;
 	}
 	int months = (birth%10000)/100;
-	int days = (birth%100);
+	int days = (birth%100); 					
+												
 
 	
-	 // 시스템으로 부터  현재 시간 가져오기 
+	// 시스템으로 부터  현재 시간 가져오기 
 	struct tm *cur_date;						// time.h에 정의되어 있는 날짜와 시간을 나타내는 구조체 
 	time_t curTime=time(NULL);					// #include <time.h> 필요, time_t time(time * timer) : 타이머가 Null이 아니면 timer가 가르키는 변수에 현재 시간을 채운다. 
 	cur_date=localtime(&curTime);				// localtime(const time_t * timer) : 타이머가 가르키는 변수를 UTC시간 기준으로 구조체로 변환해 그 주소를 반환 
@@ -258,7 +268,7 @@ int checkPrice(int option1, int option2, long long ID)
 	return price;
 }
 
-/*
+/* 사용자 정의 함수의 반환형으로 배열을 사용할 수 없다!!!! 
 // 13자리 주민번호에서 고객 생년월일 추출
 int[3] extractBirth(ID)
 {
