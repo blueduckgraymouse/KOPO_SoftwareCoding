@@ -228,53 +228,21 @@ int checkPrice(int option1, int option2, long long ID)
  
 	// 나이에 기반한 정가 가격 확인
 	int price=0;
-	/*
-	if((count_age_years>=Adult_Min_Age&&count_age_years<=Adult_Max_Age)&&option1==1&&option1==1) // 성인,종합이용권,종일 
-		price = Package_Day_Adult_Price;
-	else if((count_age_years>=Adult_Min_Age&&count_age_years<=Adult_Max_Age)&&option1==1&&option1==2) // 성인,종합이용권,오후 
-		price = Package_After4_Adult_Price;
-	else if((count_age_years>=Adult_Min_Age&&count_age_years<=Adult_Max_Age)&&option1==2&&option1==1) // 성인,파크이용권,종일 
-		price = OnlyPark_Day_Adult_Price;
-	else if((count_age_years>=Adult_Min_Age&&count_age_years<=Adult_Max_Age)&&option1==2&&option1==2) // 성인,파크이용권,오후
-		price = OnlyPark_After4_Adult_Price;
-	*/	
-	if(count_age_years>=Adult_Min_Age&&count_age_years<=Adult_Max_Age)
+	if(count_age_years>=Adult_Min_Age&&count_age_years<=Adult_Max_Age)		// 성인(만 19~64세) 
 	{
 		if(option1==1&&option1==1)		price=Package_Day_Adult_Price;
 		else if(option1==1&&option1==2)	price=Package_After4_Adult_Price;
 		else if(option1==2&&option1==1)	price=OnlyPark_Day_Adult_Price;
 		else if(option1==2&&option1==2)	price=OnlyPark_After4_Adult_Price;
 	} 
-	/*	
-	else if((count_age_years>=Youth_Min_Age&&count_age_years<=Youth_Max_Age)&&option1==1&&option1==1) // 청소년,종합이용권,종일 
-		price = Package_Day_Youth_Price;
-	else if((count_age_years>=Youth_Min_Age&&count_age_years<=Youth_Max_Age)&&option1==1&&option1==2) // 청소년,종합이용권,오후 
-		price = Package_After4_Youth_Price;
-	else if((count_age_years>=Youth_Min_Age&&count_age_years<=Youth_Max_Age)&&option1==2&&option1==1) // 청소년,파크이용권,종일 
-		price = OnlyPark_Day_Youth_Price;
-	else if((count_age_years>=Youth_Min_Age&&count_age_years<=Youth_Max_Age)&&option1==2&&option1==2) // 청소년,파크이용권,오후 
-		price = OnlyPark_After4_Youth_Price;
-	*/
-	
-	else if(count_age_years>=Youth_Min_Age&&count_age_years<=Youth_Max_Age)
+	else if(count_age_years>=Youth_Min_Age&&count_age_years<=Youth_Max_Age) // 청소년(만 13~18세) 
 	{
 		if(option1==1&&option1==1)		price=Package_Day_Youth_Price;
 		else if(option1==1&&option1==2) price=Package_After4_Youth_Price;
 		else if(option1==2&&option1==1)	price=OnlyPark_Day_Youth_Price;
 		else if(option1==2&&option1==2)	price=OnlyPark_After4_Youth_Price;
 	}
-	/*
-	else if(((count_age_years*12+count_age_months>=Child_Min_Month&&count_age_years<=Child_Max_Age)||count_age_years>=65)&&option1==1&&option1==1) // 어린이,종합이용권,종일 
-		price = Package_Day_Child_Price;
-	else if(((count_age_years*12+count_age_months>=Child_Min_Month&&count_age_years<=Child_Max_Age)||count_age_years>=65)&&option1==1&&option1==2) // 어린이,종합이용권,오후 
-		price = Package_After4_Child_Price;
-	else if(((count_age_years*12+count_age_months>=Child_Min_Month&&count_age_years<=Child_Max_Age)||count_age_years>=65)&&option1==2&&option1==1) // 어린이,파크이용권,종일 
-		price = OnlyPark_Day_Child_Price;
-	else if(((count_age_years*12+count_age_months>=Child_Min_Month&&count_age_years<=Child_Max_Age)||count_age_years>=65)&&option1==2&&option1==2) // 어린이,파크이용권,오후 
-		price = OnlyPark_After4_Child_Price;
-	*/
-	
-	else if((count_age_years*12+count_age_months>=Child_Min_Month&&count_age_years<=Child_Max_Age)||count_age_years>=65)
+	else if((count_age_years*12+count_age_months>=Child_Min_Month&&count_age_years<=Child_Max_Age)||count_age_years>=65)	// 어린이(36개월~만12세) , 노인(만65세 이상) 
 	{
 		if(option1==1&&option1==1)		price=Package_Day_Child_Price;
 		else if(option1==1&&option1==2)	price=Package_After4_Child_Price;
@@ -282,18 +250,7 @@ int checkPrice(int option1, int option2, long long ID)
 		else if(option1==2&&option1==2)	price=OnlyPark_After4_Child_Price;
 	}
 	
-	/*
-	else if((count_age_years*12+count_age_months<=Baby1_Max_Month)&&option1==1&&option1==1) // 어린이,종합이용권,종일 
-		price = Package_Day_Baby_Price;
-	else if((count_age_years*12+count_age_months<=Baby1_Max_Month)&&option1==1&&option1==2) // 어린이,종합이용권,오후 
-		price = Package_After4_Baby_Price;
-	else if((count_age_years*12+count_age_months<=Baby1_Max_Month)&&option1==2&&option1==1) // 어린이,파크이용권,종일 
-		price = OnlyPark_Day_Baby_Price;
-	else if((count_age_years*12+count_age_months<=Baby1_Max_Month)&&option1==2&&option1==2) // 어린이,파크이용권,오후 
-		price = OnlyPark_After4_Baby_Price;
-	*/
-	
-	else if(count_age_years*12+count_age_months<=Baby1_Max_Month)
+	else if(count_age_years*12+count_age_months<Baby1_Max_Month)			// 유아(~36개월 미만)
 	{
 		if(option1==1&&option1==1)		price=Package_Day_Baby_Price;
 		else if(option1==1&&option1==2)	price=Package_After4_Baby_Price;
