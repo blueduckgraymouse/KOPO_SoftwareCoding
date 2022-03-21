@@ -80,10 +80,10 @@ int 	selectOption4();
 int 	selectOption5();
 float 	checkDiscountRate(int option5);
 int 	calAndPrintTotalPrice(int total_price, float total_discount_rate); 
-int		today();			// 오늘날짜 반환, 20220321
-const char* 	ticketKinds1(int option1);
-const char* 	ticketKinds2(int option2);
-const char* 	discountKinds(int option5);
+int		todayIs();			// 오늘날짜 반환, 20220321
+char 	*ticketKinds1(int option1);
+char 	*ticketKinds2(int option2);
+char 	*discountKinds(int option5);
 int 	checkContinue();
 
 
@@ -101,9 +101,12 @@ int main()
 			2) 어차피 파일로 저장해야하는거 반복할 때마다 쓰고 종료되면 저장하고 그걸 다시 읽어오는 방법?
 	*/
 	
+	/*
 	FILE *fp;
 	fp = fopen("report.csv","a");
 	fprintf(fp, "날짜, 이용시설, 이용기간, 연령 구분, 수량, 가격, 우대사항\n");
+	*/
+	
 	while(d)
 	{
 		//옵션값 
@@ -140,16 +143,19 @@ int main()
 
 		total_price=calAndPrintTotalPrice(sum_price,total_discount_rate);	// 총 청구 금액  계산 및 출력 
 		
-		fprintf(fp,"%d,%s,%s,%d,%d,%s\n",today(),ticketKinds1(option1),ticketKinds2(option2),"연령구분",amount,total_price,discountKinds(option5));// 현재 루프의 정보 저장하는 함수 추가 예정
+		//fprintf(fp,"%d,%s,%s,%d,%d,%s\n",today(),ticketKinds1(option1),ticketKinds2(option2),"연령구분",amount,total_price,discountKinds(option5));// 현재 루프의 정보 저장하는 함수 추가 예정
+		char *kinds1, *kinds2, *kinds5;
+		kinds1=ticketKinds1(option1);
+		kinds2=ticketKinds2(option2);
+		kinds5=discountKinds(option5);
+		printf("저장될 정보 : %d,%s,%s,%d,%d,%s\n",todayIs(),kinds1,kinds2,"연령구분",amount,total_price,kinds5);
 		
-		d=checkContinue();
+		//d=checkContinue();
 	}
 	
-	fclose(fp);
+	//fclose(fp);
 	return 0;
 }
-
-
 
 // 이용시설 선택 
 int selectOption1()
@@ -230,24 +236,17 @@ int checkPrice(int option1, int option2, long long ID)
 	int days = (birth%100); 					
 												
 
+	// 고객 만 나이 계산
+	int today=todayIs();
 	
-	// 시스템으로 부터  현재 시간 가져오기 
-	struct tm *cur_date;						// time.h에 정의되어 있는 날짜와 시간을 나타내는 구조체 
-	
-	time_t curTime=time(NULL);					// #include <time.h> 필요, time_t time(time * timer) : 타이머가 Null이 아니면 timer가 가르키는 변수에 현재 시간을 채운다. 
-	cur_date=localtime(&curTime);				// localtime(const time_t * timer) : 타이머가 가르키는 변수를 UTC시간 기준으로 구조체로 변환해 그 주소를 반환 
-	
-	 // 고객 만 나이 계산 
-	int count_age_days=cur_date->tm_mday-days;
-	int count_age_months=(cur_date->tm_mon+1)-months;
-	int count_age_years=cur_date->tm_year+1900-years; 
-	
+	int count_age_days=(today%100)-days;
+	int count_age_months=(today%10000)/100-months;
+	int count_age_years=(today/10000)+2000-years; 
 	if(count_age_days<0)						// ex) 3월에서 5월을 뺐을 경우 음수이므로 예외 처리 
 	{
 		count_age_days+=30;
 		count_age_months--;
 	} 
-	
 	if(count_age_months<0)						// ex) 15일에서 27일을 뺐을 경우 음수이므로 예외 처리 
 	{
 		count_age_months+=12;
@@ -256,7 +255,7 @@ int checkPrice(int option1, int option2, long long ID)
  
  	//printf("현재시간 : %d/%d/%d\n",cur_date->tm_year+1900,cur_date->tm_mon+1,cur_date->tm_mday);
  	//printf("고객 생년월일:%d/%d/%d\n",years,months,days);
- 	//printf("살아온 날수:%d/%d/%d\n",count_age_years,count_age_months,count_age_days);
+	//printf("살아온 날수:%d/%d/%d\n",count_age_years,count_age_months,count_age_days);
  
 	// 나이에 기반한 정가 가격 확인
 	int price=0;
@@ -367,7 +366,7 @@ int calAndPrintTotalPrice(int total_price, float total_discount_rate)
 }
  
 // 오늘 날짜 반환
-int today()
+int todayIs()
 {
 	// 시스템으로 부터  현재 시간 가져오기 
 	struct tm *cur_date;						// time.h에 정의되어 있는 날짜와 시간을 나타내는 구조체 
@@ -378,53 +377,51 @@ int today()
 	return ((cur_date->tm_year-100)*10000 + (cur_date->tm_mon+1)*100 + (cur_date->tm_mday));
 } 
  
+
 // 이용 시설 구분 
-const char* ticketKinds1(int option1)
+char *ticketKinds1(int option1)
 {
-	/*
-	char kinds[20] = "" ;
+	char *kinds=""; 
 	
-	if(option1==1) 	kinds="종합이용권";
+	if(option1==1) 	kinds="종합이용권";	
 	else			kinds="파크이용권";
 	
-	return kinds; 
-	*/
-	return "종합이용권";
+	return kinds;
 }
- 
+
 // 이용시간 구분 
-const char* ticketKinds2(int option2)
+char *ticketKinds2(int option2)
 {
-	char[20] kinds = "";
+	char *kinds = "";
 	
-	if(option1==1) 	kinds="종일권";
+	if(option2==1) 	kinds="종일권";
 	else			kinds="after4";
 	
 	return kinds; 
 }
  
-/* 연령 구분 반환   -> 이거 checkprice()의 나이 확인 하는 프로세스랑 겹침. 나이 확인하는 프로세스만 함수로 빼서 여기서도 사용하도록 바꿔야함. 
-char* ageKinds(option2)
-{
-
-} */
+//연령 구분 반환   -> 이거 checkprice()의 나이 확인 하는 프로세스랑 겹침. 나이 확인하는 프로세스만 함수로 빼서 여기서도 사용하도록 바꿔야함. 
+//char* ageKinds(option2)
+//{
+//
+//}
  
 // 할인우대 구분 반환 
-const char* discountKinds(int option5)
+char *discountKinds(int option5)
 {
-	char[10] kinds = "";
+	char *kinds = "";
 	
 	switch(option5)
 	{
-		case 1: kind="장애인";		break; 
-		case 2: kind="국가유공자";	break;
-		case 3: kind="군인"; 		break;
-		case 4: kind="임산부";		break;
-		case 5: kind="다둥이가족";	break;
-		case 6: kind="없음";		break;
+		case 1: kinds="장애인";		break; 
+		case 2: kinds="국가유공자";	break;
+		case 3: kinds="군인"; 		break;
+		case 4: kinds="임산부";		break;
+		case 5: kinds="다둥이가족";	break;
+		case 6: kinds="없음";		break;
 	}
 	
-	return kind;
+	return kinds;
 }
  
 // 추가 구매할 티켓 있는지 확인 

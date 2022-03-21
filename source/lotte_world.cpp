@@ -143,6 +143,10 @@ int main()
 		count_age_months+=12;
 		count_age_years--;
 	} 
+	
+	//printf("현재시간 : %d/%d/%d\n",cur_date->tm_year+1900,cur_date->tm_mon+1,cur_date->tm_mday);
+ 	//printf("고객 생년월일:%d/%d/%d\n",years,months,days);
+	//printf("살아온 날수:%d/%d/%d\n",count_age_years,count_age_months,count_age_days);
 
 	// 나이에 기반한 정가 가격 확인
 	if((count_age_years>=Adult_Min_Age&&count_age_years<=Adult_Max_Age)&&option1==1&&option1==1) // 성인,종합이용권,종일 
