@@ -18,11 +18,11 @@
 				 만 65세 이상	
 		베이비 : 0~12개월 미만(파크,유아 놀이시설 무료)
 				 12개월 이상~36개월 미만(파크 입장 무료, 유아 놀이시설 유료)
-				 즉, 12~36개월에 해당하면 유아 놀이시설 이용할 건지 다시 물어야 함.
+				 즉, 12~36개월에 해당하면 유아 놀이시설 이용할 건지 다시 물어야 함. - 일단 생략. 
 	
-	조건4 - 수량(수량 입력) 
+	조건4 - 수량(수량 입력) , 1~1000장으로 일단 제한. 
 	
-	조건5 - 우대사항(상시 우대 정보, 택일)
+	조건5 - 우대사항(상시 우대 정보, 택일) - 추후 수량과 우대사항 이랑 순서 바꿔서 우대사항에 따른 혜택 티켓 수 제한 
 		없음
 		장애인 우대 : 50% 할인, 동반 1인까지 
 		국가유공자 : 50% 할인, 동반 1인까지 
@@ -83,6 +83,7 @@ int 	calAndPrintTotalPrice(int total_price, float total_discount_rate);
 int		todayIs();			// 오늘날짜 반환, 20220321
 char 	*ticketKinds1(int option1);
 char 	*ticketKinds2(int option2);
+char 	*ageKinds(int ID);
 char 	*discountKinds(int option5);
 int 	checkContinue();
 
