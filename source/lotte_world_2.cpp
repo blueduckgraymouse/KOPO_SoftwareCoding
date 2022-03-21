@@ -101,11 +101,9 @@ int main()
 			2) 어차피 파일로 저장해야하는거 반복할 때마다 쓰고 종료되면 저장하고 그걸 다시 읽어오는 방법?
 	*/
 	
-	/*
 	FILE *fp;
 	fp = fopen("report.csv","a");
 	fprintf(fp, "날짜, 이용시설, 이용기간, 연령 구분, 수량, 가격, 우대사항\n");
-	*/
 	
 	while(d)
 	{
@@ -143,17 +141,17 @@ int main()
 
 		total_price=calAndPrintTotalPrice(sum_price,total_discount_rate);	// 총 청구 금액  계산 및 출력 
 		
-		//fprintf(fp,"%d,%s,%s,%d,%d,%s\n",today(),ticketKinds1(option1),ticketKinds2(option2),"연령구분",amount,total_price,discountKinds(option5));// 현재 루프의 정보 저장하는 함수 추가 예정
 		char *kinds1, *kinds2, *kinds5;
 		kinds1=ticketKinds1(option1);
 		kinds2=ticketKinds2(option2);
 		kinds5=discountKinds(option5);
-		printf("저장될 정보 : %d,%s,%s,%d,%d,%s\n",todayIs(),kinds1,kinds2,"연령구분",amount,total_price,kinds5);
-		
-		//d=checkContinue();
+		//printf("저장될 정보 : %d,%s,%s,%s,%d,%d,%s\n", todayIs(), kinds1, kinds2, "연령구분", amount, total_price, kinds5);
+		fprintf(fp, "%d,%s,%s,%s,%d,%d,%s\n", todayIs(), kinds1, kinds2, "연령구분", amount, total_price, kinds5);
+			
+		d=checkContinue();
 	}
 	
-	//fclose(fp);
+	fclose(fp);
 	return 0;
 }
 
@@ -211,8 +209,9 @@ long long insertID()
 		scanf("%lld",&ID);							// 13자리이므로 넉넉히 long long 타입 사용
 		//printf("%lld\n",ID);
 		
-		if(!(1000000000000<=ID&&ID<=9999999999999)) printf("잘못된 입력입니다. - 없이 13자리를 입력하세요.\n");
-	} while(!(1000000000000<=ID&&ID<=9999999999999));
+		// 정확한 예외처리 아님 - 00년생1월생때문에 일단 이렇게 했는데, 구현하기 까다롭다. - 추후 개선 
+		if(!(1000000000<=ID&&ID<=9999999999999)) printf("잘못된 입력입니다. - 없이 13자리를 입력하세요.\n");
+	} while(!(1000000000<=ID&&ID<=9999999999999));
 	
 	return ID;
 }
@@ -381,7 +380,7 @@ int todayIs()
 // 이용 시설 구분 
 char *ticketKinds1(int option1)
 {
-	char *kinds=""; 
+	char *kinds="";
 	
 	if(option1==1) 	kinds="종합이용권";	
 	else			kinds="파크이용권";
