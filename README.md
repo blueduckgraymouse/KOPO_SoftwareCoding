@@ -1,3 +1,3 @@
 # KOPO_SoftwareCoding
 
-0316 10:49 readme.md 수정
+소프트웨어코딩 실습 기록
