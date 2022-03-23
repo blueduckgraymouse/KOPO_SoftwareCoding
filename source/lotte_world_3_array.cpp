@@ -98,6 +98,7 @@ int 	checkNewtickets();			// 새로운 발권을 진행할지 확인
 
 
 
+
 int main()
 {
 	FILE *fp;
