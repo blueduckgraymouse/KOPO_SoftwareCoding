@@ -31,48 +31,49 @@
 	조건5 - 수량(수량 입력) , 1~1000장으로 제한 & 우대사항 적용시 그에 따른 매수 제한. 
 */
 
-// 배열의 수 - 영수증에 찍을 수 있는 권종의 최대 수 
+
+// 영수증에 찍을 수 있는 권종의 최대 수 
 const int MaxTicketCount = 100;
 
 // 가격 
-const int PackageDayAdultPrice = 59000;
+const int PackageDayAdultPrice = 59000;	// 종합이용권,종일권 
 const int PackageDayYouthPrice = 52000;
 const int PackageDayChildPrice = 47000;
 const int PackageDayBabyPrice = 15000;
 
-const int PackageAfter4AdultPrice = 48000;
+const int PackageAfter4AdultPrice = 48000;	// 종합이용권, after4 
 const int PackageAfter4YouthPrice = 42000;
 const int PackageAfter4ChildPrice = 36000;
 const int PackageAfter4BabyPrice = 15000;
 
-const int OnlyParkDayAdultPrice = 56000;
+const int OnlyParkDayAdultPrice = 56000;	// 파크이용권, 종일권 
 const int OnlyParkDayYouthPrice = 50000;
 const int OnlyParkDayChildPrice = 46000;
 const int OnlyParkDayBabyPrice = 15000;
 
-const int OnlyParkAfter4AdultPrice = 45000;
+const int OnlyParkAfter4AdultPrice = 45000;	// 파크이용권, after4 
 const int OnlyParkAfter4YouthPrice = 40000;
 const int OnlyParkAfter4ChildPrice = 35000;
 const int OnlyParkAfter4BabyPrice = 15000;
 
 // 나이 
-const int AdultMaxAge = 64;
-const int AdultMinAge = 19;
-const int YouthMaxAge = 18;
-const int YouthMinAge = 13;
-const int ChildMaxAge = 12;
-const int ChildMinMonth = 36;
-const int Baby1MaxMonth = 35; 
-const int Baby1MinMonth = 12;
-const int Baby2MaxMonth = 11;
-const int OlderMinAge = 65;
+const int AdultMaxAge = 64;		// 성인 최대 나이 
+const int AdultMinAge = 19;		// 성인 최소 나이 
+const int YouthMaxAge = 18;		// 청년 최대 나이 
+const int YouthMinAge = 13;		// 청년 최소 나이 
+const int ChildMaxAge = 12;		// 어린이 최대 나이 
+const int ChildMinMonth = 36;	// 어린이 최소 개월 
+const int Baby1MaxMonth = 35; 	// 유아1 최대 개월 
+const int Baby1MinMonth = 12;	// 유아1 최소 개월 
+const int Baby2MaxMonth = 11;	// 유아2 최대 개월 
+const int OlderMinAge = 65;		// 노인 최소 나이
 
 // 할인율
-const float DisabledDiscountRate = 0.5;
-const float NationalMeritDiscountRate = 0.5;
-const float SoldierDiscountRate = 0.49;
-const float PregnantDiscountRate = 0.5;
-const float MultipleChildrenDiscountRate = 0.3;
+const float DisabledDiscountRate 		= 0.5;	// 장애인 할인율 
+const float NationalMeritDiscountRate 	= 0.5;	// 국가유공자 할인율 
+const float SoldierDiscountRate 		= 0.49;	// 현역군인 할인율 
+const float PregnantDiscountRate 		= 0.5;	// 임산부 할인율 
+const float MultipleChildrenDiscountRate = 0.3;	// 다자녀가족 할인율 
 
 // 사용자 정의 함수 
 int 	selectOption0();			// option0, 이용 시설 선택 , return : 권종에 해당하는 숫자 - 1이면 종합이용권, 2면 파크이용권 
@@ -93,49 +94,67 @@ char 	*option2toKo(int option2);	// 연령 	구분 번호를 해당하는 한글로 변환
 char 	*option3toKo(int option3);	// 우대사항 구분 번호를 해당하는 한글로 변환 
 
 int 	checkContinue();			// 발권을 종료할지 계속할지 확인 
-
+int 	checkNewtickets();			// 새로운 발권을 진행할지 확인 
 
 
 
 int main()
 {
-	int options[MaxTicketCount][6]={0};	// 이용시설 구분 , 이용 시간 구분, 주민등록번호, 우대사항 구분, 티켓 수량, 총액 
+	FILE *fp;
+	fp = fopen("report.csv","a");
+	//fprintf(fp, "날짜, 이용시설, 이용기간, 연령 구분, 수량, 가격, 우대사항\n");
 	
 	printf("롯데월드에 오신 여러분을 환영합니다.\n");
 	
-	for(int i=0;i<100;i++)
+	do
 	{
-		options[i][0]=selectOption0();				// option0, 이용 시설 선택 , return : 1이면 종합이용권, 2면 파크이용권 
+		int options[MaxTicketCount][6]={0};	// 이용시설 구분 , 이용 시간 구분, 주민등록번호, 우대사항 구분, 티켓 수량, 총액 
 		
-		options[i][1]=selectOption1();				// option1, 이용 시간 선택 , return : 1이면 종일권, 2면 after4 
+		for(int i=0;i<100;i++)
+		{
+			options[i][0]=selectOption0();				// option0, 이용 시설 선택 , return : 1이면 종합이용권, 2면 파크이용권 
+			
+			options[i][1]=selectOption1();				// option1, 이용 시간 선택 , return : 1이면 종일권, 2면 after4 
+			
+			options[i][2]=selectOption2();				// option2, 주민번호 입력 입력받아 연령구분을 산출, return : 노인 1, 성인 2, 청소년 3, 어린이4, 유아 5 
+										
+			options[i][3]=selectOption3();				// option3, 우대사항 선택, return : 장애인 1, 국가유공자 2, 휴가장병 3, 임산부 4, 다자녀 가족 5, 없음 6  
+			
+			options[i][4]=selectOption4(options[i][3]);	// option4, 구매 수량 입력 
+			
+			options[i][5]=checkTotalPrice(options[i][0], options[i][1], options[i][2],options[i][3], options[i][4]);	// 총 청구 금액  계산 및 출력 
+			
+			//printf("저장될 정보 : %d,%s,%s,%s,%d,%d,%s\n", todayIs(), kinds1, kinds2, "연령구분", amount, total_price, kinds5);
+			fprintf(fp, "%d,%s,%s,%s,%s,%d,%d\n", todayIs(), option0toKo(options[i][0]), option1toKo(options[i][1]), option2toKo(options[i][2]), option3toKo(options[i][3]), options[i][4], options[i][5]);
+			
+			if(!checkContinue()) break;
+		}
 		
-		options[i][2]=selectOption2();				// option2, 주민번호 입력 입력받아 연령구분을 산출, return : 노인 1, 성인 2, 청소년 3, 어린이4, 유아 5 
-									
-		options[i][3]=selectOption3();				// option3, 우대사항 선택, return : 장애인 1, 국가유공자 2, 휴가장병 3, 임산부 4, 다자녀 가족 5, 없음 6  
+		// 영수증 출력	
+		printf("\n\n------------------------롯데월드------------------------\n\n");
+		printf("이용시설\t이용시간\t연령구분\t우대사항\t수량\t금액\n\n");
 		
-		options[i][4]=selectOption4(options[i][3]);	// option4, 구매 수량 입력 
+		int sumTotalPrice=0;
 		
-		options[i][5]=checkTotalPrice(options[i][0], options[i][1], options[i][2],options[i][3], options[i][4]);	// 총 청구 금액  계산 및 출력 
+		for(int i=0;i<100;i++)
+		{
+			if(options[i][0]==0) break;				// 저장된 값이 없는 배열이면 반복문 종료 
+			
+			// 이용시설, 이용시간, 연령구분, 우대사항,수량 가격 
+			printf("%s\t%s\t\t%s\t\t%s\t%d\t%d\n", option0toKo(options[i][0]), option1toKo(options[i][1]), option2toKo(options[i][2]), option3toKo(options[i][3]), options[i][4], options[i][5]);
+			sumTotalPrice+=options[i][5];
+		}
+		printf("\n입장료 총액은 %d입니다.\n감사합니다.\n\n", sumTotalPrice);
 		
-		if(!checkContinue()) break;
-	}
+	} while(checkNewtickets());
 	
-	// 영수증 출력	
-	printf("\n\n------------------------롯데월드------------------------\n\n");
-	printf("이용시설\t이용시간\t연령구분\t우대사항\t수량\t금액\n\n");
-	int sumTotalPrice=0;
-	for(int i=0;i<100;i++)
-	{
-		if(options[i][0]==0) break;				// 저장된 값이 없는 배열이면 반복문 종료 
-		
-		// 이용시설, 이용시간, 연령구분, 우대사항,수량 가격 
-		printf("%s\t%s\t\t%s\t\t%s\t%d\t%d\n", option0toKo(options[i][0]), option1toKo(options[i][1]), option2toKo(options[i][2]), option3toKo(options[i][3]), options[i][4], options[i][5]);
-		sumTotalPrice+=options[i][5];
-	}
-	printf("\n입장료 총액은 %d입니다.\n감사합니다.\n\n", sumTotalPrice);
+	fclose(fp);
 	
 	return 0;
 }
+
+
+
 
 // 이용시설 선택 , return : 1이면 종합이용권, 2면 파크이용권 
 int selectOption0()
@@ -390,6 +409,25 @@ int checkContinue()
 		printf("\n*계속 티켓을 발권하시겠습니까?\n");
 		printf("0. 종료 후 합계 보기\n");
 		printf("1. 티켓 추가 발권\n");
+		
+		scanf("%d",&d);
+		
+		if(!(d==1||d==0)) printf("잘못된 입력입니다. 0 또는 1을 입력하세요.\n");
+	} while(!(d==1||d==0));
+
+	return d;
+}
+
+// 새로운 발행 시작을 할건지 확인 
+int checkNewtickets()
+{
+	int d = 1;
+	
+	do
+	{
+		printf("\n*새로운 티켓을 발권하시겠습니까?\n");
+		printf("0. 프로그램 종료\n");
+		printf("1. 새로운 티켓 발권\n");
 		
 		scanf("%d",&d);
 		
