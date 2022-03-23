@@ -101,8 +101,7 @@ int 	checkNewtickets();			// 새로운 발권을 진행할지 확인
 
 int main()
 {
-	FILE *fp;
-	fp = fopen("report.csv","a");
+	FILE *fp = fopen("report.csv","a");
 	//fprintf(fp, "날짜, 이용시설, 이용기간, 연령 구분, 수량, 가격, 우대사항\n");
 	
 	printf("롯데월드에 오신 여러분을 환영합니다.\n");
@@ -125,8 +124,7 @@ int main()
 			
 			options[i][5]=checkTotalPrice(options[i][0], options[i][1], options[i][2],options[i][3], options[i][4]);	// 총 청구 금액  계산 및 출력 
 			
-			//printf("저장될 정보 : %d,%s,%s,%s,%d,%d,%s\n", todayIs(), kinds1, kinds2, "연령구분", amount, total_price, kinds5);
-			fprintf(fp, "%d,%s,%s,%s,%s,%d,%d\n", todayIs(), option0toKo(options[i][0]), option1toKo(options[i][1]), option2toKo(options[i][2]), option3toKo(options[i][3]), options[i][4], options[i][5]);
+			fprintf(fp, "%d,%d,%d,%d,%d,%d,%d\n", todayIs(), options[i][0], options[i][1], options[i][2], options[i][3], options[i][4], options[i][5]);
 			
 			if(!checkContinue()) break;
 		}
@@ -306,7 +304,7 @@ int selectOption4(int option3)
 			int d=1;
 			while(d==1)
 			{
-				printf("다자녀 가족 할인은 카드에 명시된 가족만 적용이 가능합니다. 입력하신 정보가 맞습니까??  맞으면 1, 다시 입력하시려면 2를 입력하세요.\n");
+				printf("다자녀 가족 할인은 카드에 명시된 가족만 적용이 가능합니다.\n 입력하신 정보가 맞습니까??\n  맞으면 1, 다시 입력하시려면 2를 입력하세요.\n");
 				scanf("%d",&d);
 				if(d==1) 					return amount;
 				else if(d != 1 && d!=2)		printf("잘못된 입력입니다. 1 또는 2를 입력하세요\n");
