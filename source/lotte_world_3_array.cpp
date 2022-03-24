@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 
-/* 요구사항 분석
+/* 요구사항
  
 	조건에 따른 롯데월드 입장권 가격 계산 프로그램
 	
@@ -32,22 +32,29 @@
 */
 
 
-/* 전역변수 */ 
-const int MaxTicketCount = 100;			// 영수증에 찍을 수 있는 권종의 최대 수 
+
+
+/** 전역변수 **/ 
+
+// 영수증에 찍을 수 있는 권종의 최대 수 
+const int MaxTicketCount = 100;
+
 // 티켓 정가 - 성인, 청소년, 어린이, 유아
 const int packageDay[4] = {59000, 52000, 47000, 15000};		// 종합이용권 && 종일권 
 const int packageAfter4[4] = {48000, 42000, 36000, 15000};	// 종합이용권 && after4 
 const int onlyParkDay[4] = {56000, 50000, 46000, 15000};	// 파크이용권 && 종일권 
 const int onlyParkAfter4[4] = {45000, 40000, 35000, 15000};	// 파크이용권 && after4
-// 나이 - 1차원은 노인, 성인, 청소년, 어린이, 유아 
-const int ageRange[5][2] = {{150,65},	// 노인 초대 나이(임시),	노인 최소 나이
-							{64,19},	// 성인 최대 나이, 			최소 나이
-							{18,13},	// 청년 최대 나이, 			최소 나이 
-							{12,36},	// 어린이 최대 나이, 		최소 개월 
-							{35,0}};	// 유아 최대 개월, 			최소 개월					
 
-// 할인율- 장애인, 국가유공자, 현역군인, 임산부, 다자녀가족 
-const float discountRate[5] = {0.5, 0.5, 0.49, 0.5, 0.3};
+// 나이 - 1차원은 노인, 성인, 청소년, 어린이, 유아, 2차원은 최대 나이, 최소 나이 (단, 어린이 최소와 유아 최대는 개월 수)
+const int ageRange[5][2] = {{150,65},
+							{64,19},
+							{18,13},
+							{12,36},
+							{35,0}};
+											
+// 할인율
+const float discountRate[5] = {0.5, 0.5, 0.49, 0.5, 0.3};	// 장애인, 국가유공자, 현역군인, 임산부, 다자녀가족
+
 // 각 구분에 해당하는 문자열 
 const char *KoKindUsageRange[2]	= {"종합이용권", "파크이용권"};
 const char *KoKindUsageTime[2]	= {"종일권", "after4"};
@@ -55,7 +62,10 @@ const char *KoKindAge[5]		= {"노인", "성인", "청소년", "어린이", "유아"};
 const char *KoKindDiscount[6]	= {"장애인   ", "국가유공자", "휴가장병", "임산부   ", "다자녀 가족", "해당없음"};
 
 
-/* 사용자 정의 함수 */
+
+
+/** 사용자 정의 함수 **/
+
 int 	selectOption0();			// 이용 시설 선택하는 함수, 1이면 종합이용권, 2면 파크이용권 
 int 	selectOption1();			//이용 시간 선택하는 함수, 1이면 종일권, 2면 after4 
 int 	selectOption2();			// 주민번호 입력 입력받아 연령구분을 산출하는 함수, 노인 1, 성인 2, 청소년 3, 어린이4, 유아 5 
@@ -73,12 +83,9 @@ int 	checkNewtickets();			// 새로운 발권을 진행할지 확인
 
 int		todayIs();					// 오늘날짜 반환, 20220321
 
-
-
 int main()
 {
 	FILE *fp = fopen("report.csv","a");
-	//fprintf(fp, "날짜, 이용시설, 이용기간, 연령 구분, 수량, 가격, 우대사항\n");
 	
 	printf("롯데월드에 오신 여러분을 환영합니다.\n");
 	
@@ -156,7 +163,6 @@ int selectOption1()
 		printf("2. After4 \n");
 		
 		scanf("%d",&option1); 
-		//printf("%d\n",option1);
 		
 		if(!(option1==1||option1==2)) printf("잘못된 입력입니다. 1 또는 2만 입력하세요.\n");
 	} while(!(option1==1||option1==2));
@@ -219,7 +225,7 @@ int selectOption2()
 	else if(countAgeYears>=ageRange[1][1]&&countAgeYears<=ageRange[1][0])					dAge=2;		// 성인(만 19~64세) 
 	else if(countAgeYears>=ageRange[2][1]&&countAgeYears<=ageRange[2][0]) 					dAge=3; 	// 청소년(만 13~18세) 
 	else if(countAgeYears*12+countAgeMonths>=ageRange[3][1]&&countAgeYears<=ageRange[3][0])	dAge=4;		// 어린이(36개월~만12세)
-	else if(countAgeYears*12+countAgeMonths<ageRange[4][0])									dAge=5; 	// 유아(~36개월 미만)
+	else if(countAgeYears*12+countAgeMonths<=ageRange[4][0])									dAge=5; 	// 유아(~36개월 미만)
 	
 	return dAge; 
 }
@@ -431,6 +437,9 @@ void printFinalPrice(int options[100][6])
 	printf("\n입장료 총액은 %d입니다.\n감사합니다.\n\n", sumTotalPrice);
 }
 
+
+
+
 /**
 	오날 날짜를 확인하는 함수 
 	checkTotalPrice()에서 사용 
@@ -468,9 +477,6 @@ int checkContinue()
 
 	return d;
 }
-
-
-
 
 /**
 	새로운 발권을 시작 할건지 묻는 함수
