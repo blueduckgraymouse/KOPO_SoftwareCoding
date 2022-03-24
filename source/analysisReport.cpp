@@ -23,19 +23,29 @@
 
 
 /* 사용자정의 함수 */
+void fCount(int i, int date[], int kindUsageRange[], int KindUsageTime[], int kindAge[], int kindDiscount[], int amount[], int price[]);	// 전체 누적 명령하는 함수 
+void printCount();							// 전체 누적데이터 출력 명령하는 함수 
+void saveAnalysis();						// 전체 누적데이터 저장 명령하는 함수 
+
 void fCountDate(int date, int amount, int price);					// 날짜에 따른 티켓 수 누적하는 함수 
-void fCountUsageRage(int countUsageRage, int kindAge, int amount);	// 이용시설 별 티켓, 연령구분에 따라 누적하는 함수 
-void fCountUsageTime(int KindUsageTime, int kindAge, int amount);	// 이용시간 별 티켓, 연령구분에 따라 누적하는 함수 
+void fCountUsageRage(int kindUsageRage, int kindAge, int amount);	// 이용시설 별 티켓, 연령구분에 따라 누적하는 함수 
+void fCountUsageTime(int kindUsageTime, int kindAge, int amount);	// 이용시간 별 티켓, 연령구분에 따라 누적하는 함수 
 void fCountAge(int kindAge, int amount);							// 연령구분 별 티켓 누적하는 함수 
 void fCountDiscount(int kindDiscount, int amount);					// 우대사항 별 티켓 누적하는 함수 
 void fCountTickets(int amount);										// 총 티켓 수 누적하는 함수 
 void fSumPrice(int price);											// 매출 누적하는 함수 
 
 void printCountDate();						// 날짜에 따라 누적된 티켓 수 출력하는 함수 
-void printCountUsageTime();					// 이용시설 기준으로 연령 구분에 따라 누적된 티켓 수 출력하는 함수  
-void printCountUsageRange();				// 이용시간 기준으로 연령 구분에 따라 누적된 티켓 수 출력하는 함수 
+void printCountUsageRange();				// 이용시설 기준으로 연령 구분에 따라 누적된 티켓 수 출력하는 함수 
+void printCountUsageTime();					// 이용시간 기준으로 연령 구분에 따라 누적된 티켓 수 출력하는 함수  
 void printCountKindAge();					// 연령 구분에 따라 누적된 티켓 수 출력하는 함수 
-void printCountKindDiscount();				// 우대사항에 따라 누적된 티켓 수 출력하는 함수 
+void printCountKindDiscount();				// 우대사항에 따라 누적된 티켓 수 출력하는 함수
+
+void saveByDate();							// 날짜에 따른 분석 저장하는 함수 
+void saveByUsageRange();					// 이용시설 기준으로 연령 구분 별 분석 저장하는 함수
+void saveByUsageTime();						// 이용시간 기준으로 연령 구분 별 분석 저장하는 함수
+void saveByAge();							// 연령 구분에 따른 분석 저장하는 함수
+void saveByDiscount();						// 우대사항에 따른 분석 저장하는 함수
 
 int *chageDateFmt(int date);				// 날짜 6자리를 2자리씩 끊어 크기3인 배열로 반환하는 함수 
 
@@ -73,49 +83,84 @@ int main()
 	{
 		// report.csv의 한줄의 내용을 저장할 변수, 반복문 안에 넣어주어 라이프사이틀을 루프 1회로 한정. 
 		int date[maxDataCount] 				= {0};	// 판매 날짜 
-		int KindUsageRange[maxDataCount]	= {0};	// 이용시설 구분, 1은 종합이용권, 2는 파크이용권 
-		int KindUsageTime[maxDataCount] 	= {0};	// 이용시간 구분, 1은 종일권, 2는 after4 
+		int kindUsageRange[maxDataCount]	= {0};	// 이용시설 구분, 1은 종합이용권, 2는 파크이용권 
+		int kindUsageTime[maxDataCount] 	= {0};	// 이용시간 구분, 1은 종일권, 2는 after4 
 		int kindAge[maxDataCount] 			= {0};	// 연령 구분	, 1은 노인, 2는 성인, 3은 청소년, 4는 어린이, 5는 유아 
 		int kindDiscount[maxDataCount]		= {0};	// 우대사항 구분, 1은 장애인, 2는 국가유공자, 3은 휴가장병, 4는 임산부, 5는 다자녀 가족, 6는 없음 
 		int amount[maxDataCount]			= {0};	// 티켓 판매 수량 
 		int price[maxDataCount]				= {0};	// 총액 
 		
-		// 파일 한 줄 읽어 변수에 저장 
-		fscanf(report, "%d, %d, %d, %d, %d, %d, %d\n", &date[i], &KindUsageRange[i], &KindUsageTime[i], &kindAge[i], &kindDiscount[i], &amount[i], &price[i]);
+		// 파일로 부터 한 줄의 데이터를 읽어 변수에 저장 
+		fscanf(report, "%d, %d, %d, %d, %d, %d, %d\n", &date[i], &kindUsageRange[i], &kindUsageTime[i], &kindAge[i], &kindDiscount[i], &amount[i], &price[i]);
 		
-		// 읽은 한 줄 출력 
-		printf("%d\t%s\t%s\t\t%s\t\t%s\t%d\t%d\n", date[i], KoKindUsageRange[KindUsageRange[i]-1], KoKindUsageTime[KindUsageTime[i]-1], KoKindAge[kindAge[i]-1], KoKindDiscount[kindDiscount[i]-1], amount[i], price[i]);
+		// 읽은 한 줄의 데이터 출력 
+		printf("%d\t%s\t%s\t\t%s\t\t%s\t%d\t%d\n", date[i], KoKindUsageRange[kindUsageRange[i]-1], KoKindUsageTime[kindUsageTime[i]-1],
+													KoKindAge[kindAge[i]-1], KoKindDiscount[kindDiscount[i]-1], amount[i], price[i]);
 		
-		// 읽은 한 줄에 대하여 이용시설, 이용시간, 유대사항 별 총 티켓 수 누적 
-		fCountDate(date[i], amount[i], price[i]);					// 요구사항 3번 : 분석) 날짜에 따른 티켓 카운트 
-		fCountUsageRage(KindUsageRange[i], kindAge[i], amount[i]); 	// 요구사항 2-1번 : 분석) 이용시설 별 티켓, 연령구분에 따라 카운트. 
-		fCountUsageTime(KindUsageTime[i], kindAge[i], amount[i]);	// 요구사항 2-2번 : 분석) 이용시간 별 티켓, 연령구분에 따라 카운트.
-		fCountAge(kindAge[i], amount[i]); 							// 요구사항은 아님. 
-		fCountDiscount(kindDiscount[i], amount[i]);					// 요구사항  4번 : 분석) 우대사항 별 티켓 카운트 
-		
-		// 읽은 한 줄에 대하여 누적 판매 티켓 수, 매출액 누적
-		fCountTickets(amount[i]);
-		fSumPrice(price[i]);
-		
+		// 데이터 누적 명령
+		fCount(i, date, kindUsageRange, kindUsageTime, kindAge, kindDiscount, amount, price);
+
 		i++;		// report파일의 다음 줄 접근을 위해 증가
 	}
 	
+	// 누적된(분석된) 데이터의 출력을 명령
+	printCount(); 
 	
-	//FILE *analysis = fopen("analysis.csv", "a");		// 분석 데이터를 저장할 파일 열기 
+	// 분석 데이터를 각 엑셀로 저장
+	saveAnalysis();
 	
-	// 완료된 분석 출력
+	fclose(report);		// report 닫기
+	
+	return 0;
+}
+
+
+
+
+/** 명령 함수 **/
+
+/*
+	모든 데이터 누적을 명령하는 함수
+	매개변수 : 현재 줄 번호, 파일로부터 읽어온 현재 줄의 모든 데이터
+*/
+void fCount(int i, int date[], int kindUsageRange[], int kindUsageTime[], int kindAge[], int kindDiscount[], int amount[], int price[])
+{
+	// 읽은 한 줄에 대하여 이용시설, 이용시간, 유대사항 별 총 티켓 수 누적
+	fCountDate(date[i], amount[i], price[i]);					
+	fCountUsageRage(kindUsageRange[i], kindAge[i], amount[i]); 	
+	fCountUsageTime(kindUsageTime[i], kindAge[i], amount[i]);	
+	fCountAge(kindAge[i], amount[i]); 							
+	fCountDiscount(kindDiscount[i], amount[i]);					
+	
+	// 읽은 한 줄에 대하여 누적 판매 티켓 수, 매출액 누적
+	fCountTickets(amount[i]);
+	fSumPrice(price[i]);
+}
+
+/* 누적된(분석된) 데이터의 출력을 명령하는 함수 */
+void printCount()
+{
 	printCountDate();			// 날짜에 따라 누적된 티켓 수 출력
 	printCountUsageRange();		// 이용시설 기준으로 연령 구분에 따라 누적된 티켓 수 출력 
 	printCountUsageTime();		// 이용시간 기준으로 연령 구분에 따라 누적된 티켓 수 출력
 	printCountKindAge();		// 연령 구분에 따라 누적된 티켓 수 출력
 	printCountKindDiscount();	// 우대사항에 따라 누적된 티켓 수 출력 
-	
-	fclose(report);			// report파일 닫기 
-	//fclose(analysis);		// analysis파일 닫기
-	
-	return 0;
 }
 
+/* 누적된(분석된) 데이터의 저장을 명령하는 함수 */
+void saveAnalysis()
+{
+	saveByDate();
+	saveByUsageRange();
+	saveByUsageTime();
+	saveByAge();		
+	saveByDiscount();	
+ } 
+
+
+
+
+/** 누적 함수 **/
 
 /**
 	날짜 기준으로 티켓 수 누적하는 함수
@@ -256,6 +301,8 @@ void fCountTickets(int amount)
 
 
 
+/** 출력 함수 **/
+
 /*	날짜에 따른 누적 티켓 수 출력하는 함수 */
 void printCountDate()
 {
@@ -340,6 +387,126 @@ void printCountKindDiscount()
 
 
 
+
+/** 저장 함수 **/
+
+/*	날짜에 분석 결과 저장하는 함수 */
+void saveByDate()
+{
+	FILE *analysis = fopen("analysisByDate.csv", "w");
+	
+	fprintf(analysis, "날짜에 따른 매출 분석\n\n");
+	
+	fprintf(analysis, "날짜, 판매 티켓 수, 매출\n");
+	
+	for(int i=0;i<maxDataCount;i++)
+	{
+		if(countDate[i][0]==0) break; // 마지막 데이터가 저장된 인덱스를 지났으면 종료 
+		
+		fprintf(analysis, "%d-%d-%d, %d, %d\n", chageDateFmt(countDate[i][0])[0], chageDateFmt(countDate[i][0])[1], chageDateFmt(countDate[i][0])[2], countDate[i][1], countDate[i][2]);
+	}
+
+	fprintf(analysis, "\n 누적 판매 티켓 수 , %d\n", countTickets);
+	fprintf(analysis, "누적 매출, %d\n", sumPrice);
+	
+	fclose(analysis);
+}
+
+/*	이용시설에 따른 연령구분 별 분석 결과 저장하는 함수 */
+void saveByUsageRange()
+{
+	FILE *analysis = fopen("analysisByUsageRange.csv", "w");
+	
+	fprintf(analysis, "이용시설에 따른 연령구분 별 매출 분석\n\n");
+	
+	int SumCountUsageRange[sizeof(countKindUsageRange)/sizeof(countKindUsageRange[0])]  = {0};
+	
+	for(int i=0 ; i<sizeof(countKindUsageRange)/sizeof(countKindUsageRange[0]) ; i++)
+	{
+		fprintf(analysis, "*%s\n", KoKindUsageRange[i]);
+		fprintf(analysis, "연령 구분, 판매 티켓 수\n");
+		
+		for(int j=0 ; j<sizeof(countKindUsageRange[0])/sizeof(int) ; j++)
+		{
+			SumCountUsageRange[i] = SumCountUsageRange[i] + countKindUsageRange[i][j];
+			
+			fprintf(analysis, "%s, %d \n", KoKindAge[j], countKindUsageRange[i][j]);
+		}
+		
+		fprintf(analysis, "\n 누적 판매 티켓 수 , %d\n\n", SumCountUsageRange[i]);
+	}
+	
+	fclose(analysis);
+}
+
+/*	이용시간에 따른 연령구분 별 분석 결과 저장하는 함수 */
+void saveByUsageTime()
+{
+	FILE *analysis = fopen("analysisByUsageTime.csv", "w");
+	
+	fprintf(analysis, "이용시간에 따른 연령구분 별 매출 분석\n\n");
+	
+	int SumCountUsageTime[sizeof(countKindUsageTime)/sizeof(countKindUsageTime[0])]  = {0};
+	
+	for(int i=0 ; i<sizeof(countKindUsageTime)/sizeof(countKindUsageTime[0]) ; i++)
+	{
+		fprintf(analysis, "*%s\n", KoKindUsageTime[i]);
+		fprintf(analysis, "연령 구분, 판매 티켓 수\n");
+		
+		for(int j=0 ; j<sizeof(countKindUsageTime[0])/sizeof(int) ; j++)
+		{
+			SumCountUsageTime[i] = SumCountUsageTime[i] + countKindUsageTime[i][j];
+			
+			fprintf(analysis, "%s, %d \n", KoKindAge[j], countKindUsageTime[i][j]);
+		}
+		
+		fprintf(analysis, "\n 누적 판매 티켓 수 , %d\n\n", SumCountUsageTime[i]);
+	}
+	
+	fclose(analysis);
+}
+
+/*	연령 구분에 따른 분석 저장하는 함수 */
+void saveByAge()
+{
+	FILE *analysis = fopen("analysisByAge.csv", "w");
+	
+	fprintf(analysis, "연령 구분에 따른 매출 분석\n\n");
+	
+	for(int i=0 ; i<sizeof(countKindAge)/sizeof(int) ; i++)
+	{
+		fprintf(analysis, "%s, %d\n", KoKindAge[i], countKindAge[i]);
+	}
+	
+	fprintf(analysis, "\n 누적 판매 티켓 수 , %d\n", countTickets);
+	fprintf(analysis, "누적 매출, %d\n", sumPrice);
+	
+	fclose(analysis);
+}		
+
+// 우대사항에 따른 분석 저장하는 함수
+void saveByDiscount()
+{
+	FILE *analysis = fopen("analysisByDiscount.csv", "w");
+	
+	fprintf(analysis, "우대사항에 따른 매출 분석\n\n");
+	
+	for(int i=0 ; i<sizeof(countKindDiscount)/sizeof(int) ; i++)
+	{
+		fprintf(analysis, "%s, %d\n", KoKindDiscount[i], countKindDiscount[i]);
+	}
+	
+	fprintf(analysis, "\n 누적 판매 티켓 수 , %d\n", countTickets);
+	fprintf(analysis, "누적 매출, %d\n", sumPrice);
+	
+	fclose(analysis);
+}
+
+
+
+
+/** 기타 함수 **/ 
+
 /*	
 	날짜 6자리를 연,월,일 2자리 씩 자르는 함수
 	매개변수 : 연월일 6자리 숫자
@@ -354,7 +521,7 @@ int* chageDateFmt(int date)
 	cur_date=localtime(&curTime);				// localtime(const time_t * timer) : 타이머가 가르키는 변수를 UTC시간 기준으로 구조체로 변환해 그 주소를 반환 
 	
 	// return될 배열 선언, [0]은 년도, [1]은 월, [2]는 날짜 
-	int Ddate[3];
+	int Ddate[3] = {0};
 	
 	// 연도가 올해보다 크면 1900년대로 인식, ex) 230101 => 1923.01.01 , 220101 => 2022.01.01
 	if((cur_date->tm_year-100) >= date/10000)	Ddate[0] = 2000 + date/10000;
