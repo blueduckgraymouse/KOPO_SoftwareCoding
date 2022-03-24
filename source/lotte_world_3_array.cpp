@@ -18,7 +18,7 @@
 				 만 65세 이상	
 		베이비 : 0~12개월 미만(파크,유아 놀이시설 무료)
 				 12개월 이상~36개월 미만(파크 입장 무료, 유아 놀이시설 유료)
-				 즉, 12~36개월에 해당하면 유아 놀이시설 이용할 건지 다시 물어야 함. - 일단 생략. 
+				 즉, 12~36개월에 해당하면 유아 놀이시설 이용할 건지 다시 물어야 함. - 일단 생략  => 베이비는 일괄 15000원 적용 
 	
 	조건4 - 우대사항(상시 우대 정보, 택일)  
 		1 장애인 우대 : 50% 할인, 동반 1인까지 
@@ -31,71 +31,51 @@
 	조건5 - 수량(수량 입력) , 1~1000장으로 제한 & 우대사항 적용시 그에 따른 매수 제한. 
 */
 
+/* 전역변수 */ 
+const int MaxTicketCount = 100;			// 영수증에 찍을 수 있는 권종의 최대 수 
+// 티켓 정가 - 성인, 청소년, 어린이, 유아
+const int packageDay[4] = {59000, 52000, 47000, 15000};		// 종합이용권 && 종일권 
+const int packageAfter4[4] = {48000, 42000, 36000, 15000};	// 종합이용권 && after4 
+const int onlyParkDay[4] = {56000, 50000, 46000, 15000};	// 파크이용권 && 종일권 
+const int onlyParkAfter4[4] = {45000, 40000, 35000, 15000};	// 파크이용권 && after4
+// 나이 - 1차원은 노인, 성인, 청소년, 어린이, 유아 
+const int ageRange[5][2] = {{150,65},	// 노인 초대 나이(임시),	노인 최소 나이
+							{64,19},	// 성인 최대 나이, 			최소 나이
+							{18,13},	// 청년 최대 나이, 			최소 나이 
+							{12,36},	// 어린이 최대 나이, 		최소 개월 
+							{35,0}};	// 유아 최대 개월, 			최소 개월					
 
-// 영수증에 찍을 수 있는 권종의 최대 수 
-const int MaxTicketCount = 100;
+// 할인율- 장애인, 국가유공자, 현역군인, 임산부, 다자녀가족 
+const float discountRate[5] = {0.5, 0.5, 0.49, 0.5, 0.3};
+// 각 구분에 해당하는 문자열 
+const char *KoKindUsageRange[2]	= {"종합이용권", "파크이용권"};
+const char *KoKindUsageTime[2]	= {"종일권", "after4"};
+const char *KoKindAge[5]		= {"노인", "성인", "청소년", "어린이", "유아"};
+const char *KoKindDiscount[6]	= {"장애인   ", "국가유공자", "휴가장병", "임산부   ", "다자녀 가족", "해당없음"};
 
-// 가격 
-const int PackageDayAdultPrice = 59000;	// 종합이용권,종일권 
-const int PackageDayYouthPrice = 52000;
-const int PackageDayChildPrice = 47000;
-const int PackageDayBabyPrice = 15000;
 
-const int PackageAfter4AdultPrice = 48000;	// 종합이용권, after4 
-const int PackageAfter4YouthPrice = 42000;
-const int PackageAfter4ChildPrice = 36000;
-const int PackageAfter4BabyPrice = 15000;
+/* 사용자 정의 함수 */
+int 	selectOption0();			// 이용 시설 선택하는 함수, 1이면 종합이용권, 2면 파크이용권 
+int 	selectOption1();			//이용 시간 선택하는 함수, 1이면 종일권, 2면 after4 
+int 	selectOption2();			// 주민번호 입력 입력받아 연령구분을 산출하는 함수, 노인 1, 성인 2, 청소년 3, 어린이4, 유아 5 
+int 	selectOption3();			// 우대사항 선택하는 함수, 장애인 1, 국가유공자 2, 휴가장병 3, 임산부 4, 다자녀 가족 5, 해당없음 6 
+int 	selectOption4(int option3);	// 수량 입력하는 함수 
+int 	checkTotalPrice(int option0, int option1, int option2, int option3, int option4); 	// 최종금액 계산하는 함수 
 
-const int OnlyParkDayAdultPrice = 56000;	// 파크이용권, 종일권 
-const int OnlyParkDayYouthPrice = 50000;
-const int OnlyParkDayChildPrice = 46000;
-const int OnlyParkDayBabyPrice = 15000;
-
-const int OnlyParkAfter4AdultPrice = 45000;	// 파크이용권, after4 
-const int OnlyParkAfter4YouthPrice = 40000;
-const int OnlyParkAfter4ChildPrice = 35000;
-const int OnlyParkAfter4BabyPrice = 15000;
-
-// 나이 
-const int AdultMaxAge = 64;		// 성인 최대 나이 
-const int AdultMinAge = 19;		// 성인 최소 나이 
-const int YouthMaxAge = 18;		// 청년 최대 나이 
-const int YouthMinAge = 13;		// 청년 최소 나이 
-const int ChildMaxAge = 12;		// 어린이 최대 나이 
-const int ChildMinMonth = 36;	// 어린이 최소 개월 
-const int Baby1MaxMonth = 35; 	// 유아1 최대 개월 
-const int Baby1MinMonth = 12;	// 유아1 최소 개월 
-const int Baby2MaxMonth = 11;	// 유아2 최대 개월 
-const int OlderMinAge = 65;		// 노인 최소 나이
-
-// 할인율
-const float DisabledDiscountRate 		= 0.5;	// 장애인 할인율 
-const float NationalMeritDiscountRate 	= 0.5;	// 국가유공자 할인율 
-const float SoldierDiscountRate 		= 0.49;	// 현역군인 할인율 
-const float PregnantDiscountRate 		= 0.5;	// 임산부 할인율 
-const float MultipleChildrenDiscountRate = 0.3;	// 다자녀가족 할인율 
-
-// 사용자 정의 함수 
-int 	selectOption0();			// option0, 이용 시설 선택 , return : 권종에 해당하는 숫자 - 1이면 종합이용권, 2면 파크이용권 
-int 	selectOption1();			// option1, 이용 시간 선택 , return : 권종에 해당하는 숫자 - 1이면 종일권, 2면 after4 
-int 	selectOption2();			// option2, 주민번호 입력 입력받아 연령구분을 산출, return : 연령 구분에 해당하는 숫자, 노인 1, 성인 2, 청소년 3, 어린이4, 유아 5 
-int 	selectOption3();			// option3, 우대사항 선택
-int 	selectOption4(int option3);	// option4, 수량 입력 
-int 	checkTotalPrice(int option0, int option1, int option2, int option3, int option4); 	// PriceCheck(), checkDiscountRate()를 이용하여 확인한 정가와 할인율,수량을 곱해 총액 계산 
-
-int 	PriceCheck(int option0, int option1, int option2);	// 옵션0~2를 기준으로 정가 확인 
+int 	priceCheck(int option0, int option1, int option2);	// 옵션0~2를 기준으로 정가 확인 
 float 	checkDiscountRate(int option5);						// 옵션3을 기준으로 할인율 확인 
 
-int		todayIs();					// 오늘날짜 반환, 20220321
-
-char 	*option0toKo(int option0);	// 이용시설 구분 번호를 해당하는 한글로 변환 
-char 	*option1toKo(int option1);	// 이용시간 구분 번호를 해당하는 한글로 변환 
-char 	*option2toKo(int option2);	// 연령 	구분 번호를 해당하는 한글로 변환 
-char 	*option3toKo(int option3);	// 우대사항 구분 번호를 해당하는 한글로 변환 
-
+void 	printFinalPrice(int option[100][6]);				// 영수증 출력하는 함수
+ 
 int 	checkContinue();			// 발권을 종료할지 계속할지 확인 
 int 	checkNewtickets();			// 새로운 발권을 진행할지 확인 
 
+int		todayIs();					// 오늘날짜 반환, 20220321
+
+//char 	*option0toKo(int option0);	// 이용시설 구분 번호를 해당하는 한글로 변환 
+//char 	*option1toKo(int option1);	// 이용시간 구분 번호를 해당하는 한글로 변환 
+//char 	*option2toKo(int option2);	// 연령 	구분 번호를 해당하는 한글로 변환 
+//char 	*option3toKo(int option3);	// 우대사항 구분 번호를 해당하는 한글로 변환 
 
 
 
@@ -133,17 +113,17 @@ int main()
 		printf("\n\n------------------------롯데월드------------------------\n\n");
 		printf("이용시설\t이용시간\t연령구분\t우대사항\t수량\t금액\n\n");
 		
-		int sumTotalPrice=0;
-		
-		for(int i=0;i<100;i++)
-		{
-			if(options[i][0]==0) break;				// 저장된 값이 없는 배열이면 반복문 종료 
-			
-			// 이용시설, 이용시간, 연령구분, 우대사항,수량 가격 
-			printf("%s\t%s\t\t%s\t\t%s\t%d\t%d\n", option0toKo(options[i][0]), option1toKo(options[i][1]), option2toKo(options[i][2]), option3toKo(options[i][3]), options[i][4], options[i][5]);
-			sumTotalPrice+=options[i][5];
-		}
-		printf("\n입장료 총액은 %d입니다.\n감사합니다.\n\n", sumTotalPrice);
+		printFinalPrice(options);
+//		for(int i=0;i<100;i++)
+//		{
+//			if(options[i][0]==0) break;				// 저장된 값이 없는 배열이면 반복문 종료 
+//			
+//			// 이용시설, 이용시간, 연령구분, 우대사항,수량 가격 
+//			//printf("%s\t%s\t\t%s\t\t%s\t%d\t%d\n", option0toKo(options[i][0]), option1toKo(options[i][1]), option2toKo(options[i][2]), option3toKo(options[i][3]), options[i][4], options[i][5]);
+//			printf("%s\t%s\t\t%s\t\t%s\t%d\t%d\n", KoKindUsageRange[options[i][0]-1],KoKindUsageTime[options[i][1]-1], KoKindAge[options[i][2]-1], KoKindDiscount[options[i][3]-1], options[i][4], options[i][5]);
+//			sumTotalPrice+=options[i][5];
+//		}
+//		printf("\n입장료 총액은 %d입니다.\n감사합니다.\n\n", sumTotalPrice);
 		
 	} while(checkNewtickets());
 	
@@ -155,7 +135,10 @@ int main()
 
 
 
-// 이용시설 선택 , return : 1이면 종합이용권, 2면 파크이용권 
+/** 
+	이용시설 선택을 입력받는 함수
+	반환 : 이용시설 구분에 해당하는 숫자, 1이면 종합이용권, 2면 파크이용권 
+*/
 int selectOption0()
 {
 	int option1=0;
@@ -175,7 +158,10 @@ int selectOption0()
 	return option1;
 }
 
-// 이용 시간 선택 , return : 1이면 종일권, 2면 after4 
+/** 
+	이용 시간 선택을 입력받는 함수 
+	반환 : 이용시간 구분에 해당하는 숫자, 1이면 종일권, 2면 after4 
+*/
 int selectOption1()
 {
 	int option1=0;
@@ -195,7 +181,11 @@ int selectOption1()
 	return option1;
 }
 
-// 주민번호 입력 입력받아 연령구분을 산출, return : 연령 구분에 해당하는 숫자, 노인 1, 성인 2, 청소년 3, 어린이4, 유아 5 
+/**
+	주민번호를 입력받아 연령구분을 산출하는 함수 
+	반환 : 연령 구분에 해당하는 숫자
+		노인 1, 성인 2, 청소년 3, 어린이4, 유아 5 
+*/
 int selectOption2()
 {
 	// 주민번호 입력	
@@ -242,16 +232,20 @@ int selectOption2()
 	
 	// 만 나이가 어느 연령 구분에 해당하는지 확인
 	int dAge=0;
-	if(countAgeYears>=65)																	dAge=1; 	// 노인(만65세 이상)
-	else if(countAgeYears>=AdultMinAge&&countAgeYears<=AdultMaxAge)							dAge=2;		// 성인(만 19~64세) 
-	else if(countAgeYears>=YouthMinAge&&countAgeYears<=YouthMaxAge) 						dAge=3; 	// 청소년(만 13~18세) 
-	else if(countAgeYears*12+countAgeMonths>=ChildMinMonth&&countAgeYears<=ChildMaxAge)		dAge=4;		// 어린이(36개월~만12세)
-	else if(countAgeYears*12+countAgeMonths<Baby1MaxMonth)									dAge=5; 	// 유아(~36개월 미만)
+	if(countAgeYears>=ageRange[0][1])														dAge=1; 	// 노인(만65세 이상)
+	else if(countAgeYears>=ageRange[1][1]&&countAgeYears<=ageRange[1][0])					dAge=2;		// 성인(만 19~64세) 
+	else if(countAgeYears>=ageRange[2][1]&&countAgeYears<=ageRange[2][0]) 					dAge=3; 	// 청소년(만 13~18세) 
+	else if(countAgeYears*12+countAgeMonths>=ageRange[3][1]&&countAgeYears<=ageRange[3][0])	dAge=4;		// 어린이(36개월~만12세)
+	else if(countAgeYears*12+countAgeMonths<ageRange[4][0])									dAge=5; 	// 유아(~36개월 미만)
 	
 	return dAge; 
 }
 
-// 우대사항 선택 , return : 1이면 장애인, 2는 국가유공자, 3는 휴가장병, 4는 임산부, 5는 다자녀가족, 6은 없음 
+/**
+	우대사항 선택을 입력받는 함수 
+	반환 : 우대사항 구분에 해당하는 숫자
+		1이면 장애인, 2는 국가유공자, 3는 휴가장병, 4는 임산부, 5는 다자녀가족, 6은 없음 
+*/
 int selectOption3()
 {
 	int option5=0;
@@ -274,18 +268,24 @@ int selectOption3()
 	return option5; 
 }
 
-// 구매 수량 입력 
+/** 구매 수량을 입력받는 함수
+	우대사항이 적용되지 않았으면 범위는 1~1000장
+	매개변수 : 우대사항 구분에 해당하는 숫자 
+	반환 : 구매 수량 
+*/
 int selectOption4(int option3)
 {
 	int amount=0;
-	int d=1;
+	int d1=1;	// 일반적인 매수 제한 : 1~1000장 				, 이상없으면 1, 이상있으면 0
+	int d2=1;	// 우대사항 적용시 매수 제한 : 최대 1 또는 2장 	, 이상없으면 1, 이상있으면 0 
+	
 	do
 	{
 		printf("\n*수량을 입력하세요.(구매 가능 수량 : 1~1000장)\n");
 		scanf("%d",&amount);
 		//printf("%d*%d=%d\n",amount,price,price*amount);	
 		
-		// 우대조건에 따른 티켓 구매 수량 제한 
+		// 우대조건에 따른 티켓 구매 수량 제한 및 알림 
 		if((option3==1 || option3==2 || option3==3) && amount>2)
 		{
 			switch(option3)
@@ -294,33 +294,60 @@ int selectOption4(int option3)
 				case 2:	printf("국가유공자 할인은 동반1인까지 적용가능합니다.(최대 2매)\n"); break;
 				case 3:	printf("휴가 장병 할인은 동반1인까지 적용가능합니다.(최대 2매)\n"); break;
 			};
+			d2 = 0; 
 		}
 		else if(option3==4 && amount!=1)
 		{
 			printf("임산부 할인은 본인만 적용이 가능합니다.(최대 1매)\n 다시 입력하세요.\n");
+			d2 = 0;
 		}
-		else if(option3==5)
+		else if(option3==5) 
 		{
-			int d=1;
-			while(d==1)
+			do
 			{
-				printf("다자녀 가족 할인은 카드에 명시된 가족만 적용이 가능합니다.\n 입력하신 정보가 맞습니까??\n  맞으면 1, 다시 입력하시려면 2를 입력하세요.\n");
-				scanf("%d",&d);
-				if(d==1) 					return amount;
-				else if(d != 1 && d!=2)		printf("잘못된 입력입니다. 1 또는 2를 입력하세요\n");
-			}
-		} 
-		else if(!(1<=amount&&amount<=1000)) printf("최소 구매수량은 1, 최대 구매 수량은 1000매입니다.\n");
-		else 		d=0;
-	}while(d);
+				int d3 = 0;
+				printf("다자녀 가족 할인은 카드에 명시된 가족만 적용이 가능합니다.\n 입력하신 정보가 맞습니까??\n 진행하려면 0, 다시 입력하려면 1을 입력하세요.\n");
+				scanf("%d",&d3);
+				if(d3 == 0)
+				{
+					d2 = 1;
+					break;
+				}
+				else if(d3 == 1)			
+				{
+					d2 = 0;
+					break;
+				}
+				else if(d3 != 0 && d3!=1)	printf("잘못된 입력입니다. 1 또는 2를 입력하세요\n");
+			}while(1);
+			
+		}
+		
+		// 매수 입력 오류에 따른 알림, 즉 이상없으면 0, 이상있으면 1 
+		if(1>amount && d2==1)
+		{
+			printf("최소 구매수량은 1매입니다.\n");
+			d1=0;	
+		}
+		else if(amount>1000 && d2==1)
+		{
+			printf("최대 구매 수량은 1000매입니다.\n");
+			d1=0;
+		}
+		else 	d1=1;
+	}while(!(d1&&d2));	// 일반적인 매수제한과 우대사항 적용시의 매수제한 모두 충족시 종료 
 	
 	return amount;
 }
 
-// 최종금액 계산 밀 출력 
+/** 
+	최종금액 계산 및 출력하는 함수
+	매개변수 :  이용시설 구분/이용시간 구분/연령 구분/우대사항 구분에 해당하는 숫자,  구매 수량 
+	반환 :  모든 조건이 적용된 판매 금액 
+*/
 int checkTotalPrice(int option0, int option1, int option2, int option3, int option4)
 {
-	int originalPrice = PriceCheck(option0, option1, option2);	// 이용 시설, 이용시간, 연령 구분으로 정가 확인 
+	int originalPrice = priceCheck(option0, option1, option2);	// 이용 시설, 이용시간, 연령 구분으로 정가 확인 
 
 	float discountRate = checkDiscountRate(option3);						// 우대사항으로 할인율 확인 
 	
@@ -334,59 +361,94 @@ int checkTotalPrice(int option0, int option1, int option2, int option3, int opti
 	return totalPrice; 
 }
 
-// 티켓 정가 산출, return : 조건에 따른 정가 숫자 
-int PriceCheck(int option0, int option1, int option2)
+
+
+
+/**
+	티켓 정가 산출하는 함수 
+	checkTotalPrice()에서 사용 
+	매개변수 : 이용시설 구분/이용시간 구분/연령 구분/우대사항 구분에 해당하는 숫자 
+	반환 : 조건에 해당하는 티켓 정가 
+*/
+int priceCheck(int option0, int option1, int option2)
 {
 	int price=0;
 	if(option2==2)		// 성인(만 19~64세) 
 	{
-		if(option0==1&&option1==1)		price=PackageDayAdultPrice;
-		else if(option0==1&&option1==2)	price=PackageAfter4AdultPrice;
-		else if(option0==2&&option1==1)	price=OnlyParkDayAdultPrice;
-		else if(option0==2&&option1==2)	price=OnlyParkAfter4AdultPrice;
+		if(option0==1&&option1==1)		price=packageDay[0];
+		else if(option0==1&&option1==2)	price=packageAfter4[0];
+		else if(option0==2&&option1==1)	price=onlyParkDay[0];
+		else if(option0==2&&option1==2)	price=onlyParkAfter4[0];
 	} 
 	else if(option2==3) // 청소년(만 13~18세) 
 	{
-		if(option0==1&&option1==1)		price=PackageDayYouthPrice;
-		else if(option0==1&&option1==2) price=PackageAfter4YouthPrice;
-		else if(option0==2&&option1==1)	price=OnlyParkDayYouthPrice;
-		else if(option0==2&&option1==2)	price=OnlyParkAfter4YouthPrice;
+		if(option0==1&&option1==1)		price=packageDay[1];
+		else if(option0==1&&option1==2) price=packageAfter4[1];
+		else if(option0==2&&option1==1)	price=onlyParkDay[1];
+		else if(option0==2&&option1==2)	price=onlyParkAfter4[1];
 	}
 	else if(option2==4||option2==1)	// 어린이(36개월~만12세) , 노인(만65세 이상) 
 	{
-		if(option0==1&&option1==1)		price=PackageDayChildPrice;
-		else if(option0==1&&option1==2)	price=PackageAfter4ChildPrice;
-		else if(option0==2&&option1==1)	price=OnlyParkDayChildPrice;
-		else if(option0==2&&option1==2)	price=OnlyParkAfter4ChildPrice;
+		if(option0==1&&option1==1)		price=packageDay[2];
+		else if(option0==1&&option1==2)	price=packageAfter4[2];
+		else if(option0==2&&option1==1)	price=onlyParkDay[2];
+		else if(option0==2&&option1==2)	price=onlyParkAfter4[2];
 	}
 	else if(option2==5)			// 유아(~36개월 미만)
 	{
-		if(option0==1&&option1==1)		price=PackageDayBabyPrice;
-		else if(option0==1&&option1==2)	price=PackageAfter4BabyPrice;
-		else if(option0==2&&option1==1)	price=OnlyParkDayBabyPrice;
-		else if(option0==2&&option1==2)	price=OnlyParkAfter4BabyPrice;
+		if(option0==1&&option1==1)		price=packageDay[3];
+		else if(option0==1&&option1==2)	price=packageAfter4[3];
+		else if(option0==2&&option1==1)	price=onlyParkDay[3];
+		else if(option0==2&&option1==2)	price=onlyParkAfter4[3];
 	}
 	return price; 
 }
 
-// 할인율 산출 , return : 우대사항에 따른 할인율 
+/**
+	할인율을 산출하는 함수 
+	checkTotalPrice()에서 사용 
+	매개변수 : 우대사항 구분에 해당하는 숫자 
+	반환 : 우대사항에 따른 할인율 
+*/
 float checkDiscountRate(int option3)
 {
-	float discountRate=1;
+	float dRate=1;
 
 	switch(option3)
 	{
-		case 1: discountRate = 1*(1-DisabledDiscountRate); 		break;
-		case 2: discountRate = 1*(1-NationalMeritDiscountRate); 	break;
-		case 3: discountRate = 1*(1-SoldierDiscountRate); 		break;
-		case 4: discountRate = 1*(1-PregnantDiscountRate); 		break;
-		case 5: discountRate = 1*(1-MultipleChildrenDiscountRate);break;
-		case 0: discountRate=1; 									break;	
+		case 1: dRate = 1*(1-discountRate[0]); 	break;
+		case 2: dRate = 1*(1-discountRate[1]); 	break;
+		case 3: dRate = 1*(1-discountRate[2]); 	break;
+		case 4: dRate = 1*(1-discountRate[3]); 	break;
+		case 5: dRate = 1*(1-discountRate[4]);	break;
+		case 0: dRate = 1; 						break;	
 	}
-	return discountRate;
+	return dRate;
 }
  
-// 오늘 날짜 반환 , return : 오늘 날짜 6자리 ex) 220322 
+/*
+	영수증 출력하는 함수  
+*/
+void printFinalPrice(int options[100][6])
+{
+	int sumTotalPrice = 0;
+	for(int i=0;i<100;i++)
+	{
+		if(options[i][0]==0) break;				// 저장된 값이 없는 배열이면 반복문 종료 
+		
+		// 이용시설, 이용시간, 연령구분, 우대사항,수량 가격 
+		//printf("%s\t%s\t\t%s\t\t%s\t%d\t%d\n", option0toKo(options[i][0]), option1toKo(options[i][1]), option2toKo(options[i][2]), option3toKo(options[i][3]), options[i][4], options[i][5]);
+		printf("%s\t%s\t\t%s\t\t%s\t%d\t%d\n", KoKindUsageRange[options[i][0]-1],KoKindUsageTime[options[i][1]-1], KoKindAge[options[i][2]-1], KoKindDiscount[options[i][3]-1], options[i][4], options[i][5]);
+		sumTotalPrice+=options[i][5];
+	}
+	printf("\n입장료 총액은 %d입니다.\n감사합니다.\n\n", sumTotalPrice);
+}
+
+/**
+	오날 날짜를 확인하는 함수 
+	checkTotalPrice()에서 사용 
+	반환 : 오늘 날짜 연월일 6자리 숫자 
+*/
 int todayIs()
 {
 	// 시스템으로 부터  현재 시간 가져오기 
@@ -398,7 +460,10 @@ int todayIs()
 	return ((cur_date->tm_year-100)*10000 + (cur_date->tm_mon+1)*100 + (cur_date->tm_mday));
 } 
  
-// 추가 구매할 티켓 있는지 확인 
+/**
+	추가 구매할 발권할 티켓이 있는지 묻는 함수(영수증 단위) 
+	반환 : 없으면 0, 있으면 1 
+*/
 int checkContinue()
 {
 	int d = 1;
@@ -417,7 +482,13 @@ int checkContinue()
 	return d;
 }
 
-// 새로운 발행 시작을 할건지 확인 
+
+
+
+/**
+	새로운 발권을 시작 할건지 묻는 함수
+	반환 : 없으면 0, 있으면 1 
+*/
 int checkNewtickets()
 {
 	int d = 1;
@@ -436,54 +507,79 @@ int checkNewtickets()
 	return d;
 }
 
-// 숫자 구분을 한글로 변환 
-char *option0toKo(int option0)
-{
-	char *kinds=" ";
-	
-	if(option0==1) 	kinds="종합이용권";	
-	else			kinds="파크이용권";
-	
-	return kinds;
-}
-char *option1toKo(int option1)
-{
-	char *kinds = " ";
-	
-	if(option1==1) 		kinds="종일권";
-	else if(option1==2)	kinds="after4";
-	
-	return kinds; 
-}
-char *option2toKo(int option2)
-{
-	char *kinds = " ";
-	
-	if(option2==1) 	kinds="노인";
-	else if(option2==2) 	kinds="성인";
-	else if(option2==3) 	kinds="청소년";
-	else if(option2==4) 	kinds="어린이";
-	else if(option2==5) 	kinds="유아";
-	else if(option2==6)		kinds="없음";
-	
-	return kinds; 
-}
-char *option3toKo(int option3)
-{
-	char *kinds = " ";
-	
-	switch(option3)
-	{
-		case 1: kinds="장애인    ";	break; 
-		case 2: kinds="국가유공자";	break;
-		case 3: kinds="군인      "; break;
-		case 4: kinds="임산부    ";	break;
-		case 5: kinds="다둥이가족";	break;
-		case 6: kinds="없음      ";	break;
-	}
-	
-	return kinds;
-}
+
+
+
+///**
+//	이용시설 구분을 한글로 변환하는 함수 
+//	매개변수 :  이용시설 구분에 해당하는 숫자 
+//	반환 : 이용시설 구분에 해당하는 문자열
+//*/
+//char *option0toKo(int option0)
+//{
+//	char *kinds=" ";
+//	
+//	if(option0==1) 	kinds="종합이용권";	
+//	else			kinds="파크이용권";
+//	
+//	return kinds;
+//}
+//
+///**
+//	이용시간 구분을 한글로 변환하는 함수
+//	매개변수 :  이용시간 구분에 해당하는 숫자 
+//	반환 : 이용시간 구분에 해당하는 문자열
+//*/
+//char *option1toKo(int option1)
+//{
+//	char *kinds = " ";
+//	
+//	if(option1==1) 		kinds="종일권";
+//	else if(option1==2)	kinds="after4";
+//	
+//	return kinds; 
+//}
+//
+///**
+//	연령 구분을 한글로 변환하는 함수 
+//	매개변수 :  연령 구분에 해당하는 숫자 
+//	반환 : 연령 구분에 해당하는 문자열
+//*/
+//char *option2toKo(int option2)
+//{
+//	char *kinds = " ";
+//	
+//	if(option2==1) 	kinds="노인";
+//	else if(option2==2) 	kinds="성인";
+//	else if(option2==3) 	kinds="청소년";
+//	else if(option2==4) 	kinds="어린이";
+//	else if(option2==5) 	kinds="유아";
+//	else if(option2==6)		kinds="없음";
+//	
+//	return kinds; 
+//}
+//
+///**
+//	우대사항 구분을 한글로 변환하는 함수
+//	매개변수 :  우대사항 구분에 해당하는 숫자  
+//	반환 : 우대사항 구분에 해당하는 문자열
+//*/
+//char *option3toKo(int option3)
+//{
+//	char *kinds = " ";
+//	
+//	switch(option3)
+//	{
+//		case 1: kinds="장애인    ";	break; 
+//		case 2: kinds="국가유공자";	break;
+//		case 3: kinds="군인      "; break;
+//		case 4: kinds="임산부    ";	break;
+//		case 5: kinds="다둥이가족";	break;
+//		case 6: kinds="없음      ";	break;
+//	}
+//	
+//	return kinds;
+//}
 
 
 
