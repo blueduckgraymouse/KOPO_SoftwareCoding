@@ -30,3 +30,14 @@
 *.exe
 *.out
 *.app
+
+# Addtion
+*.exe
+*.metadata
+*.iso
+*.class
+*.png
+*.jpg
+*.ppt
+*.pptx
+*.pdf

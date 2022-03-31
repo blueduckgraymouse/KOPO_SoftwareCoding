@@ -1,0 +1,17 @@
+kopo35
+abcd1234
+
+$ 상용자
+# 루트 사용자
+
+sudo : 관리자의 권한을 잠시 빌려온다.
+apt : 소프트웨어 설치나 업데이트시 사용하는 명령어
+sudo apt update : 관리자 권한으로 업데이트 진행
+su - : 관리자권한으로 로그인
+sudo passwd root : 루트사용자의 비밀번호 설정
+
+? 어떻게 일반사용자가 관리자의 비밀번호를 바꿀 수 있는가?
+ => 처음 만든 계정은 특수하여 sudo권한을 가지고 있다, 초기화 가능
+
+sudo apt install net-tools : ipconfig명령어 사용에 필요한 파일 다운
+sudo apt install ssh : ssh 설치
