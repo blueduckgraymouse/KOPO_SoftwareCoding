@@ -14,14 +14,14 @@ public class Main {
 	}
 
 	private String inputString() {
-		System.out.print("input number : ");
+		System.out.print("input String : ");
 		while (true) {
 			Scanner sc = new Scanner(System.in);
 			try {
 				String str = sc.next();
 				return str;
 			} catch (Exception e) {
-				System.out.println("wrong input. input only number.");
+				System.out.println("wrong input. input only String.");
 			}
 		}
 	}

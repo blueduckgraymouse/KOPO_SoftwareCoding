@@ -12,11 +12,11 @@ public class MyCourse {
 	}
 
 	public void myCourse() {
-		printMyCOurses(DB);
+		printMyCourses(DB);
 		waitExitCode();
 	}
 
-	private void printMyCOurses(String DB) {
+	private void printMyCourses(String DB) {
 		if (DB.length() != 0) {
 			String[] data = DB.split("/");
 			for(int i = 0 ; i < data.length ; i++) {

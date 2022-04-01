@@ -14,7 +14,7 @@ public class Main {
 
 	private String inputNumbers() {
 		System.out.print("input numbers : ");
-		while(true) {
+		while (true) {
 			Scanner sc = new Scanner(System.in);
 			try {
 				String sNumbers = sc.nextLine();
@@ -27,7 +27,7 @@ public class Main {
 	
 	private double inputNumber() {
 		System.out.print("input a number : ");
-		while(true) {
+		while (true) {
 			Scanner sc = new Scanner(System.in);
 			try {
 				double dNumber = sc.nextDouble();

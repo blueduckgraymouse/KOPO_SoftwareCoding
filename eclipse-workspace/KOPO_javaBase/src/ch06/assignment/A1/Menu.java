@@ -52,7 +52,6 @@ public class Menu {
 			myCourse.myCourse();
 			break;
 		}
-		System.out.println(DB);
 		return DB;
 	}
 

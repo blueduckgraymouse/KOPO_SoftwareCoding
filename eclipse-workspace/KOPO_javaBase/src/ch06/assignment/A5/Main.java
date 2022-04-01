@@ -23,7 +23,7 @@ public class Main {
 
 	private void printMenus(String[] unitName) {
 		System.out.println("#Unit");
-		for(int i = 0 ; i < unitName.length ; i++) {
+		for (int i = 0 ; i < unitName.length ; i++) {
 			System.out.println((i + 1) + ". " + unitName[i]);
 		}
 	}
@@ -31,7 +31,7 @@ public class Main {
 	private int[] selectMenus() {
 		System.out.print("input two numbers of menu : ");
 		String sNumbers;
-		while(true) {
+		while (true) {
 			Scanner sc = new Scanner(System.in);
 			try {
 				sNumbers = sc.nextLine();
@@ -43,7 +43,7 @@ public class Main {
 		}
 		String[] sArrNumbers = sNumbers.split(" ");
 		int[] iArrNumbers = new int[2];
-		for(int i = 0 ; i < 2 ; i++) {
+		for (int i = 0 ; i < 2 ; i++) {
 			iArrNumbers[i] = Integer.parseInt(sArrNumbers[i]);
 		}
 		return iArrNumbers;
@@ -51,7 +51,7 @@ public class Main {
 	
 	private double inputValue() {
 		System.out.print("input value to convert : ");
-		while(true) {
+		while (true) {
 			Scanner sc = new Scanner(System.in);
 			try {
 				double value = sc.nextDouble();
