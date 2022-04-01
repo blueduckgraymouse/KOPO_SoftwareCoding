@@ -71,25 +71,25 @@ public class Pre_Variable_and_Data_Type {
 //		System.out.println(s1.getClass().getName());
 //		System.out.println(s1 instanceof String);
 		
-		byte b;
-		short s;
-		int i;
-		long l;
-		float f;
-		double d;
-		char c;
-		String str;
-		boolean bool;
-		
-		System.out.println(b);
-		System.out.println(s);
-		System.out.println(i);
-		System.out.println(l);
-		System.out.println(f);
-		System.out.println(d);
-		System.out.println(c);
-		System.out.println(str);
-		System.out.println(bool);
+//		byte b;
+//		short s;
+//		int i;
+//		long l;
+//		float f;
+//		double d;
+//		char c;
+//		String str;
+//		boolean bool;
+//		
+//		System.out.println(b);
+//		System.out.println(s);
+//		System.out.println(i);
+//		System.out.println(l);
+//		System.out.println(f);
+//		System.out.println(d);
+//		System.out.println(c);
+//		System.out.println(str);
+//		System.out.println(bool);
 	}
 
 }

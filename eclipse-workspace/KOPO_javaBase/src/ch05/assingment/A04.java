@@ -22,15 +22,14 @@ public class A04 {
 		return sc.nextInt();
 	}
 	
-	/*
-	 * print result as a number of input
+	/* print result as a number of input
 	 * 
 	 * parameter : a number of input
 	 */
 	private void printFibonacciSeq(int inputNum) {
 		if (inputNum == 0)
 			System.out.print("0");
-		else if (inputNum >= 1)
+		else if (inputNum > 0)
 			System.out.print("0 1");
 		
 		if (inputNum > 1) {
@@ -38,13 +37,13 @@ public class A04 {
 		}
 	}
 	
-	/* recursive function to print Fibonacci Sequence over 2
+	/* a recursive function to print Fibonacci Sequence over 2
 	 * 
 	 * parameter : (n-1)th Fibonacci Sequence value, (n-2)th Fibonacci value, remaining number of times
 	 * return : n-th Fibonacci Sequence value
 	 */
 	private int fibonacciSeqFrom2(int fBefore1Step, int fBefore2step, int fNum) {
-		if (fNum != 2) {
+		if (fNum != 1) {
 			System.out.print(" " + (fBefore1Step + fBefore2step));
 			int temp = fibonacciSeqFrom2(fBefore1Step + fBefore2step, fBefore1Step ,--fNum);
 		}
