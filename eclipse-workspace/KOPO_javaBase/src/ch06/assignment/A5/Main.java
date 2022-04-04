@@ -9,12 +9,12 @@ public class Main {
 		double[] unitValueBase_cm = {1, 100, 0.1, 100000, 160934.4};
 		
 		Main main = new Main();
+		UnitConverter unitConverter = new UnitConverter();
 		
 		main.printMenus(unitName);
+		
 		int[] menuNumbers = main.selectMenus();
 		double value = main.inputValue();
-		
-		UnitConverter unitConverter = new UnitConverter();
 		
 		unitConverter.excute(unitValueBase_cm, menuNumbers, value);
 		unitConverter.print();

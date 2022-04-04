@@ -6,6 +6,7 @@ public class Main {
 	public static void main(String[] args) {
 		FindingTheNearestNumber findingTheNearestNumber = new FindingTheNearestNumber();
 		Main main = new Main();
+		
 		String sNumbers = main.inputNumbers();
 		double dNumber	= main.inputNumber();
 		findingTheNearestNumber.execute(dNumber, sNumbers);

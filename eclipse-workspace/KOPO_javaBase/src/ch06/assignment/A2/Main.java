@@ -2,6 +2,8 @@ package ch06.assignment.A2;
 
 import java.util.Scanner;
 
+// 출제의도는 나누기와 나머지 연산자로 구현.
+
 public class Main {
 
 	public static void main(String[] args) {

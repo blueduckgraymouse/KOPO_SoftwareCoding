@@ -47,8 +47,12 @@ public class Registercourse {
 	}
 	
 	private String registerCorse(String DB, int courseNumber) {
-		DB = DB + (courseNumber - 1) + "/";
-		System.out.println("\"" + courses[courseNumber-1] +"\" is registered.");
+		if(!DB.contains(Integer.toString(courseNumber-1))) {		
+			DB = DB + (courseNumber - 1) + "/";
+			System.out.println("Success. \"" + courses[courseNumber-1] +"\" is registered.");
+		} else {
+			System.out.println("Fail. \"" + courses[courseNumber-1] +"\" is already registered.");
+		}
 		return DB;
 	}
 

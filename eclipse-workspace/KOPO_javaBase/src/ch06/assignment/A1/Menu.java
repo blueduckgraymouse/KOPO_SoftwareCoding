@@ -17,6 +17,7 @@ public class Menu {
 		}
 	}
 
+	
 	private void printMenu() {
 		System.out.println("#menu");
 		for (int i = 0 ; i < menu.length ; i++) {
