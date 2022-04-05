@@ -48,7 +48,6 @@ public class P01_set {
 	 */
 	private Set<Double> checkDuplication(Set<Double> setNum1, Set<Double> setNum2) {
 		Set<Double> dupliNumSet = new HashSet<Double>();
-		
 		Iterator<Double> iter = setNum2.iterator();
 		while (iter.hasNext()) {
 			double dupliNum = iter.next();
