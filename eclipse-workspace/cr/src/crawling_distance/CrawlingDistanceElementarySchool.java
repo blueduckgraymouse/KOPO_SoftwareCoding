@@ -5,7 +5,6 @@ package crawling_distance;
 //import java.io.FileWriter;
 //import java.io.IOException;
 import java.time.Duration;
-import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -15,18 +14,16 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class CrawlingDistanceElementarySchool {
+	final static int startGuIndex = 13;
+	
 	//private static final String filePath = "c:\\KOPO\\git_tarcking\\기본프로그래밍_java\\Pro\\Data.csv";
 	private static final String WEB_DRIVER_ID = "webdriver.chrome.driver";
+	//private static final String WEB_DRIVER_PATH = "D:\\KOPO\\utility\\chromedriver_win32\\chromedriver.exe";
 	private static final String WEB_DRIVER_PATH = "C:\\chromedriver\\chromedriver.exe";
 
+	
 	public static void main(String[] args) {
-		//File CSVfile = null;
-		//BufferedWriter bw = null;
-		//String NewLine = System.lineSeparator();
-		
-		//CSVfile = new File(filePath);
-		//bw = new BufferedWriter(new FileWriter(CSVfile));
-		
+	
 		try {
 			System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
 		} catch(Exception e) {
@@ -49,7 +46,7 @@ public class CrawlingDistanceElementarySchool {
 		int guSize = checkRegionSize(driver);
 		
 		// 구 개수 만큼 반복
-		for(int i = 1 ; i < guSize ; i++) {
+		for(int i = 13 ; i < guSize ; i++) {
 			// 서울인지 확인 다르면 처리
 			// 추가 예정
 			
@@ -61,9 +58,12 @@ public class CrawlingDistanceElementarySchool {
 			int dongSize = checkRegionSize(driver);
 			
 			// 동 개수 만큼 반복
-			for(int j = 13 ; j <= dongSize ; j++) {
-				// 구 확인 다들면 처리
-				// 추가 예정
+			for(int j = 1 ; j <= dongSize ; j++) {
+				// 두번째 동부터
+				if(j != 1) {
+					// 지역 확인 후 바꼈으면 재설정
+					compareAndRearrangeGu(driver, wait, guName, i);
+				}
 				
 				// 동 선택 -> 자동으로 단지 선택으로 넘어감
 				selectDong(wait, j);
@@ -71,26 +71,31 @@ public class CrawlingDistanceElementarySchool {
 				
 				// 총 단지의 개수 확인
 				int complexSize = checkComplexSize(driver);
-
+				
+				// 단지 개수만큼 반복
 				for(int k = 1 ; k <= complexSize ; k++) {
-					checkDongNameAndRearrange(dongName, i);
-					checkGuNameAndRearrange(guName, i);
+					// 두번째 단지부터
+					if (k != 1) {
+						// 지역 확인 후 바꼈으면 재설정
+						compareAndRearrangeGu(driver, wait, guName, i);
+						compareAndRearrangeDong(driver, wait, dongName, j);
+					}
 					
-					
-					String location = driver.findElement(By.xpath("//*[@id=\"region_filter\"]/div/a")).getText();
-					
-					if(k != 1) {
-						wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[2]/div/section/div[2]/div[2]/div[1]/div/div/a/span[4]"))).click();
-						wait100ms();
+					// 단지 목록이 닫혀잇으면
+					if (driver.findElement(By.xpath("//*[@id=\"region_filter\"]/div/div")).getAttribute("aria-hidden").equals("true")) {
+						// 단지 목록 열기
+						openComplexSelection(wait);
 					}
 					
 					// 단지 선택 - 자동으로 단지 정보로 펼쳐짐
 					selectComplex(wait, k);
 					
-					// 학군정보 배너 클릭 - 유동적
-					if( k == 1) {
+					// 부동산 접속 후 첫 학군 정보 접근이면
+//					if (i == startGuIndex && j == 1 && k == 1) {
+//						// 학군정보 배너 클릭 - 이후는 유지 된다.
 						clickSchoolDistrict(driver, wait);
-					}
+//					}
+					// 지역정보와 아파트명도 수집 예정
 					
 					// 초등학교까지 거리 수집
 					String schoolData = collectDistance(wait);
@@ -103,20 +108,7 @@ public class CrawlingDistanceElementarySchool {
 			}
 			
 		}
-		
-		
-		
-		
-		
-		// 닫앗는데 지도 움직임?으로 다른 동으로 동네 설정됬을 수도.
-		// 목표하는 구와 돋이 맞는지 확인.
-		
-		
-		
-		
-		
-		
-		
+
 		//bw.write("sadf");
 		//bw.flush();
 		//bw.close();
@@ -126,46 +118,75 @@ public class CrawlingDistanceElementarySchool {
 //		return driver.findElements(By.xpath("//*[@class=\"area_item\"]")).size();
 //	}
 	
+	private static void openComplexSelection(WebDriverWait wait) {
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[2]/div/section/div[2]/div[2]/div[1]/div/div/a/span[4]"))).click();
+		wait500ms();
+	}
+
+	private static void compareAndRearrangeDong(WebDriver driver, WebDriverWait wait, String dongName, int j) {
+		String CurrentDongName = driver.findElement(By.xpath("//*[@id=\"region_filter\"]/div/a/span[3]")).getText();
+		if (!dongName.equals(CurrentDongName)) {
+			openDongSelection(wait);
+			selectDong(wait, j);
+		}
+	}
+
+	private static void openDongSelection(WebDriverWait wait) {
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"region_filter\"]/div/a/span[3]"))).click();
+		wait500ms();
+	}
+
+	private static void compareAndRearrangeGu(WebDriver driver, WebDriverWait wait, String guName, int i) {
+		String CurrentGuName = driver.findElement(By.xpath("//*[@id=\"region_filter\"]/div/a/span[2]")).getText();
+		if (!guName.equals(CurrentGuName)) {
+			openGuSelection(wait);
+			selectGu(wait, i);
+		}
+	}
+
+	private static void openGuSelection(WebDriverWait wait) {
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"region_filter\"]/div/a/span[2]"))).click();
+		wait500ms();
+	}
+
 	private static String getDongName(WebDriver driver) {
 		String dongName = driver.findElement(By.xpath("//*[@id=\"region_filter\"]/div/div/div[1]/div/a[3]")).getText();
-		wait100ms();
+		wait500ms();
 		return dongName;
 	}
 
 	private static String getGuName(WebDriver driver) {
 		String guName = driver.findElement(By.xpath("//*[@id=\"region_filter\"]/div/div/div[1]/div/a[2]")).getText();
-		wait100ms();
+		wait500ms();
 		return guName;
 	}
 
 	private static void closeComplexInformation(WebDriverWait wait) {
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[2]/div/section/div[2]/div[2]/div/button"))).click();
-		wait100ms();
+		wait500ms();
 	}
 
 	private static String collectDistance(WebDriverWait wait) {
 		String distance = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"detailContents5\"]/div/div[1]"))).getText();
-		wait100ms();
+		wait500ms();
 		return distance;
 	}
 
 	private static void clickSchoolDistrict(WebDriver driver, WebDriverWait wait) {
-//		List bannerName = driver.findElements(By.xpath("//*[@id=\"ct\"]/div[2]/div[2]/div/div[2]/div[2]/div/div/a"));
-//		for(int i = 0 ; i < bannerName.size() ; i++) {
-//			System.out.println(bannerName.get(i));
-//		}
-		//wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[2]/div/section/div[2]/div[2]/div/div[2]/div[2]/div/div/a[4]/span")));
-		
-		
-		
-		//wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[2]/div/section/div[2]/div[2]/div/div[2]/div[2]/div/div/a[4]/span"))).click();
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[2]/div/section/div[2]/div[2]/div/div[2]/div[2]/div/div/a[2]/span"))).click();
-		wait100ms();
+		int size = driver.findElements(By.xpath("/html/body/div[2]/div/section/div[2]/div[2]/div/div[2]/div[2]/div/div/a")).size();
+		for(int i = 1 ; i <= size ; i++) {
+			String content = driver.findElement(By.xpath("/html/body/div[2]/div/section/div[2]/div[2]/div/div[2]/div[2]/div/div/a[" + i + "]/span")).getText();
+			if(content.equals("학군정보")) {
+				wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[2]/div/section/div[2]/div[2]/div/div[2]/div[2]/div/div/a[" + i + "]"))).click();
+				wait500ms();
+				break;
+			}
+		}
 	}
 
 	private static void selectComplex(WebDriverWait wait, int k) {
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[2]/div/section/div[2]/div/div[1]/div/div/div/div[3]/ul/li[" + k + "]/a"))).click();
-		wait100ms();
+		wait500ms();
 	}
 	
 	private static int checkComplexSize(WebDriver driver) {
@@ -174,9 +195,8 @@ public class CrawlingDistanceElementarySchool {
 	
 	private static void selectDong(WebDriverWait wait, int j) {
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[2]/div/section/div[2]/div/div[1]/div/div/div/div[2]/ul/li[" + j + "]/label"))).click();
-		wait100ms();
+		wait500ms();
 	}
-
 
 	private static int checkRegionSize(WebDriver driver) {
 		return driver.findElements(By.xpath("//*[@class=\"area_item\"]")).size();
@@ -184,25 +204,23 @@ public class CrawlingDistanceElementarySchool {
 
 	private static void clickSelectionCity(WebDriverWait wait) {
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[2]/div/section/div[2]/div/div[1]/div/div/a/span[1]"))).click();
-		wait100ms();
+		wait500ms();
 	}
-
 
 	private static void selectSeoul(WebDriverWait wait) {
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[2]/div/section/div[2]/div/div[1]/div/div/div/div[2]/ul/li[1]/label"))).click();
-		wait100ms();
+		wait500ms();
 	}
-
 
 	public static void selectGu(WebDriverWait wait, int guIndex) {
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[2]/div/section/div[2]/div/div[1]/div/div/div/div[2]/ul/li[" + guIndex + "]/label"))).click();
-		wait100ms();
+		wait500ms();
 	}
 	
-	public static void wait100ms() {
+	public static void wait500ms() {
 		try {
 			Thread.sleep(500);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
