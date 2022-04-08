@@ -13,7 +13,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class CrawlingDistanceElementarySchool {
+public class CrawlingDistanceElementarySchool2 {
 	final static int startGuIndex = 13;
 	
 	//private static final String filePath = "c:\\KOPO\\git_tarcking\\기본프로그래밍_java\\Pro\\Data.csv";
@@ -90,12 +90,16 @@ public class CrawlingDistanceElementarySchool {
 					// 단지 선택 - 자동으로 단지 정보로 펼쳐짐
 					selectComplex(wait, k);
 					
-					// 부동산 접속 후 첫 학군 정보 접근이면
-//					if (i == startGuIndex && j == 1 && k == 1) {
-//						// 학군정보 배너 클릭 - 이후는 유지 된다.
-						clickSchoolDistrict(driver, wait);
-//					}
-					// 지역정보와 아파트명도 수집 예정
+					// 아파트 단지명 수집
+					String complexName = collectComplexName(wait);
+					
+					// 아파트 매매가 범위 수집
+					String priceRange = collectComplexPriceRange(wait);
+					
+					// 아파트 단지 규모 수집
+					String complexScale = collectComplexScale(wait);
+
+					clickSchoolDataBanner(driver, wait);
 					
 					// 초등학교까지 거리 수집
 					String schoolData = collectDistance(wait);
@@ -117,6 +121,18 @@ public class CrawlingDistanceElementarySchool {
 //	private static int checkRegionSize(WebDriver driver) {
 //		return driver.findElements(By.xpath("//*[@class=\"area_item\"]")).size();
 //	}
+	
+	private static String collectComplexScale(WebDriverWait wait) {
+		return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"summaryInfo\"]/dl"))).getText();
+	}
+	
+	private static String collectComplexPriceRange(WebDriverWait wait) {
+		return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"summaryInfo\"]/div[2]/div[1]/div/dl[1]/dd"))).getText();
+	}
+	
+	private static String collectComplexName(WebDriverWait wait) {
+		return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"complexTitle\"]"))).getText();
+	}
 	
 	private static void openComplexSelection(WebDriverWait wait) {
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[2]/div/section/div[2]/div[2]/div[1]/div/div/a/span[4]"))).click();
