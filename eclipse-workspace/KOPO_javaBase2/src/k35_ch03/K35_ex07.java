@@ -21,14 +21,27 @@ public class K35_ex07 {
 	    
 	    
 	    System.out.printf("**********************************************\n");
-	    System.out.printf("\t\t너가 지른 과자들\t\t\n");
-	    System.out.printf(" 항 목\t\t\t단 가\t수 량\t합  계 \n");
+	    //System.out.printf("\t\t너가 지른 과자들\t\t\n");
+	    k35_auto_blank(8*2);
+	    System.out.printf("너가 지른 과자들");
+	    k35_auto_blank(8*2);
+	    System.out.printf("\n");
+	    //System.out.printf(" 항 목\t\t\t단 가\t수 량\t합  계 \n");
+	    System.out.printf("항 목");
+	    k35_auto_blank(15);
+	    System.out.printf("단 가");
+	    k35_auto_blank(3);
+	    System.out.printf("수 량");
+	    k35_auto_blank(3);
+	    System.out.printf("합 계");
+	    System.out.printf("\n");
+	    
 	    
 	    for (int i = 0; i < k35_item.length; i++) {										// 구매한 각 과자에 대해서 반복
 	       int k35_sum = k35_price[i] * k35_amount[i];									// 과자 총 가격 = 과자 세전 가격 * 구매 수량, 최대 9,999,999,999원
 	       k35_total_sum = k35_total_sum + k35_sum;										// 반복문을 돌면서 과자 총 가격 누적
 	       
-	       auto_blank(k35_width_size_item, k35_item[i]);									// 과자 이름 출력
+	       k35_auto_format_item(k35_width_size_item, k35_item[i]);						// 과자 이름 출력
 	       System.out.printf("%9d", k35_price[i]);										// 가격 출력
 	       System.out.printf("%7d", k35_amount[i]);										// 수량 출력
 	       System.out.printf("%10d\n", k35_sum);										// 합계 출력
@@ -54,7 +67,7 @@ public class K35_ex07 {
 	 * @param width_size_item : 세팅한 항목 칸의 크기
 	 * @param item			  : 항목 칸에 들어갈 과자 이름 문자열
 	 */
-	public static void auto_blank(int k35_width_size_item, String k35_item) {
+	public static void k35_auto_format_item(int k35_width_size_item, String k35_item) {
 		System.out.printf("%.10s", k35_item);												// 과자 이름 출력
 		
 		int k35_count_idx = k35_item.length();												// 문자열의 길이 확인하여 변수에 저장
@@ -64,8 +77,17 @@ public class K35_ex07 {
 			k35_count_blank++;																// 공백 횟수 누적
 		}
 		int k35_time_blank = k35_width_size_item - (k35_count_idx * 2 - k35_count_blank);	// 설정한 '항목'의 크기에서 과자이름이 차지하는 만큼 빼서 출력해야하는 공백 횟수 확인
-		for (int i = 0 ; i < k35_time_blank ; i++) {											// 위에서 구한 횟수 만큼 공백 출력
+		for (int i = 0 ; i < k35_time_blank ; i++) {										// 위에서 구한 횟수 만큼 공백 출력
 			System.out.printf(" ");
+		}
+	}
+	/**
+	 * 출력한 공백 크기를 입력받아 그만큼 공백을 출력한다.
+	 * @param size : 출력한 공백 크기
+	 */
+	public static void k35_auto_blank(int size) {
+		for( int i = 0 ; i < size ; i++) {		// 파라미터로 들어온 공백 크기만큼 반복
+			System.out.printf(" ");				// 공백 반복 출력
 		}
 	}
 }

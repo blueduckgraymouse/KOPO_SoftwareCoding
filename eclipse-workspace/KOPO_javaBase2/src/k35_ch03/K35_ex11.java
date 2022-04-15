@@ -18,18 +18,20 @@ public class K35_ex11 {
 		double k35_comPerOne = k35_moneyEx * k35_commision;					// 1달러 당 수수료 금액 = 1달러 환율 * 수수료 비율
 		
 		int k35_usd = (int) (k35_myWon / (k35_moneyEx + k35_comPerOne));	// 환전되는 달러 지폐 = 내 돈 / (미화 환율 + 수수료) 의 몫
-		int k35_remain = (int) (k35_myWon - k35_usd * k35_moneyEx);			// 환전 후 남는 잔액 = 내 돈 / 미화 환율 의 나머지
+		//int k35_remain = (int) (k35_myWon - k35_usd * k35_moneyEx);			// 환전 후 남는 잔액 = 내 돈 / 미화 환율 의 나머지
 		
 		double k35_totalcom = k35_usd * k35_comPerOne;						// 환전 총 수수료 = 총 환전 달러 금액 * 1달러당 수수료 금액
 		
 		int k35_i_totalcom;													// 환전 총 수수료의 소수점이 존재했는데 버림을 하면 은행손해니까 확인 후 최종 총 수수료가 저장될 변수
 		if(k35_totalcom != (double)((int)k35_totalcom)) {						// 소수점이 존재하면
 			k35_i_totalcom = (int) k35_totalcom + 1;							// 		환전 총 수수료 + 1원
-			k35_remain = (int) (k35_myWon % (k35_moneyEx + k35_comPerOne)) - 1;	// 		환전 총 수수료가 +1원 됬으면 잔돈에서는 -1원
+			//k35_remain = (int) (k35_myWon % (k35_moneyEx + k35_comPerOne)) - 1;	// 	환전 총 수수료가 +1원 됬으면 잔돈에서는 -1원
 		} else {																// 소수점이 존재하지 않으면
 			k35_i_totalcom = (int) k35_totalcom;								// 		환전 총 수수료는 그대로
-			k35_remain = (int) (k35_myWon % (k35_moneyEx + k35_comPerOne));		// 		환전 총 수수료가 그대로면 잔돈도 그대로
+			//k35_remain = (int) (k35_myWon % (k35_moneyEx + k35_comPerOne));	// 		환전 총 수수료가 그대로면 잔돈도 그대로
 		}
+		
+		int k35_remain = (int) (k35_myWon - k35_usd * k35_moneyEx - k35_i_totalcom)	;	// 환전 후 잔액 = 내 돈 - 환전한 달러 * 1달러 당 환율 - 총 환전 수수료
 		
  		System.out.printf("*****************************************************\n");
 		System.out.printf("*                 수수료 없이 계산                  *\n");
