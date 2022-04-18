@@ -18,8 +18,6 @@ public class K35_ex13 {
 			System.out.printf("%d sin ==> %f\n", k35_i, k35_fSin);		// 0~359도에 해당하는 sin()값을 출력 : 0~360도 이므로 sin값의 추이는 0 ~ -1 ~ 0 ~ 1
 		}
 		
-		System.out.println("-----------");
-		
 		for (int k35_i = 0 ; k35_i < 360 ; k35_i++) {					// 0~359까지 i 반복
 			k35_fSin = Math.sin(k35_i * 3.141592 / 180);				// i도에서의 라디안을 계산 한 후 그 값을 Math.sin함수에 대입하여 해당 degree에서의 sin값을 변수 fSin에 저장
 			int k35_iSpace = (int)((1.0 - k35_fSin) * 50);				// fSin의 값은 -1 ~ 1이다. 이걸 콘솔에 그래프와 같이 그려주기 위해서 (1 - sin값)으로 계산하여 0 ~ 2로 범위를 변경 후

@@ -12,6 +12,13 @@ public class K35_ex01 {
 		
 		int k35_sum = 0;						// 누적값이 저장될 변수 sum을 0으로 초기화
 		
+		int[] a = new int[3];
+		a[0] = 1;
+		a[1] = 2;
+		a[2] = 3;
+		
+		System.out.println(a[0]);
+		
 		for (int i = 0 ; i < 10 ; i++) {		// i를 0~9까지 반복
 			k35_sum = k35_sum + i;				// 변수 sum에 i를 0~9까지 누적
 		}

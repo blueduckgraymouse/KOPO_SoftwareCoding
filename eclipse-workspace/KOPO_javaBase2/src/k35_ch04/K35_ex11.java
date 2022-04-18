@@ -24,7 +24,7 @@ public class K35_ex11 {
 		// 왼쪽 자리수부터 오른쪽방향으로 한글로 읽어 sNumVoice에 저장하는 반복문
 		while(true) {																// 무한 반복
 			if (k35_i >= k35_sNumVal.length())										// 현재까지 읽은 자리 수의 개수가 읽어야 하는 숫자의 총 자리수 개수와 같거나 커지면 
-				break;																// 다 읽은 것이므로 반복문 종료
+				break;																//   다 읽은 것이므로 반복문 종료
 			
 			String k35_digit = k35_sNumVal.substring(k35_i, k35_i + 1);				// 문자열로 저장된 읽어야 하는 숫자로 부터 지금 loop에서 읽어야 하는 자리의 숫자 한 개 추출하여 변수 digit에 저장
 			
@@ -33,9 +33,10 @@ public class K35_ex11 {
 					k35_units[Integer.parseInt(k35_digit)]);
 			
 			if (k35_digit.equals("0")) {											// 지금 loop에서 읽어야 하는 자리의 숫자 한 개(digit)가 0이면
-				if (k35_unitX[k35_j].equals("만") || k35_unitX[k35_j].equals("억"))	// 	 한글에서 굳이 소리 내지 않아도 되지만, '만'의 자리나 '억'의 자리 일 경우 0이어도 이전에 출력된 십(만)~구백(만) 혹은 십(억)~구백(억)을 위해서 읽어줘얗나다.
+				if (k35_unitX[k35_j].equals("만") || k35_unitX[k35_j].equals("억")) {	// 	 한글에서 굳이 소리 내지 않아도 되지만, '만'의 자리나 '억'의 자리 일 경우 0이어도 이전에 출력된 일십(만)~구백(만) 혹은 일십(억)~구백(억)을 위해서 읽어줘야 한다.
 																					// 	 !!! 여기에는 오류가 존재한다. 위 방법을 적용해서 1,000,000,000를 읽으면 십억을 읽으면 십업만원이 된다. 1만~999만에 해당하는 값이 없어도 무조건 만을 붙여주기 때문이다.
 					k35_sNumVoice = k35_sNumVoice + "" + k35_unitX[k35_j];			//   이전 자리수까지 한글로 읽어서 저장된 문자열에 이어서 현재 자리의 숫자한글 저장
+				}
 			} else {																// 지금 loop에서 읽어야 하는 자리의 숫자 한 개(digit)가 0이 아니면
 				k35_sNumVoice = k35_sNumVoice + k35_units[Integer.parseInt(k35_digit)] + k35_unitX[k35_j];	// 이전 자리수까지 한글로 읽어서 저장된 문자열에  이어서 현재 자리의 숫자한글 저장
 			}
