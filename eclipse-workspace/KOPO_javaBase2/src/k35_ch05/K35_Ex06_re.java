@@ -37,7 +37,9 @@ public class K35_Ex06_re {
 		DecimalFormat k35_df = new DecimalFormat("###,###,###,###,###");
 		Calendar k35_calt = Calendar.getInstance();								// 기본 타임존과 지역에 대해 날짜정보(현재 시간)를 가져와 calt라는 변수에 저장
 	 	SimpleDateFormat k35_sdt = new SimpleDateFormat("YYYY/MM/dd HH:mm:ss");	// 연도4자리 월 2자리 일 2자리 시간 2자리 분 2자리 초 2자리의 시간 형식을 sdt객라는 객체로 생성
+	 	SimpleDateFormat k35_sdt2 = new SimpleDateFormat("YYYYMMdd");	// 연도4자리 월 2자리 일 2자리 시간 2자리 분 2자리 초 2자리의 시간 형식을 sdt객라는 객체로 생성
 		
+	 	
 		// 영수증 계산에 필요한 변수 선언 및 초기화
 		int k35_sum_price_total = 0;											// 모든 물품의 총 합계
 		int k35_sum_price_tax = 0;												// 세금이 부과되는 제품의 합계
@@ -80,11 +82,11 @@ public class K35_Ex06_re {
 		
 		// 과세 물품 총액, 면세 물품 총액, 부가세, 합계 계산
 		k35_sum_price_total = k35_sum_price_taxFree + k35_sum_price_tax;					// 영수증 합계 = 과세물품 총액 + 비과세물품 총액
-		if (k35_sum_price_tax / (1 + k35_tax_rate) % 1 != 0)								// 과세 물품 총액의 세금을 계산했을 때 소수점이 존재하면
-			k35_sum_price_before_tax = (int)(k35_sum_price_tax / (1 + k35_tax_rate)) + 1;	//	올림 처리해서 세금 계산
+		if (k35_sum_price_tax / (1 + k35_tax_rate) / 10 % 1 != 0)							// 과세 물품 총액의 세금을 계산(과세물품 총액 / 11)했을 때 소수점이 존재하면
+			k35_tax = (int)(k35_sum_price_tax / (1 + k35_tax_rate) / 10) + 1;				//	올림 처리해서 세금 계산
 		else																				// 과세 물품 총액의 세금을 계산했을 때 소수점이 없는 경우
-			k35_sum_price_before_tax = (int)(k35_sum_price_tax / (1 + k35_tax_rate));		//  그대로 세금 계산
-		k35_tax = k35_sum_price_tax - k35_sum_price_before_tax; 
+			k35_tax = (int)(k35_sum_price_tax / (1 + k35_tax_rate) / 10);					//  그대로 세금 계산
+		k35_sum_price_before_tax = k35_sum_price_tax - k35_tax; 
 		
 		System.out.printf("\n");
 		System.out.printf("%22s%19s\n", "총 품목 수량", k35_itemname.length);					
@@ -115,7 +117,7 @@ public class K35_Ex06_re {
 		System.out.printf("----------------------------------------------\n");
 		System.out.printf("%s%s%30s\n", "캐셔:", "084599 양OO", "1150");
 		System.out.printf("%3s%s\n", "", "||||||||||||||||||||||||||||||||||||||||");		// 48 = [14] + 20 + [14]
-		System.out.printf("%8s%s\n", "", "20210303/00119861/00164980/31");					// 46 = [8] + 30 + [8]
+		System.out.printf("%8s%s\n", "", k35_sdt2.format(k35_calt.getTime()) + "/00119861/00164980/31");					// 46 = [8] + 30 + [8]
 		
 		
 	}

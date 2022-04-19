@@ -21,12 +21,12 @@ public class K35_Ex06_re_resize {
 								"선풍기", "프린터", "한우 등심", "한우 안심", "키보드", "마우스", "카누", "대파", "1+ 등급란 10개입 특란", "동원양반볶음김치기획",
 								"공기청정기", "스피커"};
 		int[] k35_price = 		{10000, 1200, 13000, 3000, 1000, 500, 3800, 3300, 2000, 1700,
-								10000, 1500, 9900, 7900, 11900, 4200, 5100, 17000, 213200, 999000,
+								10000, 1500, 9900, 7900, 11900, 4200, 5100, 17000, 213200, 12000000,
 								79300, 139000, 32190, 27890, 65900, 54190, 9900, 2500, 19280, 3510,
 								342010, 98000};
 		int[] k35_num = 		{2, 8, 1, 2, 3, 4, 1, 1, 2, 1,
 								1, 2, 1, 1, 2, 2, 1, 1, 1, 1,
-								1, 1, 2, 2, 1, 1, 3, 10, 3, 123,
+								1, 1, 2, 2, 1, 1, 3, 10, 3, 23,
 								1, 59};
 		boolean[] k35_taxfree = {false, false, true, false, false, false, false, false, false, false,
 								true, true, true, true, false, false, false, false, false, false,
@@ -36,7 +36,8 @@ public class K35_Ex06_re_resize {
 		// 금액, 날짜 관련 객체 선언 및 초기화
 		DecimalFormat k35_df = new DecimalFormat("###,###,###,###,###");
 		Calendar k35_calt = Calendar.getInstance();								// 기본 타임존과 지역에 대해 날짜정보(현재 시간)를 가져와 calt라는 변수에 저장
-	 	SimpleDateFormat k35_sdt = new SimpleDateFormat("YYYY/MM/dd HH:mm:ss");	// 연도4자리 월 2자리 일 2자리 시간 2자리 분 2자리 초 2자리의 시간 형식을 sdt객라는 객체로 생성
+	 	SimpleDateFormat k35_sdt = new SimpleDateFormat("YYYY/MM/dd HH:mm");	// 연도4자리 월 2자리 일 2자리 시간 2자리 분 2자리 초 2자리의 시간 형식을 sdt객라는 객체로 생성
+	 	SimpleDateFormat k35_sdt2 = new SimpleDateFormat("YYYYMMdd");	// 연도4자리 월 2자리 일 2자리 시간 2자리 분 2자리 초 2자리의 시간 형식을 sdt객라는 객체로 생성
 		
 		// 영수증 계산에 필요한 변수 선언 및 초기화
 		int k35_sum_price_total = 0;											// 모든 물품의 총 합계
@@ -62,36 +63,36 @@ public class K35_Ex06_re_resize {
 		System.out.printf("-----------------------------------------\n");
 		
 		// 모든 상품 정보 출력
-		for (int k35_i = 0 ; k35_i < k35_itemname.length ; k35_i++) {						// 46 = 3 + 20 + 9 + 4 + 10
+		for (int k35_i = 0 ; k35_i < k35_itemname.length ; k35_i++) {						
 			if (k35_taxfree[k35_i] == true) {												// 비과세 물품이면
-				System.out.printf("%-2s", "*");												//   * 표시
+				System.out.printf("%1s", "*");												//   * 표시
 				k35_sum_price_taxFree += k35_price[k35_i] * k35_num[k35_i];					//   세금이 부과되지 않는 제품의 합계에 누적
 			} else {																		// 과세 물품이면
-				System.out.printf("%2s", "");												//	 * 표시X
+				System.out.printf("%1s", "");												//	 * 표시X
 				k35_sum_price_tax += k35_price[k35_i] * k35_num[k35_i];						//   세금이 부과되는 제품의 합계에 누적
 			}
 			k35_auto_format_item(16, k35_itemname[k35_i]);									// 제품명 출력 - 한글 포함유무, 제품명의 총 길이, 체품명 공간에 출력할 수 있는 총 길이, 출력될 마지막 글자의 한글유무 등을 고려	
-			System.out.printf("%9s", k35_df.format(k35_price[k35_i]));						// 제품 가격 출력
-			System.out.printf("%4s", k35_num[k35_i]);										// 제품 수량 출력
-			System.out.printf("%10s\n", k35_df.format(k35_price[k35_i] * k35_num[k35_i]));	// 제품의 구매 총액 출력
+			System.out.printf("%10s", k35_df.format(k35_price[k35_i]));						// 제품 가격 출력
+			System.out.printf("%3s", k35_num[k35_i]);										// 제품 수량 출력
+			System.out.printf("%11s\n", k35_df.format(k35_price[k35_i] * k35_num[k35_i]));	// 제품의 구매 총액 출력
 			if (k35_i % 5 == 4)																// 제품 5개마다
-				System.out.printf("-----------------------------------------\n");		//    구분 출력
+				System.out.printf("-----------------------------------------\n");			//    구분 출력
 		}
 		
 		// 과세 물품 총액, 면세 물품 총액, 부가세, 합계 계산
 		k35_sum_price_total = k35_sum_price_taxFree + k35_sum_price_tax;					// 영수증 합계 = 과세물품 총액 + 비과세물품 총액
-		if (k35_sum_price_tax / (1 + k35_tax_rate) % 1 != 0)								// 과세 물품 총액의 세금을 계산했을 때 소수점이 존재하면
-			k35_sum_price_before_tax = (int)(k35_sum_price_tax / (1 + k35_tax_rate)) + 1;	//	올림 처리해서 세금 계산
+		if (k35_sum_price_tax / (1 + k35_tax_rate) / 10 % 1 != 0)							// 과세 물품 총액의 세금을 계산(과세물품 총액 / 11)했을 때 소수점이 존재하면
+			k35_tax = (int)(k35_sum_price_tax / (1 + k35_tax_rate) / 10) + 1;				//	올림 처리해서 세금 계산
 		else																				// 과세 물품 총액의 세금을 계산했을 때 소수점이 없는 경우
-			k35_sum_price_before_tax = (int)(k35_sum_price_tax / (1 + k35_tax_rate));		//  그대로 세금 계산
-		k35_tax = k35_sum_price_tax - k35_sum_price_before_tax; 
+			k35_tax = (int)(k35_sum_price_tax / (1 + k35_tax_rate) / 10);					//  그대로 세금 계산
+		k35_sum_price_before_tax = k35_sum_price_tax - k35_tax; 
 		
 		System.out.printf("\n");
-		System.out.printf("%18s%18s\n", "총 품목 수량", k35_itemname.length);					
-		System.out.printf("%19s%18s\n", "(*)면 세  물 품", k35_df.format(k35_sum_price_taxFree));	
-		System.out.printf("%19s%18s\n", "과 세  물 품", k35_df.format(k35_sum_price_before_tax));
-		System.out.printf("%20s%18s\n", "부   가   세", k35_df.format(k35_tax));
-		System.out.printf("%21s%18s\n", "합        계", k35_df.format(k35_sum_price_total));
+		System.out.printf("%22s%14s\n", "총 품목 수량", k35_itemname.length);					
+		System.out.printf("%23s%14s\n", "(*)면 세  물 품", k35_df.format(k35_sum_price_taxFree));	
+		System.out.printf("%23s%14s\n", "과 세  물 품", k35_df.format(k35_sum_price_before_tax));
+		System.out.printf("%24s%14s\n", "부   가   세", k35_df.format(k35_tax));
+		System.out.printf("%25s%14s\n", "합        계", k35_df.format(k35_sum_price_total));
 		
 		System.out.printf("%s%24s\n", "결 제 대 상 금 액", k35_df.format(k35_sum_price_total));
 		System.out.printf("-----------------------------------------\n");
@@ -103,9 +104,9 @@ public class K35_Ex06_re_resize {
 		System.out.printf("-----------------------------------------\n");
 		System.out.printf("%11s%s\n", "", "[신세계포인트 적립]");								
 		System.out.printf("%s\n", "홍*두 고객님의 포인트 현황입니다.");
-		System.out.printf("%s%17s%10s\n", "금회발생포인트", "9350**9995", "164");
-		System.out.printf("%s%15s%10s\n", "누계(가용)포인트", "5,637(", "5,473)");
-		System.out.printf("%s\n", "신세계포인트 유효기간은 2년입니다.");
+		System.out.printf("%s%17s%10s\n", "금회발생포인트", "9350**9995", k35_df.format(k35_sum_price_total / 1000));				// 적립 포인트 = 합계 / 1000
+		System.out.printf("%s%15s%10s\n", "누계(가용)포인트", k35_df.format(5473 + k35_sum_price_total / 1000) + "(", "5,473)");	// 누적 포인트 = 적립 포인트 + 기존 포인트 
+		System.out.printf("%s\n", "신세계포인트 유효기간은 2년입니다."); 
 		
 		System.out.printf("-----------------------------------------\n");
 		System.out.printf("%3s%s\n", "", "구매금액기준 무료주차시간 자동부여");						
@@ -115,7 +116,7 @@ public class K35_Ex06_re_resize {
 		System.out.printf("-----------------------------------------\n");
 		System.out.printf("%s%s%25s\n", "캐셔:", "084599 양OO", "1150");
 		System.out.printf("%3s%s\n", "", "|||||||||||||||||||||||||||||||||||");		
-		System.out.printf("%6s%s\n", "", "20210303/00119861/00164980/31");			// 41 = 6 29 7 					
+		System.out.printf("%6s%s\n", "",  k35_sdt2.format(k35_calt.getTime()) + "/00119861/00164980/31");		
 		
 		
 	}
@@ -146,7 +147,7 @@ public class K35_Ex06_re_resize {
 			System.out.printf("%s", k35_item.substring(0, k35_i_Chr));											//   그냥 출력 출력
 		
 		// 남은 공백(제품명 끝 ~ 가격) 채우기
-		for (int i = 0 ; i < k35_max_width_item - k35_sum_length ; i++) {														// 할당 받은 26자리 중 남은 자리가 있으면 공백으로 채운다.
+		for (int i = 0 ; i < k35_max_width_item - k35_sum_length ; i++) {										// 할당 받은 26자리 중 남은 자리가 있으면 공백으로 채운다.
 			System.out.printf(" ");
 		}
 	}

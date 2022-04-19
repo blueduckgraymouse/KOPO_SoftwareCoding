@@ -54,7 +54,7 @@ public class K35_Ex05_re2_resize {
 		double k35_tax_rate = 0.1;												// 세율 10%로 설정
 		int k35_price_Before = 0;												// 판매 합계의 세전 금액이 저장될 변수
 		int k35_tax = 0;														// 판매 합게의 세금이 저장될 변수
-		int k35_width_title = 19;
+		int k35_max_width_item = 19;
 		
 		// 판매합계의 세전 금액와 세금 계산 
 		if (k35_sumPrice / (1 + k35_tax_rate) % 1 != 0)							// 소수점이 존재할 경우
@@ -63,7 +63,6 @@ public class K35_Ex05_re2_resize {
 			k35_price_Before = (int)(k35_sumPrice / (1 + k35_tax_rate));		//  그대로 세금 계산
 		k35_tax = k35_sumPrice - k35_price_Before; 
 		
-		System.out.printf("=========================================\n");
 		/* 영수증 출력
 		 * 가로의 총 길이는 48, 한글은 2자리, 그 외는 1자리 차지. ==> 출력할 종이규격에 맞게 41로 리 사이즈
 		 */
@@ -87,31 +86,31 @@ public class K35_Ex05_re2_resize {
 		System.out.printf("%s%28s\n", "[POS 1058231]", k35_sdt.format(k35_calt.getTime()));									// 48 = 13 + [26] + 19
 		System.out.printf("=========================================\n");
 		
-		k35_auto_format_item(k35_width_title, k35_itemname1);																			// 한글은 2자리를 차지하는 까다로움 때문에 26자리는 상품명의 자리로 할당하여 함수로 처리하고
+		k35_auto_format_item(k35_max_width_item, k35_itemname1);															// 한글은 2자리를 차지하는 까다로움 때문에 26자리는 상품명의 자리로 할당하여 함수로 처리하고
 		System.out.printf("%9s%4d%9s\n", k35_df.format(k35_price1), 														// 나머지는 22자리 할당하여 출력
 										 k35_amount1,
 										 k35_df.format(k35_price1 * k35_amount1));
 		System.out.printf("%s\n", "["+ k35_itemcode1 + "]");
 		
-		k35_auto_format_item(k35_width_title, k35_itemname2);
+		k35_auto_format_item(k35_max_width_item, k35_itemname2);
 		System.out.printf("%9s%4d%9s\n", k35_df.format(k35_price2), 
 										 k35_amount2, 
 										 k35_df.format(k35_price2 * k35_amount2));
 		System.out.printf("%s\n", "["+ k35_itemcode2 + "]");
 		
-		k35_auto_format_item(k35_width_title, k35_itemname3);
+		k35_auto_format_item(k35_max_width_item, k35_itemname3);
 		System.out.printf("%9s%4d%9s\n", k35_df.format(k35_price3), 
 										 k35_amount3, 
 										 k35_df.format(k35_price3 * k35_amount3));
 		System.out.printf("%s\n", "["+ k35_itemcode3 + "]");
 		
-		k35_auto_format_item(k35_width_title, k35_itemname4);
+		k35_auto_format_item(k35_max_width_item, k35_itemname4);
 		System.out.printf("%9s%4d%9s\n", k35_df.format(k35_price4), 
 										 k35_amount4, 
 										 k35_df.format(k35_price4 * k35_amount4));
 		System.out.printf("%s\n", "["+ k35_itemcode4 + "]");
 		
-		k35_auto_format_item(k35_width_title, k35_itemname5);
+		k35_auto_format_item(k35_max_width_item, k35_itemname5);
 		System.out.printf("%9s%4d%9s\n", k35_df.format(k35_price5), 
 										 k35_amount5, 
 										 k35_df.format(k35_price5 * k35_amount5));
@@ -169,7 +168,7 @@ public class K35_Ex05_re2_resize {
 			System.out.printf("%s", k35_item.substring(0, k35_i_Chr));											//   그냥 출력 출력
 		
 		// 남은 공백(제품명 끝 ~ 가격) 채우기
-		for (int i = 0 ; i < k35_max_width_item - k35_sum_length ; i++) {														// 할당 받은 26자리 중 남은 자리가 있으면 공백으로 채운다.
+		for (int i = 0 ; i < k35_max_width_item - k35_sum_length ; i++) {										// 할당 받은 26자리 중 남은 자리가 있으면 공백으로 채운다.
 			System.out.printf(" ");
 		}
 	}

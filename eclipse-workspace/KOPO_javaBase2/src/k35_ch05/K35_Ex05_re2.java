@@ -16,7 +16,7 @@ public class K35_Ex05_re2 {
 	public static void main(String[] args) {
 		
 		// 영수증에 출력할 상품 정보
-		String k35_itemname1 = "퓨어에어 비말차단용마스크(최고급형)";						// 출력 가능 범위를 넘어선 제품명, 마지막 글자의 자리 byte 초과하지 않는 경우
+		String k35_itemname1 = "퓨어에어 비말차단용마스크(최고급형)";					// 출력 가능 범위를 넘어선 제품명, 마지막 글자의 자리 byte 초과하지 않는 경우
 		String k35_itemcode1 = "1031615";
 		int k35_price1 = 3000;
 		int k35_amount1 = 1;
@@ -54,6 +54,7 @@ public class K35_Ex05_re2 {
 		double k35_tax_rate = 0.1;												// 세율 10%로 설정
 		int k35_price_Before = 0;												// 판매 합계의 세전 금액이 저장될 변수
 		int k35_tax = 0;														// 판매 합게의 세금이 저장될 변수
+		int k35_max_width_item = 26;
 		
 		// 판매합계의 세전 금액와 세금 계산 
 		if (k35_sumPrice / (1 + k35_tax_rate) % 1 != 0)							// 소수점이 존재할 경우
@@ -84,31 +85,32 @@ public class K35_Ex05_re2 {
 		System.out.printf("%s%35s\n", "[POS 1058231]", k35_sdt.format(k35_calt.getTime()));									// 48 = 13 + [26] + 19
 		System.out.printf("================================================\n");
 		
-		k35_auto_format_item(26, k35_itemname1);																			// 한글은 2자리를 차지하는 까다로움 때문에 26자리는 상품명의 자리로 할당하여 함수로 처리하고
+		// #상품1
+		k35_auto_format_item(k35_max_width_item, k35_itemname1);																			// 한글은 2자리를 차지하는 까다로움 때문에 26자리는 상품명의 자리로 할당하여 함수로 처리하고
 		System.out.printf("%9s%4d%9s\n", k35_df.format(k35_price1), 														// 나머지는 22자리 할당하여 출력
 										 k35_amount1,
 										 k35_df.format(k35_price1 * k35_amount1));
 		System.out.printf("%s\n", "["+ k35_itemcode1 + "]");
-		
-		k35_auto_format_item(26, k35_itemname2);
+		// #상품2
+		k35_auto_format_item(k35_max_width_item, k35_itemname2);
 		System.out.printf("%9s%4d%9s\n", k35_df.format(k35_price2), 
 										 k35_amount2, 
 										 k35_df.format(k35_price2 * k35_amount2));
 		System.out.printf("%s\n", "["+ k35_itemcode2 + "]");
-		
-		k35_auto_format_item(26, k35_itemname3);
+		// #상품3
+		k35_auto_format_item(k35_max_width_item, k35_itemname3);
 		System.out.printf("%9s%4d%9s\n", k35_df.format(k35_price3), 
 										 k35_amount3, 
 										 k35_df.format(k35_price3 * k35_amount3));
 		System.out.printf("%s\n", "["+ k35_itemcode3 + "]");
-		
-		k35_auto_format_item(26, k35_itemname4);
+		// #상품4
+		k35_auto_format_item(k35_max_width_item, k35_itemname4);
 		System.out.printf("%9s%4d%9s\n", k35_df.format(k35_price4), 
 										 k35_amount4, 
 										 k35_df.format(k35_price4 * k35_amount4));
 		System.out.printf("%s\n", "["+ k35_itemcode4 + "]");
-		
-		k35_auto_format_item(26, k35_itemname5);
+		// #상품5
+		k35_auto_format_item(k35_max_width_item, k35_itemname5);
 		System.out.printf("%9s%4d%9s\n", k35_df.format(k35_price5), 
 										 k35_amount5, 
 										 k35_df.format(k35_price5 * k35_amount5));
@@ -141,31 +143,32 @@ public class K35_Ex05_re2 {
 	
 	/**
 	 * 정해진 크기의 항목 칸에 들어갈 상품 이름을 출력하고 나머지 공간에 공백을 채운다.
-	 * @param width_size_item : 세팅한 항목 칸의 크기
-	 * @param item			  : 항목 칸에 들어갈 상품 이름 문자열
+	 * @param k35_max_width_item : 세팅한 항목 칸의 크기
+	 * @param item			     : 항목 칸에 들어갈 상품 이름 문자열
 	 */
 	public static void k35_auto_format_item(int k35_max_width_item, String k35_item) {
 		// 계산에 필요한 변수 선언
-		int k35_sum_length = 0;																		// 한글2, 나머지 1로 앞글자부터 차례로 카운트할 때 누적 길이가 저장될 값 [byte 단위]
-		int k35_i_Chr = 0;																			// 상품명에서 현재 확인하고 있는 글자의 인덱스 번호, 반복문이 끝나면 영수증에 찍히는 마지막 글자의 인덱스가 저장되어 있다.
+		int k35_sum_length = 0;																					// 한글2, 나머지 1로 앞글자부터 차례로 카운트할 때 누적 길이가 저장될 값 [byte 단위]
+		int k35_i_Chr = 0;																						// 상품명에서 현재 확인하고 있는 글자의 인덱스 번호, 반복문이 끝나면 영수증에 찍히는 마지막 글자의 인덱스가 저장되어 있다.
 		
 		// 한글자씩 확인하며 상품명의 총 길이 확인(영수증 출력 범위 내, 출력 가능 길이를 초과하면 영수증에 출력되는 마지막 글자까지) & 영수증에 출력되는 마지막 글자의 인덱스 번호 확인
 		for (k35_i_Chr = 0 ; k35_sum_length < k35_max_width_item && k35_i_Chr < k35_item.length() ; k35_i_Chr++) {	// 총 길이가 26(영수증 상품명이 들어갈 수 있는 최대 길이)를 넘거나 마지막 글자까지 다 확인할 때까지 반복
-			String k35_chr = k35_item.substring(k35_i_Chr, k35_i_Chr + 1);							// 확인할 글자 추출
-			if (k35_chr.matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*"))												// 한글이면
-				k35_sum_length += 2;																//	 누적 길이 +2
-			 else																					// 아니면
-				k35_sum_length++;																	//	 누적 길이 +1
+			String k35_chr = k35_item.substring(k35_i_Chr, k35_i_Chr + 1);										// 확인할 글자 추출
+			if (k35_chr.matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*"))															// 한글이면
+				k35_sum_length += 2;																			//	 누적 길이 +2
+			 else																								// 아니면
+				k35_sum_length++;																				//	 누적 길이 +1
 		}
 		
 		// 상품명 출력
-		if((k35_sum_length > 26) && k35_item.substring(k35_i_Chr-1, k35_i_Chr).matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*"))	// 출력할 상품명 길이가 초과하는데 마지막 글자의 자리가 1byte크기일 경우 영수증 출력 글자가 깨져서 나오므로
+		if((k35_sum_length > k35_max_width_item) && 
+				k35_item.substring(k35_i_Chr-1, k35_i_Chr).matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*"))						// 출력할 상품명 길이가 초과하는데 마지막 글자의 자리가 1byte크기일 경우 영수증 출력 글자가 깨져서 나오므로
 			System.out.printf("%s ", k35_item.substring(0, k35_i_Chr - 1));										//   마지막 한글 글자 빼고 출력
 		else 																									// 상관없으면
 			System.out.printf("%s", k35_item.substring(0, k35_i_Chr));											//   그냥 출력 출력
 		
 		// 남은 공백(제품명 끝 ~ 가격) 채우기
-		for (int i = 0 ; i < 26 - k35_sum_length ; i++) {														// 할당 받은 26자리 중 남은 자리가 있으면 공백으로 채운다.
+		for (int i = 0 ; i < k35_max_width_item - k35_sum_length ; i++) {										// 할당 받은 26자리 중 남은 자리가 있으면 공백으로 채운다.
 			System.out.printf(" ");
 		}
 	}
