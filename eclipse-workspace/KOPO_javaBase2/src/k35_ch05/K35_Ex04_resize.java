@@ -25,11 +25,11 @@ public class K35_Ex04_resize {
 		int k35_tax = 0;													// 세금이 저장될 변수 0으로 초기화
 		
 		// 세금 소수점 처리 및 계산
-		if (k35_iPrice / (1 + k35_tax_rate) % 1 != 0) 						// 소수점이 존재할 경우
-			k35_price_Before = (int)(k35_iPrice / (1 + k35_tax_rate)) + 1;	//	올림 처리해서 세금 계산
-		else 																// 소수점이 없는 경우
-			k35_price_Before = (int)(k35_iPrice / (1 + k35_tax_rate));		//  그대로 세금 계산
-		k35_tax = k35_iPrice - k35_price_Before; 							// 세금 = 합계 - 세전 가격
+		if (k35_iPrice / (1 + k35_tax_rate) / 10 % 1 != 0) 					// 총액의 세금을 계산(과세물품 총액 / 11)했을 때 소수점이 존재하면
+			k35_tax = (int)(k35_iPrice / (1 + k35_tax_rate) / 10) + 1;		//   올림 처리해서 세금 계산
+		else 																// 총액의 세금을 계산했을 때 소수점이 없는 경우
+			k35_tax = (int)(k35_iPrice / (1 + k35_tax_rate) / 10);			//   그대로 세금 계산
+		k35_price_Before = k35_iPrice - k35_tax; 							// 세전 총액 = 총액 - 세금
 		
 		/* 영수증 출력
 		 * 가로 size = 48, 한글은 2, 영어,공백,특수문자는 1차지.  == > 41로 resize
@@ -52,12 +52,14 @@ public class K35_Ex04_resize {
 		System.out.printf("%s\n", "우리카드");
 		System.out.printf("%s%s%s%2s%s\n", "카드번호", " : ", "5387-20**-****-4613(S)", "", "일시불"); 
 		System.out.printf("%s%s%s\n", "거래일시", " : ", k35_sdt.format(k35_calt.getTime()));
-		System.out.printf("%s%s%s%8s%s%s%s\n", "매입", " : ", "비씨카드사", "", "가맹", " : ", "720068568"); 
+		System.out.printf("%s%s%s\n", "승인번호", " : ", "70404427");
+		System.out.printf("%s%s%s\n", "거래번호", " : ", "357734873739");
+		System.out.printf("%s%s%s%6s%s%s%s\n", "매입", " : ", "비씨카드사", "", "가맹", " : ", "720068568"); 
 		System.out.printf("%s%s%s\n", "알림", " : ", "EDC매출표");
 		System.out.printf("%s%s%s\n", "문의", " : ", "TEL)1544-4700");
 		System.out.printf("- - - - - - - - - - - - - - - - - - - - -\n");				
 		
-		System.out.printf("%17s%s\n", "", "* 감사합니다 *");										
+		System.out.printf("%14s%s\n", "", "* 감사합니다 *");										
 		System.out.printf("%23s%s\n", "", "표준V2.08_20220212");									
 	}
 	

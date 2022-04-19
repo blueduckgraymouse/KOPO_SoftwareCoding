@@ -25,12 +25,12 @@ public class K35_Ex04 {
 		int k35_tax = 0;													// 세금이 저장될 변수 0으로 초기화
 		
 		// 세금 소수점 처리 및 계산
-		if (k35_iPrice / (1 + k35_tax_rate) % 1 != 0) 						// 소수점이 존재할 경우
-			k35_price_Before = (int)(k35_iPrice / (1 + k35_tax_rate)) + 1;	//	올림 처리해서 세금 계산
-		else 																// 소수점이 없는 경우
-			k35_price_Before = (int)(k35_iPrice / (1 + k35_tax_rate));		//  그대로 세금 계산
-		k35_tax = k35_iPrice - k35_price_Before; 							// 세금 = 합계 - 세전 가격
-		
+		if (k35_iPrice / (1 + k35_tax_rate) / 10 % 1 != 0) 					// 총액의 세금을 계산(과세물품 총액 / 11)했을 때 소수점이 존재하면
+			k35_tax = (int)(k35_iPrice / (1 + k35_tax_rate) / 10) + 1;		//   올림 처리해서 세금 계산
+		else 																// 총액의 세금을 계산했을 때 소수점이 없는 경우
+			k35_tax = (int)(k35_iPrice / (1 + k35_tax_rate) / 10);			//   그대로 세금 계산
+		k35_price_Before = k35_iPrice - k35_tax; 							// 세전 총액 = 총액 - 세금
+
 		/* 영수증 출력
 		 * 가로 size = 48, 한글은 2, 영어,공백,특수문자는 1차지.
 		 */
@@ -38,7 +38,7 @@ public class K35_Ex04 {
 		System.out.printf("%3s%3s%10s", "단말기", " : ", "2N68665898");							// 48 = 19(6 + 3 + 10) + [12]
 		System.out.printf("%12s%s%3s%6s\n", "", "전표번호", " : ", "041218");						// 				+ 17(8 + 3 + 6)
 		System.out.printf("%s\n", "가맹점 : 한양김치찌개");
-		System.out.printf("%s\n", "주  소 : 경기 성남시 분당구 황새울로351번길 10, \n1층");
+		System.out.printf("%s\n", "주  소 : 경기 성남시 분당구 황새울로351번길 10 ,\n1층");
 		System.out.printf("%s\n", "대표자 : 유창신");
 		System.out.printf("%s%s%s", "사업자", " : ", "752-53-00558");								// 48 = 21(6 + 3 + 12) + [14]
 		System.out.printf("%14s%s%s%s\n", "", "TEL", " : ", "7055695");							//			+ 13(3 + 3 + 7) 
@@ -52,7 +52,9 @@ public class K35_Ex04 {
 		System.out.printf("%s\n", "우리카드");
 		System.out.printf("%s%s%s%9s%s\n", "카드번호", " : ", "5387-20**-****-4613(S)", "", "일시불"); // 48 = 8 + 3 + 22 + [9] + 6
 		System.out.printf("%s%s%s\n", "거래일시", " : ", k35_sdt.format(k35_calt.getTime()));
-		System.out.printf("%s%s%s%15s%s%s%s\n", "매입", " : ", "비씨카드사", "", "가맹", " : ", "720068568"); // 48 = 4 + 3 + 10 + [15] + 4 + 3 + 9
+		System.out.printf("%s%s%s\n", "승인번호", " : ", "70404427");
+		System.out.printf("%s%s%s\n", "거래번호", " : ", "357734873739");
+		System.out.printf("%s%s%s%6s%s%s%s\n", "매입", " : ", "비씨카드사", "", "가맹", " : ", "720068568"); // 48 = 4 + 3 + 10 + [15] + 4 + 3 + 9
 		System.out.printf("%s%s%s\n", "알림", " : ", "EDC매출표");
 		System.out.printf("%s%s%s\n", "문의", " : ", "TEL)1544-4700");
 		System.out.printf("- - - - - - - - - - - - - - - - - - - - - - - - \n");				// 48 -> 기준 너비

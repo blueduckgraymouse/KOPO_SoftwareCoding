@@ -32,8 +32,8 @@ public class K35_Ex05_re2_resize {
 		String k35_itemcode4 = "109812574";
 		int k35_price4 = 1000;
 		int k35_amount4 = 21;
-		String k35_itemname5 = "모나미 볼펜 삼색 묶음";								// 출력 가능 범위를 넘지 않고 한글로 이루어진 제품명
-		String k35_itemcode5 = "20208123";
+		String k35_itemname5 = "매직흠착 인테리어 후크(알루미늄 타입)";
+		String k35_itemcode5 = "1020800";
 		int k35_price5 = 2000;
 		int k35_amount5 = 158;
 		
@@ -41,7 +41,7 @@ public class K35_Ex05_re2_resize {
 		DecimalFormat k35_df = new DecimalFormat("###,###,###,###,###");
 		Calendar k35_calt = Calendar.getInstance();								// 기본 타임존과 지역에 대해 날짜정보(현재 시간)를 가져와 calt라는 변수에 저장
 		Calendar k35_calt_refund = k35_calt;									// 환불가능 마감일이 저장될 calt_refund라는 변수에 현재 시간 저장
-	 	SimpleDateFormat k35_sdt = new SimpleDateFormat("YYYY/MM/dd HH:mm:ss");	// 연도4자리 월 2자리 일 2자리 시간 2자리 분 2자리 초 2자리의 시간 형식을 sdt객라는 객체로 생성
+	 	SimpleDateFormat k35_sdt = new SimpleDateFormat("YYYY.MM.dd HH:mm:ss");	// 연도4자리 월 2자리 일 2자리 시간 2자리 분 2자리 초 2자리의 시간 형식을 sdt객라는 객체로 생성
 		SimpleDateFormat k35_sdt_refund = new SimpleDateFormat("MM월dd일");		// 환불 마감일 출력에는 월,일만 필요하므로 그에 맞는 형식의 객체 k35_sdt_refund 생성
 		k35_calt_refund.add(Calendar.DATE, 14);									// k35_sdt_refund에 저장된 현재 날짜에 14일을 추가 <- 최대 14일 이내 환불 가능
 		
@@ -57,25 +57,26 @@ public class K35_Ex05_re2_resize {
 		int k35_max_width_item = 19;
 		
 		// 판매합계의 세전 금액와 세금 계산 
-		if (k35_sumPrice / (1 + k35_tax_rate) % 1 != 0)							// 소수점이 존재할 경우
-			k35_price_Before = (int)(k35_sumPrice / (1 + k35_tax_rate)) + 1;	//	올림 처리해서 세금 계산
-		else																	// 소수점이 없는 경우
-			k35_price_Before = (int)(k35_sumPrice / (1 + k35_tax_rate));		//  그대로 세금 계산
-		k35_tax = k35_sumPrice - k35_price_Before; 
+		if (k35_sumPrice / (1 + k35_tax_rate) / 10 % 1 != 0)					// 총액의 세금을 계산(과세물품 총액 / 11)했을 때 소수점이 존재하면
+			k35_tax = (int)(k35_sumPrice / (1 + k35_tax_rate) / 10) + 1;		//   올림 처리해서 세금 계산
+		else																	// 총액의 세금을 계산했을 때 소수점이 없는 경우
+			k35_tax = (int)(k35_sumPrice / (1 + k35_tax_rate) / 10);			//   그대로 세금 계산
+		k35_price_Before = k35_sumPrice - k35_tax; 								// 세전 총액 = 총액 - 세금
 		
 		/* 영수증 출력
 		 * 가로의 총 길이는 48, 한글은 2자리, 그 외는 1자리 차지. ==> 출력할 종이규격에 맞게 41로 리 사이즈
 		 */
-		System.out.printf("%11s%s\n", "", "\"국민가계, 다이소\"");																// 41 = 13 15 13
-		System.out.printf("%s\n", "(주) 아성다이소_분당서현점");			
+		System.out.printf("%11s%s\n", "", "\"국민가계, 다이소\"");																
+		System.out.printf("%s\n", "(주)아성다이소_분당서현점");			
 		System.out.printf("%s\n", "전화:031-702-6016");
-		System.out.printf("%s\n", "본사:서울 강서구 남부순환로 2748");
+		System.out.printf("%s\n", "본사:서울 강서구 남부순환로 2748 (도곡동)");
 		System.out.printf("%s\n", "대표:박정부, 신호섭 213-81-52063");
 		System.out.printf("%s\n", "매장:경기도 성남시 분당구 분당로 53번길 1\n1 (서현동)");
 		System.out.printf("=========================================\n");
 		
 		System.out.printf("%6s%s\n", "", "소비자중심경영(CCM) 인증기업");															
-		System.out.printf("%4s%s\n", "", "ISO 9001 품질경영시스템 인증기업");														
+		System.out.printf("%4s%s\n", "", "ISO 9001 품질경영시스템 인증기업");
+		System.out.printf("=========================================\n");
 		System.out.printf("%5s%s%s%s\n", "" , "교환/환불 14일(", k35_sdt_refund.format(k35_calt_refund.getTime()), ")이내,");	 
 		System.out.printf("%5s%s\n", "", "(전자)영수증, 결제카드 지참 후");													
 		System.out.printf("%12s%s\n", "", "구입매장에서 가능");													
@@ -83,11 +84,11 @@ public class K35_Ex05_re2_resize {
 		System.out.printf("%5s%s\n", "", "체크카드 취소 시 최대 7일 소요");														
 		System.out.printf("=========================================\n");
 		
-		System.out.printf("%s%28s\n", "[POS 1058231]", k35_sdt.format(k35_calt.getTime()));									// 48 = 13 + [26] + 19
+		System.out.printf("%s%28s\n", "[POS 1058231]", k35_sdt.format(k35_calt.getTime()));									
 		System.out.printf("=========================================\n");
 		
-		k35_auto_format_item(k35_max_width_item, k35_itemname1);															// 한글은 2자리를 차지하는 까다로움 때문에 26자리는 상품명의 자리로 할당하여 함수로 처리하고
-		System.out.printf("%9s%4d%9s\n", k35_df.format(k35_price1), 														// 나머지는 22자리 할당하여 출력
+		k35_auto_format_item(k35_max_width_item, k35_itemname1);															// 한글은 2자리를 차지하는 까다로움 때문에 19자리는 상품명의 자리로 할당하여 함수로 처리하고
+		System.out.printf("%9s%4d%9s\n", k35_df.format(k35_price1), 														// 나머지는 22자리를 나눠 할당하여 가격, 수량, 물품 합계 출력
 										 k35_amount1,
 										 k35_df.format(k35_price1 * k35_amount1));
 		System.out.printf("%s\n", "["+ k35_itemcode1 + "]");
@@ -116,8 +117,8 @@ public class K35_Ex05_re2_resize {
 										 k35_df.format(k35_price5 * k35_amount5));
 		System.out.printf("%s\n", "["+ k35_itemcode5 + "]");
 
-		System.out.printf("%10s%4s%23s\n", "", "과세합계",  k35_df.format(k35_price_Before));
-		System.out.printf("%10s%5s%23s\n", "", "부과세",  k35_df.format(k35_tax));
+		System.out.printf("%14s%4s%19s\n", "", "과세합계",  k35_df.format(k35_price_Before));
+		System.out.printf("%14s%5s%19s\n", "", "부가세",  k35_df.format(k35_tax));
 		System.out.printf("-----------------------------------------\n");
 		
 		System.out.printf("%s%33s\n", "판매합계", k35_df.format(k35_sumPrice));
@@ -130,11 +131,11 @@ public class K35_Ex05_re2_resize {
 		System.out.printf("%s%s%17s\n", "승인번호", " 77982843(0)", "승인금액 " + k35_df.format(k35_sumPrice));
 		System.out.printf("=========================================\n");
 		
-		System.out.printf("%5s%s%s\n", "", k35_sdt.format(k35_calt.getTime()), " 분당서현점");									// 48 = [9] + 30 + [9]
+		System.out.printf("%5s%s%s\n", "", k35_sdt.format(k35_calt.getTime()), " 분당서현점");									
 		System.out.printf("%s\n", "상품 및 기타 문의 : 1522-4400");
 		System.out.printf("%s\n", "멥버십 및  샵다이소 관련 문의 : 1599-2211");
-		System.out.printf("%6s%s\n", "", "||||||||||||||||||||||||||||");															// 48 = [14] + 20 + [14]
-		System.out.printf("%12s%s\n", "", "2112820610158231");																// 48 = [16] + 16 + [16]
+		System.out.printf("%6s%s\n", "", "||||||||||||||||||||||||||||");															
+		System.out.printf("%12s%s\n", "", "2112820610158231");																
 		System.out.printf("-----------------------------------------\n");
 		
 		System.out.printf("%s\n%s\n%s", " ◈ 다이소 맴버쉽 앱 또는 홈페이지에 접속",
@@ -151,7 +152,7 @@ public class K35_Ex05_re2_resize {
 		// 계산에 필요한 변수 선언
 		int k35_sum_length = 0;																		// 한글2, 나머지 1로 앞글자부터 차례로 카운트할 때 누적 길이가 저장될 값 [byte 단위]
 		int k35_i_Chr = 0;																			// 상품명에서 현재 확인하고 있는 글자의 인덱스 번호, 반복문이 끝나면 영수증에 찍히는 마지막 글자의 인덱스가 저장되어 있다.
-		
+																									// 즉 0~i번째 글자까지의 byte가 k35_max_width_item 혹은 k35_max_width_item + 1
 		// 한글자씩 확인하며 상품명의 총 길이 확인(영수증 출력 범위 내, 출력 가능 길이를 초과하면 영수증에 출력되는 마지막 글자까지) & 영수증에 출력되는 마지막 글자의 인덱스 번호 확인
 		for (k35_i_Chr = 0 ; k35_sum_length < k35_max_width_item && k35_i_Chr < k35_item.length() ; k35_i_Chr++) {	// 총 길이가 26(영수증 상품명이 들어갈 수 있는 최대 길이)를 넘거나 마지막 글자까지 다 확인할 때까지 반복
 			String k35_chr = k35_item.substring(k35_i_Chr, k35_i_Chr + 1);							// 확인할 글자 추출
