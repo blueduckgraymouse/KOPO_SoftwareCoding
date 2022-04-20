@@ -3,7 +3,7 @@ package k35_ch06;
 /**
  * 소프트웨어코딩 심화 6강 - 객체지향 조금만 알기
  * 
- * 생성자(constructor) - p14
+ * 생성자(constructor) - p17
  * 
  * @author KOPO
  */

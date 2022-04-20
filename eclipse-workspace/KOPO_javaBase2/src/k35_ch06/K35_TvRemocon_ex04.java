@@ -33,28 +33,28 @@ public class K35_TvRemocon_ex04 {
 	public void k35_channelUp() {
 		k35_now_channel++;														// 채널 증가
 		k35_check_channel();													// 채널이 1~999 범위를 벗어나려 하면 순환시키는 메서드 호출
-		System.out.println("채널을 병경하였습니다. 현재 채널 : " + k35_now_channel);	// 현재 채널 출력
+		System.out.println("채널을 변경하였습니다. 현재 채널 : " + k35_now_channel);	// 현재 채널 출력
 	}
 	
 	// 채널 감소 메서드
 	public void k35_channelDn() {
 		k35_now_channel--;														// 채널 감소
 		k35_check_channel();													// 채널이 1~999 범위를 벗어나려 하면 순환시키는 메서드 호출
-		System.out.println("채널을 병경하였습니다. 현재 채널 : " + k35_now_channel);	// 현재 채널 출력
+		System.out.println("채널을 변경하였습니다. 현재 채널 : " + k35_now_channel);	// 현재 채널 출력
 	}
 
 	// 음량 증가 메서드
 	public void k35_volUp() {
 		k35_now_volume++;														// 음량 증가
 		k35_check_volume();														// 음량이 최소인 0일 때 감소하거나, 최대인 100 일 때 증가하려하면 유지시키는 메서드 호출
-		System.out.println("음량을 병경하였습니다. 현재 음량 : " + k35_now_volume);		// 현재 음량 출력
+		System.out.println("음량을 변경하였습니다. 현재 음량 : " + k35_now_volume);		// 현재 음량 출력
 	}
 	
 	// 음량 감소 메서드
 	public void k35_volDn() {
 		k35_now_volume--;														// 음량 감소
 		k35_check_volume();														// 음량이 최소인 0일 때 감소하거나, 최대인 100 일 때 증가하려하면 유지시키는 메서드 호출
-		System.out.println("음량을 병경하였습니다. 현재 음량 : " + k35_now_volume);		// 현재 음량 출력
+		System.out.println("음량을 변경하였습니다. 현재 음량 : " + k35_now_volume);		// 현재 음량 출력
 	}
 	
 	// 채널 순환 메서드
