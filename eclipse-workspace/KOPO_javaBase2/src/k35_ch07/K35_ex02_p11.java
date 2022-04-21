@@ -39,10 +39,16 @@ public class K35_ex02_p11 {
 			"26   마우스             54,190  1     54,190",
 			"27   카누                9,900  3     29,700",
 			"28*  대파                2,500 10     25,000",
-			"29*  1+ 등급란 10개     19,280  3     57,840",
+			"29*  1+ 등급란 10개     19,280  3     57,840",		// 2 + 3 + 15 + 10 + 3 + 11
 			"30   동원양반볶음김      3,510 23     80,730"
 		};
-		
+		for (String k35_rec : k35_oneRec) {
+			byte[] k35_byte_arr = k35_rec.getBytes();
+			String k35_price = new String(k35_byte_arr, 20, 10);
+			
+			String k35_amount = new String(k35_byte_arr, 30, 33);
+			String k35_total = new String(k35_byte_arr, 33, 44);
+		}
 		
 		
 		
