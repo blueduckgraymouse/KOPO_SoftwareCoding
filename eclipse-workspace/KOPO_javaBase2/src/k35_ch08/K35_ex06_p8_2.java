@@ -47,8 +47,8 @@ public class K35_ex06_p8_2 {
 			System.out.printf(" %s : %s\n", k35_field_name[13], k35_field[13]);										//   와이파이의 위도 출력
 			System.out.printf(" %s : %s\n", k35_field_name[14], k35_field[14]);										//   와이파이의 경도 출력
 			double k35_dist = Math.sqrt(Math.pow(Double.parseDouble(k35_field[13]) - k35_lat, 2)
-								+ Math.pow(Double.parseDouble(k35_field[14]) - k35_lng, 2));						//   융기원과 와이파이까지의 거리 계산
-			System.out.printf(" 현재지점과 거리 : %f\n", k35_dist);														//   거리 출력
+								+ Math.pow(Double.parseDouble(k35_field[14]) - k35_lng, 2)) * 111.35;				//   융기원과 와이파이까지의 거리 계산
+			System.out.printf(" 현재지점과 거리 : %fKm\n", k35_dist);													//   거리 출력
 			System.out.printf("*******************************************\n");
 			
 			if (k35_dist_max < k35_dist) {																			//    현재 저장된 최대값보다 현재 확인하고 있는 와이파이의 거리가 더 길면
@@ -62,8 +62,8 @@ public class K35_ex06_p8_2 {
 			k35_lineCnt++;																							//   줄 수 증가
 		}
 		
-		System.out.println("융기원으로 부터 가장 먼 와이파이주소 : " + k35_loc_max + " / 거리 : " + k35_dist_max);				// 확인한 최대거리의 와이파이 주소와 거리 출력
-		System.out.println("융기원으로 부터 가장 가까운 와이파이주소 : " + k35_loc_min + " / 거리 : " + k35_dist_min);			// 확인한 최소거리의 와이파이 주소와 거리 출력
+		System.out.println("융기원으로 부터 가장 먼 와이파이주소 : " + k35_loc_max + " / 거리 : " + k35_dist_max +"km");				// 확인한 최대거리의 와이파이 주소와 거리 출력
+		System.out.println("융기원으로 부터 가장 가까운 와이파이주소 : " + k35_loc_min + " / 거리 : " + k35_dist_min +"km");			// 확인한 최소거리의 와이파이 주소와 거리 출력
 		
 		k35_br.close();																								// BufferedReader객체를 닫아준다.
 	}

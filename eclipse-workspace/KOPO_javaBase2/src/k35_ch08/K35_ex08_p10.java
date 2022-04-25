@@ -30,7 +30,7 @@ public class K35_ex08_p10 {
 		String k35_readtxt;														// 파일 내용을 줄 단위로 읽을 때 마다 한 줄의 내용이 저장될 변수 선언
 		
 		int k35_cnt = 0;														// 파일 내용을 읽은 줄의 수를 셀 변수 0으로 초기화
-		int k35_wcnt = 0;														// 파일 내용을 읽은 줄의 수를 셀 변수 0으로 초기화
+		int k35_wcnt = 0;														// 파일 내용을 쓴 줄의 수를 셀 변수 0으로 초기화
 		
 		Calendar k35_cal1 = Calendar.getInstance();								// 시작할 때 시간을 Calendar객체에 저장
 		System.out.println("파일 접근 시간 : " + k35_sdf.format(k35_cal1.getTime()));	// 시작 시간 출력
@@ -44,20 +44,20 @@ public class K35_ex08_p10 {
 				for (int k35_j = 1 ; k35_j < k35_field.length ; k35_j++) {									// 문자열 배열의 길이만큼 i를 증가하며 반복
 					k35_s.append("," + k35_field[k35_j].replace("^", "").trim());							// i번째 문자열 배열 요소의 ^를 제거하고 양쪽 공백을 제거하여 StringBuffer객체에 저장
 				}
-				k35_bw1.write(k35_s.toString());															// 여기까지.
-				k35_bw1.newLine();
-				k35_wcnt++;
+				k35_bw1.write(k35_s.toString());															// 현재 StringBuffer객체에 저장된 내용을 모두 문자열로 반환 BufferedWrite객체에 쓰고 StringBuffer객체를 초기화 한다.
+				k35_bw1.newLine();																			// BufferedWriter객체에 줄바꿈을 쓴다.
+				k35_wcnt++;																					// 쓴 줄 수 증가						
 			}
 			
-			k35_cnt++;
+			k35_cnt++;																						// 읽은 줄 수 증가		
 		}
-		k35_br.close();
-		k35_bw1.close();
+		k35_br.close();																						// BufferedReader객체를 닫아준다.
+		k35_bw1.close();																					// BufferedWriter객체를 닫아준다.
 		
-		Calendar k35_cal2 = Calendar.getInstance();								// 종료 시간을 Calendar객체에 저장
-		System.out.println("종료 시간 : " + k35_sdf.format(k35_cal2.getTime()));	// 종료 시간 출력
-		System.out.println("소요 시간(초 단위) : " + (k35_cal2.getTimeInMillis() - k35_cal1.getTimeInMillis()));	// 걸린 시간 계산
+		Calendar k35_cal2 = Calendar.getInstance();															// 종료 시간을 Calendar객체에 저장
+		System.out.println("종료 시간 : " + k35_sdf.format(k35_cal2.getTime()));								// 종료 시간 출력
+		System.out.println("소요 시간(초 단위) : " + (k35_cal2.getTimeInMillis() - k35_cal1.getTimeInMillis()));// 걸린 시간 계산
 		
-		System.out.printf("Program End[%d][%d]records\n", k35_cnt, k35_wcnt);
+		System.out.printf("Program End[%d][%d]records\n", k35_cnt, k35_wcnt);								// 읽은 줄 수 와 쓴 줄수를 출력한다.
 	}
 }

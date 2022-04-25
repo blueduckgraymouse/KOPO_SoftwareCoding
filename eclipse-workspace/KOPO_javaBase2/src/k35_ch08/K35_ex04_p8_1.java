@@ -44,8 +44,8 @@ public class K35_ex04_p8_1 {
 			System.out.printf(" %s : %s\n", k35_field_name[13], k35_field[13]);										//   와이파이의 위도 출력
 			System.out.printf(" %s : %s\n", k35_field_name[14], k35_field[14]);										//   와이파이의 경도 출력
 			double k35_dist = Math.sqrt(Math.pow(Double.parseDouble(k35_field[13]) - k35_lat, 2)
-								+ Math.pow(Double.parseDouble(k35_field[14]) - k35_lng, 2));						//   융기원과 와이파이까지의 거리 계산
-			System.out.printf(" 현재지점과 거리 : %f\n", k35_dist);														//   거리 출력
+								+ Math.pow(Double.parseDouble(k35_field[14]) - k35_lng, 2)) * 111.35;				//   융기원과 와이파이까지의 거리 계산
+			System.out.printf(" 현재지점과 거리 : %fkm\n", k35_dist);													//   거리 출력
 			System.out.printf("*******************************************\n");
 			k35_lineCnt++;																							//   줄 수 증가
 		}

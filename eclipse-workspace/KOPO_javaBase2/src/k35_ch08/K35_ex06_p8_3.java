@@ -48,8 +48,8 @@ public class K35_ex06_p8_3 {
 			System.out.printf(" %s : %s\n", k35_field_name[28], k35_field[29]);										//   주차장의 위도 출력
 			System.out.printf(" %s : %s\n", k35_field_name[28], k35_field[29]);										//   주차장의 경도 출력
 			double k35_dist = Math.sqrt(Math.pow(Double.parseDouble(k35_field[28]) - k35_lat, 2)
-								+ Math.pow(Double.parseDouble(k35_field[29]) - k35_lng, 2));						//   융기원과 주차장까지의 거리 계산
-			System.out.printf(" 현재지점과 거리 : %f\n", k35_dist);														//   거리 출력
+								+ Math.pow(Double.parseDouble(k35_field[29]) - k35_lng, 2)) * 111.35;					//   융기원과 주차장까지의 거리 계산
+			System.out.printf(" 현재지점과 거리 : %fKm\n", k35_dist);														//   거리 출력
 			System.out.printf("*******************************************\n");
 			
 			if (k35_dist_max < k35_dist) {																			//    현재 저장된 최대값보다 현재 확인하고 있는 주차장의 거리가 더 길면
@@ -65,8 +65,8 @@ public class K35_ex06_p8_3 {
 			k35_lineCnt++;																							//   줄 수 증가
 		}
 		
-		System.out.println("융기원으로 부터 가장 먼 수원도로공사 공영주차장 : " + k35_name_max + " / 주소 : " + k35_loc_max + " / 거리 : " + k35_dist_max);	// 확인한 최대거리의 주차장 주소와 거리 출력
-		System.out.println("융기원으로 부터 가장 가까운 수원도로공사 공영주차장 : " + k35_name_min + " / 주소 : " + k35_loc_min + " / 거리 : " + k35_dist_min);	// 확인한 최소거리의 주차장 주소와 거리 출력
+		System.out.println("융기원으로 부터 가장 먼 수원도로공사 공영주차장 : " + k35_name_max + " / 주소 : " + k35_loc_max + " / 거리 : " + k35_dist_max + "Km");		// 확인한 최대거리의 주차장 주소와 거리 출력
+		System.out.println("융기원으로 부터 가장 가까운 수원도로공사 공영주차장 : " + k35_name_min + " / 주소 : " + k35_loc_min + " / 거리 : " + k35_dist_min + "Km");	// 확인한 최소거리의 주차장 주소와 거리 출력
 		
 		k35_br.close();																															// BufferedReader객체를 닫아준다.
 	}
