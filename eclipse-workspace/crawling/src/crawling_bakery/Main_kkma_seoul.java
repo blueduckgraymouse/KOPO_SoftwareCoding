@@ -40,7 +40,7 @@ public class Main_kkma_seoul {
 
 	public static void keTest(String txt)
 	{
-		String[] word_exp = {"디저트", "빵집", "베이커리", "맛집", "빵", "맛", "집", "서울", "카페", "순례", "후기", "추천", "브레드", "택배", "빵맛집", "서울 빵맛집"};
+		String[] word_exp = {};
 		
 		ArrayList<String> list = new ArrayList<String>();
 		
@@ -51,12 +51,12 @@ public class Main_kkma_seoul {
 			list.add(kwrd.getString() + " " + kwrd.getCnt());
 		}
 		
-	    Collections.sort(list, new UserSort());
+	    //Collections.sort(list, new UserSort());
 	    
 	    Iterator iterator = list.iterator();
 	    while (iterator.hasNext()) {
 	         String data = (String)iterator.next();
-	         if (Integer.parseInt(data.split(" ")[1]) > 5) {
+	         if (Integer.parseInt(data.split(" ")[1]) >= 0) {
 	        	 boolean d = false;
 	        	 for (String word : word_exp) {
 	        		 if (word.contains(data.split(" ")[0])) {
@@ -85,12 +85,12 @@ public class Main_kkma_seoul {
 			
 
 			ret = ma.postProcess(ret);								// - 띄어쓰기 자동
-			
-			ret = ma.leaveJustBest(ret);							// 날리는게 나은듯.
 //			Iterator iterator = ret.iterator();
 //			while(iterator.hasNext()) {
 //				System.out.println(iterator.next());
 //			}
+//			
+			ret = ma.leaveJustBest(ret);							// 날리는게 나은듯.
 
 			List<Sentence> stl = ma.divideToSentences(ret);	
 			for( int i = 0; i < stl.size(); i++ ) {
