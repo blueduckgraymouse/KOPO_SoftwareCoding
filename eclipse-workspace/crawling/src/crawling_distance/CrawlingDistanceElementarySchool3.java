@@ -23,7 +23,7 @@ public class CrawlingDistanceElementarySchool3  {
 
 	public static void main(String[] args) throws IOException {
 		File f = new File("C:\\KOPO\\git_tracking\\기본프로그래밍_java\\Pro\\schooldistance\\data.csv");
-		BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+		BufferedWriter bw = new BufferedWriter(new FileWriter(f, true));
 	
 		try {
 			System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
@@ -37,6 +37,7 @@ public class CrawlingDistanceElementarySchool3  {
 		
 		driver.get("https://new.land.naver.com/complexes?ms=37.566427,126.977872,13&a=APT:ABYG:JGC&e=RETAIL");
 		
+		int[] target = {9, 10, 13, 14, 15, 18, 23};
 		
 		try {
 			// 광역시 배너 클릭
@@ -49,7 +50,9 @@ public class CrawlingDistanceElementarySchool3  {
 			int guSize = checkRegionSize(driver);
 			
 			// 구 개수 만큼 반복
-			for(int i = 1 ; i < guSize ; i++) {
+			//for (int i = 9 ; i <= 9 ; i++) {
+			for (int ii = 0 ; ii < target.length ; ii++) {
+				int i = target[ii];
 				// 서울인지 확인 다르면 처리
 				// 추가 예정
 				
@@ -69,7 +72,11 @@ public class CrawlingDistanceElementarySchool3  {
 				int dongSize = checkRegionSize(driver);
 				
 				// 동 개수 만큼 반복
-				for(int j = 1 ; j <= dongSize ; j++) {
+				//for (int j = 1 ; j <= dongSize ; j++) {
+				for (int j = 1 ; j <= dongSize ; j++) {
+					if(i==9 && j==1) {
+						j = 4;
+					}
 					// 두번째 동부터
 //					if(j != 1) {
 //						// 지역 확인 후 바꼈으면 재설정
@@ -100,7 +107,11 @@ public class CrawlingDistanceElementarySchool3  {
 					
 					
 					// 단지 개수만큼 반복
-					for(int k = 1 ; k <= complexSize ; k++) {
+					//for(int k = 1 ; k <= complexSize ; k++) {
+					for (int k = 1 ; k <= complexSize ; k++) {
+						if(i==9 && j==4 && k==1) {
+							k = 41;
+						}
 //						// 두번째 단지부터
 //						if (k != 1) {
 //							// 지역 확인 후 바꼈으면 재설정
@@ -114,7 +125,7 @@ public class CrawlingDistanceElementarySchool3  {
 							openCitySelection(wait);
 						}
 						System.out.println(complexSize + " / " + k);
-						if(!(k == 1)) {
+						if(!(k == 1 || i==9 && j==4 && k==41)) {
 							selectSeoul(wait);
 							
 							selectGu(wait, i);
@@ -161,7 +172,7 @@ public class CrawlingDistanceElementarySchool3  {
 							distance = "정보 없음";
 						}
 
-						bw.write(guName + "," + dongName + "," + complexName + "," + priceRange.replaceAll(",", "") + ",");
+						bw.write(guName + "," + dongName + "," + complexName.replaceAll(",", "") + "," + priceRange.replaceAll(",", "") + ",");
 						
 						String[] scales = complexScale.split("\n");
 						int count = 0;
@@ -304,7 +315,8 @@ public class CrawlingDistanceElementarySchool3  {
 	}
 
 	private static void selectComplex(WebDriverWait wait, int k) {
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[2]/div/section/div[2]/div/div[1]/div/div/div/div[3]/ul/li[" + k + "]/a"))).click();
+		//wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[2]/div/section/div[2]/div/div[1]/div/div/div/div[3]/ul/li[" + k + "]/a"))).click();
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"region_filter\"]/div/div/div[3]/ul/li[" + k + "]/a"))).click();
 		wait500ms();
 	}
 	
@@ -323,7 +335,8 @@ public class CrawlingDistanceElementarySchool3  {
 	}
 
 	private static void clickSelectionCity(WebDriverWait wait) {
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[2]/div/section/div[2]/div/div[1]/div/div/a/span[1]"))).click();
+		//wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[2]/div/section/div[2]/div/div[1]/div/div/a/span[1]"))).click();
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"region_filter\"]/div/a/span[1]"))).click();
 		wait500ms();
 	}
 
