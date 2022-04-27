@@ -37,7 +37,7 @@ public class CrawlingDistanceElementarySchool3  {
 		
 		driver.get("https://new.land.naver.com/complexes?ms=37.566427,126.977872,13&a=APT:ABYG:JGC&e=RETAIL");
 		
-		int[] target = {9, 10, 13, 14, 15, 18, 23};
+		int[] target = {23};
 		
 		try {
 			// 광역시 배너 클릭
@@ -74,8 +74,8 @@ public class CrawlingDistanceElementarySchool3  {
 				// 동 개수 만큼 반복
 				//for (int j = 1 ; j <= dongSize ; j++) {
 				for (int j = 1 ; j <= dongSize ; j++) {
-					if(i==9 && j==1) {
-						j = 4;
+					if(i==23 && j==1) {
+						j = 86;
 					}
 					// 두번째 동부터
 //					if(j != 1) {
@@ -105,12 +105,11 @@ public class CrawlingDistanceElementarySchool3  {
 						closeSelection(wait);
 					}
 					
-					
 					// 단지 개수만큼 반복
 					//for(int k = 1 ; k <= complexSize ; k++) {
 					for (int k = 1 ; k <= complexSize ; k++) {
-						if(i==9 && j==4 && k==1) {
-							k = 41;
+						if(i==23 && j==86 && k==1) {
+							k = 1;
 						}
 //						// 두번째 단지부터
 //						if (k != 1) {
@@ -125,7 +124,7 @@ public class CrawlingDistanceElementarySchool3  {
 							openCitySelection(wait);
 						}
 						System.out.println(complexSize + " / " + k);
-						if(!(k == 1 || i==9 && j==4 && k==41)) {
+						if(!(k == 1 || i==23 && j==86 && k==1)) {
 							selectSeoul(wait);
 							
 							selectGu(wait, i);
