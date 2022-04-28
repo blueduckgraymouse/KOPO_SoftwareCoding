@@ -14,9 +14,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Crawling_stock_c1 {
-	//private static final String filePath = "c:\\KOPO\\git_tarcking\\기본프로그래밍_java\\Pro\\Data.csv";
 	private static final String WEB_DRIVER_ID = "webdriver.chrome.driver";
-	//private static final String WEB_DRIVER_PATH = "D:\\KOPO\\utility\\chromedriver_win32\\chromedriver.exe";
 	private static final String WEB_DRIVER_PATH = "C:\\chromedriver\\chromedriver.exe";
 	
 	public static void main(String[] args) throws IOException {
@@ -46,6 +44,7 @@ public class Crawling_stock_c1 {
 		
 		// 시세 배너에서 날짜별 시세 가져오기
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"content\"]/ul/li[2]/a"))).click();
+		
 		loop:
 			while (true) {
 				String date = "";
@@ -70,7 +69,6 @@ public class Crawling_stock_c1 {
 				}
 				
 				int now_num_page = Integer.parseInt(wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/table[2]/tbody/tr/td[@class=\"ON\"]"))).getText());
-				//int min_num_page = (now_num_page / 10) * 10 + 1;
 				int max_num_page = ((now_num_page / 10) + 1) * 10;
 				
 				if (now_num_page == max_num_page) {
@@ -79,42 +77,9 @@ public class Crawling_stock_c1 {
 					} else {
 						wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/table[2]/tbody/tr/td[13]/a"))).click();
 					}
-	//				
-	//				/html/body/table[2]/tbody/tr/td[1]/a - 1
-	//				/html/body/table[2]/tbody/tr/td[10]/a - 10
-	//				/html/body/table[2]/tbody/tr/td[11]/a - 다음
-	//				/html/body/table[2]/tbody/tr/td[12]/a - 맨뒤
-	//				
-	//				
-	//				
-	//				/html/body/table[2]/tbody/tr/td[1]/a - 맨앞
-	//				/html/body/table[2]/tbody/tr/td[2]/a - 이전
-	//				/html/body/table[2]/tbody/tr/td[3]/a - 11
-	//				/html/body/table[2]/tbody/tr/td[12]/a - 20
-	//				/html/body/table[2]/tbody/tr/td[13]/a - 다음
-	//				/html/body/table[2]/tbody/tr/td[13]/a - 맨뒤
 				}
 			
 		}
-		
-		
-		
-		
-//		/html/body/table[1]/tbody/tr[3]/td[1]/span
-//		~
-//		/html/body/table[1]/tbody/tr[7]/td[1]/span
-//		
-//		/html/body/table[1]/tbody/tr[11]/td[1]/span
-//		~
-//		/html/body/table[1]/tbody/tr[15]/td[1]/span
-
-		
-		//wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"region_filter\"]/div/a/span[3]"))).click();
-		
-		//String guName = driver.findElement(By.xpath("//*[@id=\"region_filter\"]/div/div/div[1]/div/a[2]")).getText();
-		
-		
-		
 		
 		bw.flush();
 		bw.close();

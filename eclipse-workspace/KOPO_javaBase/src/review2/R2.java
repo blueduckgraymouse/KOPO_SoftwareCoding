@@ -6,8 +6,8 @@ import java.util.Scanner;
 public class R2 {
 
 	public static void main(String[] args) {
-		//int[] dates = inputDate();
-		int[] dates = {20200902, 20180904};
+		int[] dates = inputDate();
+		//int[] dates = {20200902, 20180904};
 		calculate_i_age(dates);
 		calculate_k_age(dates);
 	}

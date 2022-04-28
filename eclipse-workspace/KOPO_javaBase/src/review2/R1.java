@@ -9,10 +9,7 @@ public class R1 {
 		//String[] nums = inputNums();
 		//String[] nums = {"0001", "1101", "1101"};
 		//String[] nums = {"1010", "1000", "0111"};
-		String[] nums = {"100000", 
-						 "100011", 
-						 "010110",
-						 "000101"};
+		String[] nums = {"100000", "100011", "010110","000101"};
 		
 		draw_line(nums);
 		
@@ -53,6 +50,7 @@ public class R1 {
 				for (int i = 1 ; i < background.length ; i++) {
 					if (background[i][j] == '1') {
 						flag = false;
+						break;
 					}
 				}
 				if (flag == true) {

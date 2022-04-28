@@ -5,8 +5,8 @@ import java.util.Scanner;
 public class R2 {
 
 	public static void main(String[] args) {
-		//String input = input_nums();
-		String input = "88X93";
+		String input = input_nums();
+		//String input = "88X93";
 		
 		
 		int result = vedic_mathematic(input);
@@ -14,6 +14,7 @@ public class R2 {
 		System.out.println(result);
 	}
 
+	// multiple nums by vedic_mathematic
 	private static int vedic_mathematic(String input) {
 		String[] nums_o = input.trim().split("X");
 		
@@ -28,6 +29,7 @@ public class R2 {
 		return result;
 	}
 
+	// input two numbers
 	private static String input_nums() {
 		Scanner sc = new Scanner(System.in);
 		String input = "";

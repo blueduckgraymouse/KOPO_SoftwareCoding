@@ -5,14 +5,15 @@ import java.util.Scanner;
 public class R1 {
 
 	public static void main(String[] args) {
-		//int[] nums = input_nums();
-		int[] nums = {88, 93};
+		int[] nums = input_nums();
+		//int[] nums = {88, 93};
 		
 		int result = vedic_mathematic(nums);
 		
 		System.out.println(result);
 	}
 
+	// multiple nums by vedic_mathematic
 	private static int vedic_mathematic(int[] num_o) {
 		int num_s1 = 100 - num_o[0];
 		int num_s2 = 100 - num_o[1];
@@ -25,6 +26,7 @@ public class R1 {
 		return result;
 	}
 
+	// input two numbers
 	private static int[] input_nums() {
 		Scanner sc = new Scanner(System.in);
 		int nums[] = new int[2];
