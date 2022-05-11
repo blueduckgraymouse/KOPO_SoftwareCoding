@@ -70,14 +70,14 @@ public class Ex_07_2_and_3_freewifi_insert_p23 {
 
 	// csv파일의 데이터에 존재하는 ,를 제거
 	static String remove(String readTxt) {
-		Pattern ptrn = Pattern.compile("\"(.*?)\"");
-		Matcher matcher = ptrn.matcher(readTxt);
+		Pattern ptrn = Pattern.compile("\"(.*?)\"");			// 큰따옴표로 감싸진 문자 패턴을 Pattern객체로 초기화
+		Matcher matcher = ptrn.matcher(readTxt);				// 파라미터로 들어온 문자열 내에 Pattern객체의 패턴과 일치 정보가 담긴 Matcher객체로 생성
 		
-		while (matcher.find()) {
-			readTxt = matcher.replaceFirst(matcher.group().replace(",", " ").replace("\"", ""));
-			matcher = ptrn.matcher(readTxt);
+		while (matcher.find()) {								// Matcher객체 내의 다음 시퀀스가 존재하면 반복, 모든 패턴 일치 부분에 접근
+			readTxt = matcher.replaceFirst(matcher.group().replace(",", " ").replace("\"", ""));	// 현재 접근한 패턴 일치 부분에서 ,을 공백으로 바꾸고 " 제거하여 원본 readTxt에 저장
+			matcher = ptrn.matcher(readTxt);					// 변경된 readTxt에 대해 다시 패턴 일치 부분 Matcher객체로 저장 -> 패턴 일치하는 부분을 모두 수정할 때까지 반복하는 결과를 가져온다.
 		}
 		
-		return readTxt;
+		return readTxt;											// 수정된 문자열 반환
 	}
 }

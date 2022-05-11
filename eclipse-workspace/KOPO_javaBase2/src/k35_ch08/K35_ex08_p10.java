@@ -22,7 +22,7 @@ public class K35_ex08_p10 {
 		File k35_f = new File("C:\\KOPO\\git_tracking\\소프트웨어코딩(v2022)-자바심화\\8강\\day_data\\THTSKS010H00.dat");  // 내용을 읽을 파일의 경로를 파라미터로 전달한 file객체 생성 훟 변수에 저장
 		BufferedReader k35_br = new BufferedReader(new FileReader(k35_f));		// file객체를 파라미터로 BufferedReader객체를 생성
 		
-		File k35_f1 = new File("C:\\KOPO\\git_tracking\\소프트웨어코딩(v2022)-자바심화\\8강\\StockDailyPrice.csv");		// 내용을 쓸 파일의 경로를 파라미터로 전달한 file객체 생성 훟 변수에 저장
+		File k35_f1 = new File("C:\\KOPO\\git_tracking\\소프트웨어코딩(v2022)-자바심화\\8강\\StockDailyPrice_part.csv");		// 내용을 쓸 파일의 경로를 파라미터로 전달한 file객체 생성 훟 변수에 저장
 		BufferedWriter k35_bw1 =new BufferedWriter(new FileWriter(k35_f1)); 	// file객체를 파라미터로 BufferedWriter객체를 생성
 		
 		SimpleDateFormat k35_sdf = new SimpleDateFormat("YYYY-MM-dd hh:mm:ss");	// 날짜출력 포팻을 설정하여 날짜 객체 생성 후 변수에 저장
@@ -49,7 +49,10 @@ public class K35_ex08_p10 {
 				k35_wcnt++;																					// 쓴 줄 수 증가						
 			}
 			
-			k35_cnt++;																						// 읽은 줄 수 증가		
+			k35_cnt++;																						// 읽은 줄 수 증가
+			if(k35_cnt == 10000) {
+				break;
+			}
 		}
 		k35_br.close();																						// BufferedReader객체를 닫아준다.
 		k35_bw1.close();																					// BufferedWriter객체를 닫아준다.

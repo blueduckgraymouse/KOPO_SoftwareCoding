@@ -1,0 +1,43 @@
+no	주차장관리번호	
+name	주차장명	
+kind_parking	주차장구분	
+kind_side		주차장유형	
+addr_road	소재지도로명주소	
+addr_land	소재지지번주소	
+size		주차구획수	
+kind_infra		급지구분
+kind_daySystem	부제시행구분	
+days_open	운영요일	
+startTime_weekday	평일운영시작시각	
+endTime_weekday	평일운영종료시각	
+startTime_saturday	토요일운영시작시각	
+endTime_saturday	토요일운영종료시각	
+startTime_holiday	공휴일운영시작시각	
+endTime_holiday	공휴일운영종료시각	
+kind_charge	요금정보	
+time_basic_parking		주차기본시간	
+charge_basic_parking	주차기본요금	
+time_add_parking		추가단위시간	
+charge_add_parking	추가단위요금	
+time_day_parking	1일주차권요금적용시간	
+charge_day_parking	1일주차권요금	
+charge_month_parking	월정기권요금	
+kind_pay			결제방법	
+imformation		특기사항	
+name_office		관리기관명	
+tel			전화번호	
+latitude			위도				
+longitude			경도	
+date_write		데이터기준일자	
+officeCode_write		제공기관코드	
+officeName_write	제공기관명
+
+총 데이터 		15494
+위도 없는 데이터		2388 - 2324 = 64
+경도 없는 데이터		2386 - 2324 = 62
+위경도 모두 없는 데이터	2324
+
+위도 혹은 경도가 없는 데이터 2324 + 64 + 62 = 2450
+15494 - 2450 = 13044
+
+Ex_10_1_BasicTraining2_score_p25
