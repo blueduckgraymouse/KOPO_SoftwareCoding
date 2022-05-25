@@ -22,7 +22,7 @@ public class Ex_07_4_freewifi_insert_p23 {
 		// DBMS접속 준비
 		Connection conn = getConnection();							// connecion객체 가져오는 메서드 호출
 		PreparedStatement pstmt = null;
-		String queryTxt = String.format("insert into freewifi2("			// 전국 와이파이 데이터를 넣어주는 쿼리문 완성하여 저장
+		String queryTxt = String.format("insert into freewifi("			// 전국 와이파이 데이터를 넣어주는 쿼리문 완성하여 저장
 				+ "inst_place, inst_place_detail, inst_city, inst_country, inst_place_flag,"
 				+ "service_provider, wifi_ssid, inst_date, place_addr_road, place_addr_land,"
 				+ "manage_office, manage_office_phone, latitude, longitude, write_date) "
@@ -55,7 +55,7 @@ public class Ex_07_4_freewifi_insert_p23 {
 				pstmt.setDate(8, reformat(field[7]));						// 설치일자는 reformat()메서드를 이용하여 정제 후 sql.Date형으로 변환하여 저장
 				pstmt.setDouble(13, Double.parseDouble(field[12]));			// 위도는 double타입
 				pstmt.setDouble(14, Double.parseDouble(field[13]));			// 경도는 double타입
-				
+
 				try {								// try-catch문을 이용하여 중복 데이터 때문에 PRIMARY KEY의 duplicate에 의한 에러로 입력이 멈추는 것을 방지
 					pstmt.execute();
 					System.out.printf("%d번째 항목 insert OK [%s]\n", lineCnt, queryTxt);	// 현재 읽어온 데이터 한 줄에 대한 insert문 결과 출력(성공)

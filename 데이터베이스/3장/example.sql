@@ -411,3 +411,6 @@ call print_report_with_rank(10, 120);
 select * from list_score_with_rank;
 select * from info_page;
 select * from info_page_total;
+
+
+# p17 - 와이파이XML

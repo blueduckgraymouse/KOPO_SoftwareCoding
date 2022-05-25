@@ -21,10 +21,10 @@ public class Ex_08_4_freewifi_select_p24 {
 		
 		String queryTxt;
 		queryTxt = "select * from freewifi where inst_country = '수원시'"; // 설치된 도시가 '수원시'인 무료 와이파이 레코드 조회하는 쿼리문 저장
-				
+			
 		ResultSet rset = stmt.executeQuery(queryTxt);			// 조회 쿼리문 실행
 		int iCnt = 0;											// 해당 레코드의 카운트 번호를 저장할 변수 초기화
-		
+
 		while (rset.next()) {
 			System.out.printf("*(%d)********************************************\n", iCnt++);	// 해당 레코드의 카운트 번호 출력
 			System.out.printf("설치장소명      : %s\n", rset.getString(1));						// 조회된 필드값 출력
