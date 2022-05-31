@@ -1,0 +1,32 @@
+<html>
+<head>
+	<meta charset="UTF-8">			<!-- 문서의 텍스트 형식을 utf-8로 지정 -->
+	<style>
+		a {							/* a태그의 css속성 지정 */
+			color : grey;			/* 글자 색 회색으로 지정 */
+			text-decoration : none;	/* a태그 글자의 밑줄 삭제 */
+			font-size : 20px;		/* 글자 색 회색으로 지정 */
+		}
+		a:hover {					/* a태그에 마우스가 올라왔을 때의 css속성 지정*/
+			color : blue;			/* 글자 색 파란색으로 지정 */
+		}
+		li {						/* li태그의 속성을 지정 */
+			list-style-type : none;	/* li태그 앞의 모양 제거 */
+		}
+	</style>
+</head>
+
+<body>
+	<ul>
+		<li><a href="./createDB.jsp" target="main">* TBL생성</a></li>			<!-- examtable 테이블을 생성하는 jsp를 2번째 프레임에 호출 -->
+		<li><a href="./dropDB.jsp" target="main">* TBL삭제</a></li>			<!-- examtable테이블을 삭제하는 jsp를 2번째 프레임에 호출 -->
+		<li><a href="./allsetDB.jsp" target="main">* TBL값 넣기(default)</a></li>	<!-- examtable테이블의 임의의 값을 넣는 jsp를 2번째 프레임에 호출 -->
+		<li><a href="./allViewDB.jsp" target="main">* TBL전제조회</a></li>		<!-- examtable테이블의 모든 레코드를 조회하는 2번째 프레임에 호출 -->
+	</ul>
+	
+	<ul>
+		<li><a href="./inputForm1.html" target="main">* 추가</a></li>			<!-- examtable 테이블에 레코드를 추가하는 jsp를 2번째 프레임에 호출 -->
+		<li><a href="./inputForm2.html" target="main">* 정정/삭제</a></li>		<!-- examtable테이블의 레코드를 조회하여 수정/삭제하는 jsp를 2번째 프레임에 호출 -->
+	</ul>
+</body>
+</html>

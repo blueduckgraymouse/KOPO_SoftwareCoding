@@ -1,0 +1,32 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script> 
+		var name = "hello";		<!-- hello를 변수 name에 저장, 전역 변수 -->
+		document.write("(head) 전역에서 전역 호출 : " + name + "<br>");	
+		
+		function call1() {		<!-- call1 함수 정의 -->
+			document.write("지역에서 전역 호출 : " + name + "<br>");		<!-- "undefined" -->
+																	<!-- *지역에 젼역변수와 동일한 이름의 지역변수가 존재하면 기존 전역변수명은 지역에서 지역변수 선언전까지 undefine?? -->
+			var name = "world";										<!-- world 변수 name에 저장, 지역 변수 -->
+			document.write("지역에서 지역 변수 호출 : " + name + "<br>");		<!-- 지역 변수 name에 저장된 값 document에 표시
+		}
+		
+		function call2() {		<!-- call2 함수 정의 -->
+			document.write("지역에서 전역 변수 호출 : " + name + "<br>");		<!-- 지역 변수 name에 저장된 값 document에 표시
+		}
+	</script>
+</head>
+
+<body>
+	<hr>
+	<script> 	
+		call1();				<!-- call1 함수 호출 -->
+	</script>
+	<hr>
+	<script> 
+		call2();				<!-- call1 함수 호출 -->
+	</script>
+	Good...
+</body>
+</html>

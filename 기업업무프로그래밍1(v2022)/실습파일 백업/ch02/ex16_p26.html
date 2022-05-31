@@ -1,0 +1,158 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script>
+		// 임의의 상품명과 가격, 수량, 세금 유무를 배열 타입으로 변수에 초기화
+		var itemname = new Array("해피홈 SAFE365 핸드워시(펌프형)", "(G)LH원형유리화병 100ml", "건포도", "오렌지주스", "초코에몽", "abc초콜렛", "서울우유" ,"크래미", "포카칩", "프링글스 오리지날",
+								"고등어", "양배추", "고구마", "감자", "비비고 만두", "티코", "하겐다즈", "텀블러", "모니터 clear하고 선명한 그 자체", "삼성 super 울트라 빠른 노트북",
+								"선풍기", "프린터", "한우 등심", "한우 안심", "키보드", "마우스", "카누", "대파", "1+ 등급란 10개입 특란", "동원양반볶음김치기획",
+								"공기청정기", "스피커");
+		var price = new Array(10000, 1200, 13000, 3000, 1000, 500, 3800, 3300, 2000, 1700,
+								10000, 1500, 9900, 7900, 11900, 4200, 5100, 17000, 213200, 12000000,
+								79300, 139000, 32190, 27890, 65900, 54190, 9900, 2500, 19280, 3510,
+								342010, 98000);
+		var num = new Array(2, 8, 1, 2, 3, 4, 1, 1, 2, 1,
+								1, 2, 1, 1, 2, 2, 1, 1, 1, 1,
+								1, 1, 2, 2, 1, 1, 3, 10, 3, 23,
+								1, 59);
+		var taxfree = new Array(false, false, true, false, false, false, false, false, false, false,
+								true, true, true, true, false, false, false, false, false, false,
+								false, false, true, true, false, false, false, true, true, false,
+								false, false);
+		
+		// 가격 누적을 위한 변수 초기화
+		var sum_price_total = 0;											// 모든 물품의 총 합계
+		var sum_price_tax = 0;												// 세금이 부과되는 제품의 합계
+		var sum_price_taxFree = 0;											// 세금이 부과되지 않는 제품의 합계
+		var tax_rate = 0.1;													// 세율 10%로 설정
+		var sum_price_before_tax = 0;										// 세금이 부과되는 제품의 합계의 세전 합계이 저장될 변수
+		var tax = 0;														// 세금이 부과되는 제품의 합계의 세금이 저장될 변수
+		var count_items = 0;												// 총 품목 수량이 저장될 변수
+		
+		// 영수증의 상품명에 할당된 너비만큼 상품명을 출력하는 함수
+		function auto_format_item (max_width_item, item) {
+			// 계산에 필요한 변수 선언
+			var sum_length = 0;									// 한글2, 나머지 1로 앞글자부터 차례로 카운트할 때 누적 길이가 저장될 값 [byte 단위]
+			var i_Chr = 0;										// 상품명에서 현재 확인하고 있는 글자의 인덱스 번호, 반복문이 끝나면 영수증에 찍히는 마지막 글자의 인덱스가 저장되어 있다.
+																//   즉 0~i번째 글자까지의 byte가 max_width_item 혹은 max_width_item + 1
+			// 한글자씩 확인하며 상품명의 총 길이 확인(영수증 출력 범위 내, 출력 가능 길이를 초과하면 영수증에 출력되는 마지막 글자까지) & 영수증에 출력되는 마지막 글자의 인덱스 번호 확인
+			for (i_Chr = 0 ; sum_length < max_width_item && i_Chr < item.length ; i_Chr++) {	// 총 길이가 26(영수증 상품명이 들어갈 수 있는 최대 길이)를 넘거나 마지막 글자까지 다 확인할 때까지 반복
+				var chr = item.substring(i_Chr, i_Chr + 1);		// 확인할 글자 추출
+				if (chr.match(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*"))				// 한글이면
+					sum_length += 2;							//	 누적 길이 +2
+				 else											// 아니면
+					sum_length++;								//	 누적 길이 +1
+			}
+			// 상품명 출력
+			if ((sum_length > max_width_item) && item.substring(i_Chr-1, i_Chr).match(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*"))	// 출력할 상품명 길이가 초과하는데 마지막 글자의 자리가 1byte크기일 경우. 영수증 출력 글자가 깨져서 나오므로
+				document.write(item.substring(0, i_Chr - 1));	//   마지막 한글 글자 빼고 출력
+			else 												// 아닐 경우
+				document.write(item.substring(0, i_Chr));		//   그냥 출력 출력
+
+			
+			// 남은 공백(제품명 끝 ~ 가격) 채우기
+			for (var i = 0 ; i < max_width_item - sum_length ; i++) {	// 할당 받은 26자리 중 남은 자리가 있으면 공백으로 채운다.
+				document.write("&nbsp;");
+			}
+		}
+	</script>
+	<style>
+		table {
+			width : 337px;
+			 cellspacing=1;
+		}
+	</style>
+</head>
+
+<body>
+	<script> 
+		// 이마트 상호 및 안내 출력
+		document.write('<table><tr><td rowspan="3" align="center" width="100px"><font size=6><b>emart</b></font size></td><td>이마트 죽전점 (031)888-1234</td></tr>');
+		document.write('<tr><td>206-86-50913 강희석</td></tr><tr><td>용인 수지구 포은대로 552</td></tr><tr><td colspan="2">영수증 미지참시 교환/환불 불가(30일 이내)</td></tr>');
+		document.write('<tr><td colspan="2">정상상품에 한함, 30일 이내(신선 7일)</td></tr><tr>	<td colspan="2">※일부 브랜드매장 제외(매장 고지물참조)</td></tr>');
+		document.write('<tr><td colspan="2">교환/환불 구매점에서 가능(결제 카드 지참)</td></tr><tr><td colspan="2">&nbsp;</td></tr></table>');
+		
+		// 구매일자 ~ 구매 상품 리스트의 필드명 출력
+		document.write('<table><tr><td>[구 매]');
+		var today = new Date();
+		document.write(today.getFullYear() + "-" + String(today.getMonth()+1).padStart(2,'0') + "-" + 			// 영수증 구매날짜를 현재 시간으로 설정하여 포맷에 맞게 출력
+		String(today.getDate()).padStart(2,'0') + " " + String(today.getHours()).padStart(2,'0') + ":" + String(today.getMinutes()).padStart(2,'0'));
+		document.write('</td><td align="right">POS:001-9861</td></tr><tr><td colspan="5">--------------------------------------------------</td></tr></table>');
+		document.write('<table><tr><td width="26px"></td><td width="100px">상 품 명</td><td width="60px" align="right">단&nbsp;&nbsp;가	</td>');
+		document.write('<td width="45px" align="right">수량</td><td align="right">금&nbsp;&nbsp;액&nbsp;</td></tr><tr><td colspan="5">--------------------------------------------------</td></tr></table>');
+		
+		// 구매 상품 리스트 출력
+		document.write('<table>');
+		for (var i = 0 ; i < itemname.length ; i++) {	// 모든 구매 상품에 대해 반복
+			document.write('<tr><td width=10px>');
+			if (taxfree[i] == true) {					// 면제 여부 확인하여 부과세 상품이면
+				document.write("*");					//   부과세 상품을 의미하는 * 출력
+				sum_price_taxFree += price[i] * num[i];	//   세금이 부과되지 않는 제품의 합계에 누적
+			} else {									// 과세 상품이면
+				document.write("&nbsp;");				//   과세이므로 * 대신 공백 출력
+				sum_price_tax += price[i] * num[i];		//   세금이 부과되는 제품의 합계에 누적
+			}
+			document.write('</td><td width=120px>');
+			auto_format_item(15, itemname[i]);			// 상품명을 주어진 크기 15안에 해당하는 글자만 출력하는 함수 호출
+			document.write('</td><td align="right" width=80px>');
+			document.write(price[i].toLocaleString('ko-KR'));				// 숫자3 개마다 점 찍으며 상품의 정가 출력	
+			document.write('</td><td align="right" width=22px>');
+			document.write(num[i]);						// 수량 출력
+			document.write('</td><td align="right">');
+			document.write((price[i] * num[i]).toLocaleString('ko-KR'));	// 숫자 3개마다 점 찍으며 상품의 구매 가격 출력
+			document.write('</td></tr>');
+
+			if (i%5==4) {		// 5개 출력마다 구분선 출력
+				document.write('<tr><td colspan="5">--------------------------------------------------</td></tr>');
+			}
+			count_items += num[i];
+		}
+		document.write('</table>');
+		
+		// 과세 물품 총액, 면세 물품 총액, 부가세, 합계 계산
+		sum_price_total = sum_price_taxFree + sum_price_tax;					// 영수증 합계 = 과세물품 총액 + 비과세물품 총액
+		if (sum_price_tax / (1 + tax_rate) / 10 % 1 != 0) {						// 과세 물품 총액의 세금을 계산(과세물품 총액 / 11)했을 때 소수점이 존재하면
+			tax =  parseInt(sum_price_tax / (1 + tax_rate) / 10) + 1;			//	올림 처리해서 세금 계산
+		} else	{																// 과세 물품 총액의 세금을 계산했을 때 소수점이 없는 경우
+			tax = parseInt(sum_price_tax / (1 + tax_rate) / 10);				//  그대로 세금 계산
+		}
+		sum_price_before_tax = sum_price_tax - tax; 							// 과세물품 세전 총액 = 과세물품 총액 - 세금
+		
+		// 구매 상품에 대한 총 정보 출력
+		document.write('<table><tr><td align="right" width=218px>총 품목 수량</td><td  align="right">');
+		document.write(count_items);											// 총 상품 구매 수량 출력
+		document.write('</td></tr><tr><td align="right">(*)면 세&nbsp;&nbsp;&nbsp;물 품</td><td  align="right">');
+		document.write(sum_price_taxFree.toLocaleString('ko-KR'));				// 부과세 상품의 총 가격 출력
+		document.write('</td></tr><tr><td align="right">과 세&nbsp;&nbsp;&nbsp;물 품</td><td  align="right">');
+		document.write(sum_price_before_tax.toLocaleString('ko-KR'));			// 과세 상품의 과세 전 총 가격 출력
+		document.write('</td></tr><tr><td align="right" >부&nbsp;&nbsp;&nbsp;&nbsp;가&nbsp;&nbsp;&nbsp;&nbsp;세</td><td  align="right">');
+		document.write(tax.toLocaleString('ko-KR'));							// 과세 상품의 총 세금 출력
+		document.write('</td></tr><tr><td align="right" >합&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;계</td><td  align="right">');
+		document.write(sum_price_total.toLocaleString('ko-KR'));				// 모든 상품의 총 가격 출력
+		document.write('</td></tr><tr><td>결 제  대 상  금 액</td><td align="right">');
+		document.write(sum_price_total.toLocaleString('ko-KR'));				// 모든 상품의 총 가격 출력
+		document.write('</td></tr><tr><td colspan="2">--------------------------------------------------</td><tr></table>');
+		
+		document.write('<table><tr><td>0012 KEB 하나</td><td  align="right">541707**0484/35860658</td></tr><tr><td>카드결제(IC)</td>	<td  align="right">일시불&nbsp;/&nbsp;');
+		document.write(sum_price_total.toLocaleString('ko-KR'));				// 모든 상품의 총 가격 출력
+		document.write('</td></tr><tr><td colspan="2">--------------------------------------------------</td><tr></table>');
+		
+		// 결제&포인트&주차 정보 출력
+		document.write('<table><tr><td colspan="3" align="center">[신세계포인트 적립]</td></tr><tr><td colspan="3">홍*두 고객님의 포인트 현황입니다.</td></tr>');
+		document.write('<tr><td width=130px>금회발생포인트</td><td align="right" width=115px>9350***9995</td><td align="right">');
+		document.write(parseInt(sum_price_total/1000).toLocaleString('ko-KR'));	// 구매 금액에 따른 발생포인트 출력
+		document.write('</td></tr><tr><td>누계(가용)포인트</td><td align="right">	');
+		document.write((5473+parseInt(sum_price_total/1000)).toLocaleString('ko-KR')+'(');		// 누적 포인트와 가용 포인트 출력
+		document.write('</td><td align="right">5,473)</td></tr><tr><td colspan="3">*신세계포인트 유효기간은 2년입니다.</td></tr>');
+		document.write('<tr><td colspan="3">-------------------------------------------------</td></tr><tr><td colspan="3" align="center">구매금액기준 무료주차시간 자동부여&nbsp;</td></tr>');
+		document.write('<tr><td>차량번호 :</td><td colspan="2" align="right">34저****</td></tr>');
+		document.write('<tr><td>입차시간 :</td><td colspan="2" align="right">');
+		document.write(today.getFullYear() + "-" + String(today.getMonth()+1).padStart(2,'0') + "-" 			// 입차시간(현재시간 기준 -2시간) 출력
+			+ String(today.getDate()).padStart(2,'0') + " " + String(today.getHours()-2).padStart(2,'0') + ":" + String(today.getMinutes()).padStart(2,'0')+ ":" + String(today.getSeconds()).padStart(2,'0'));
+		document.write('</td></tr><tr><td colspan="3">--------------------------------------------------</td></tr><tr><td colspan="2">캐셔:04599 양OO</td><td align="right">1150</td></tr>');
+		document.write('<tr><td colspan="3" align="center">|||||||||||||||||||||||||||||||||||</td></tr><tr><td colspan="3" align="center">');
+		document.write(today.getFullYear()+ String(today.getMonth()+1).padStart(2,'0') + String(today.getDate()).padStart(2,'0') +'/00119861/00164980/31');	// 영수증 일련번호 출력
+		document.write('</td><tr></table>');
+	</script>
+</body>
+</html>								

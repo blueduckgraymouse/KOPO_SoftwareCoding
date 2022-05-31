@@ -1,0 +1,24 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script> 
+		function call() {													<!-- call함수 젖의-->
+			MyString = "hellow world welcome to my world";					<!-- 변수에 실습 문자열 저장 -->
+			document.write("test1 : " + MyString.charAt(11) + "<br>");		<!-- 변수의 문자열의 11번째 문자를 출력 -->
+			document.write("test2 : " + MyString.indexOf("to") + "<br>");	<!-- 변수의 문자열에서 "to"글자의 첫번째 index번호 출력 -->
+			document.write("test3 : " + MyString.lastIndexOf("to") + "<br>");	<!-- 변수의 문자열에서 "to"글자의 마지막 index번호 출력 -->
+			document.write("test4 : " + MyString.substr(5,5) + "<br>");		<!-- 변수의 문자열의 5번재 문자부터 5개의 문자 출력 -->
+			
+			myString = "AbBbCc";											<!-- 변수에 실습 문자열 저장 -->
+			document.write("test5 : " + myString.toLowerCase() + "<br>");	<!-- 변수의 문자열에서 모두 소문자로 변환하여 출력 -->
+			document.write("test6 : " + myString.toUpperCase() + "<br>");	<!-- 변수의 문자열에서 모두 대문자로 변환하여 출력 -->
+		}
+	</script>	
+</head>
+
+<body>
+	<script> 
+		call();			<!-- call함수 호출-->
+	</script>
+</body>
+</html>

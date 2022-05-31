@@ -1,0 +1,26 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+</head>
+
+<body>
+	<script> 
+		document.write("<h2>구구단</h2>");		
+		document.write("<table border=0 width=100%>");	<!-- table 태그 내용 중 반복되지 않는 구간의 앞 내용 html에 삽입 -->
+		
+		for (var i = 1 ; i < 10; i = i + 3) {			<!-- 한 줄에 3개의 구구단 출력 -->
+			for (var j = 1; j < 10 ; j++) {				<!-- 해당 단의 *1 ~ *9 출력 -->
+				document.write("<tr>");
+				document.write("<td>" + i + " * " + j + " = " + (i * j) + "</td>");				<!-- 한 줄에 들어갈 첫번째 구구단 -->
+				document.write("<td>" + (i + 1) + " * " + j + " = " + ((i + 1) * j) + "</td>");	<!-- 한 줄에 들어갈 두번째 구구단 -->
+				document.write("<td>" + (i + 2) + " * " + j + " = " + ((i + 2) * j) + "</td>");	<!-- 한 줄에 들어갈 세번째 구구단 -->
+				document.write("</tr>");
+			}
+			document.write("<tr><td colspan=3><hr></td></tr>");			<!-- 구구단 구분을 위한 라인 구분 -->
+		}
+		
+		
+		document.write("</table>");						<!-- table 태그 닫기 -->
+	</script>
+</body>
+</html>

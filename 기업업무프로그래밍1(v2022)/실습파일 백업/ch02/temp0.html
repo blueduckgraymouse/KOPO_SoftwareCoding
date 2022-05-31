@@ -1,0 +1,108 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script>
+		
+	</script>
+</head>
+
+<body>
+	<script> 
+		var itemname = new Array("해피홈 SAFE365 핸드워시(펌프형)", "(G)LH원형유리화병 100ml", "건포도", "오렌지주스", "초코에몽", "abc초콜렛", "서울우유" ,"크래미", "포카칩", "프링글스 오리지날",
+								"고등어", "양배추", "고구마", "감자", "비비고 만두", "티코", "하겐다즈", "텀블러", "모니터 clear하고 선명한 그 자체", "삼성 super 울트라 빠른 노트북",
+								"선풍기", "프린터", "한우 등심", "한우 안심", "키보드", "마우스", "카누", "대파", "1+ 등급란 10개입 특란", "동원양반볶음김치기획",
+								"공기청정기", "스피커");
+		var price = new Array(10000, 1200, 13000, 3000, 1000, 500, 3800, 3300, 2000, 1700,
+								10000, 1500, 9900, 7900, 11900, 4200, 5100, 17000, 213200, 120000,
+								79300, 139000, 32190, 27890, 65900, 54190, 9900, 2500, 19280, 3510,
+								342010, 98000);
+		var num = new Array(2, 8, 1, 2, 3, 4, 1, 1, 2, 1,
+								1, 2, 1, 1, 2, 2, 1, 1, 1, 1,
+								1, 1, 2, 2, 1, 1, 3, 10, 3, 23,
+								1, 59);
+		var taxfree = new Array(false, false, true, false, false, false, false, false, false, false,
+								true, true, true, true, false, false, false, false, false, false,
+								false, false, true, true, false, false, false, true, true, false,
+								false, false);
+		
+		// 영수증 계산에 필요한 변수 선언 및 초기화
+		var sum_price_total = 0;											// 모든 물품의 총 합계
+		int sum_price_tax = 0;												// 세금이 부과되는 제품의 합계
+		int sum_price_taxFree = 0;											// 세금이 부과되지 않는 제품의 합계
+		double tax_rate = 0.1;												// 세율 10%로 설정
+		int sum_price_before_tax = 0;										// 세금이 부과되는 제품의 합계의 세전 합계이 저장될 변수
+		int tax = 0;														// 세금이 부과되는 제품의 합계의 세금이 저장될 변수
+		
+		/* 영수증 출력
+		 * 가로의 총 길이는 46, 한글 2, 그 외 1
+		 */
+		document.write("%12s%s\n", "em rt", "  이마트 죽전점 (031)888-1234");
+		document.write("%12s%s\n", "  a  ", "  206-86-50913 강희석");
+		document.write("%12s%s\n", "em rt", "  용인 수지구 포은대로 552");
+		document.write("%s\n", "영수증 미지참시 교환/환불 불가");
+		document.write("%s\n", "정상상품에 한함, 30일 이내(신선 7일)");
+		document.write("%s\n", "※일부 브랜드매장 제외(매장 고지물참조)");
+		document.write("%s\n\n", "교환/환불 구매점에서 가능(결제 카드 지참)");
+		document.write("%s%-27s%12s\n", "[구 매]", sdt.format(calt.getTime()), "POS:001-9861");	
+		document.write("----------------------------------------------\n");
+		document.write("%3s%-17s%4s%4s%8s\n", "", "상 품 명", "단  가", "수량", "금  액");						
+		document.write("----------------------------------------------\n");
+		
+		// 모든 상품 정보 출력
+		for (int i = 0 ; i < itemname.length ; i++) {						// 46 = 3 + 20 + 9 + 4 + 10
+			if (taxfree[i] == true) {												// 비과세 물품이면
+				document.write("%-3s", "*");												//   * 표시
+				sum_price_taxFree += price[i] * num[i];					//   세금이 부과되지 않는 제품의 합계에 누적
+			} else {																		// 과세 물품이면
+				document.write("%3s", "");												//	 * 표시X
+				sum_price_tax += price[i] * num[i];						//   세금이 부과되는 제품의 합계에 누적
+			}
+			auto_format_item(20, itemname[i]);									// 제품명 출력 - 16자리는 상품명의 자리로 할당하여 함수로 처리, 나머지는 22자리를 나눠 할당하여 가격, 수량, 물품 합계 출력
+			document.write("%9s", df.format(price[i]));						// 제품 가격 출력
+			document.write("%4s", num[i]);										// 제품 수량 출력
+			document.write("%10s\n", df.format(price[i] * num[i]));	// 제품의 구매 총액 출력
+			if (i % 5 == 4)																// 제품 5개마다
+				document.write("----------------------------------------------\n");		//    구분 출력
+		}
+		
+		// 과세 물품 총액, 면세 물품 총액, 부가세, 합계 계산
+		sum_price_total = sum_price_taxFree + sum_price_tax;					// 영수증 합계 = 과세물품 총액 + 비과세물품 총액
+		if (sum_price_tax / (1 + tax_rate) / 10 % 1 != 0)							// 과세 물품 총액의 세금을 계산(과세물품 총액 / 11)했을 때 소수점이 존재하면
+			tax = (int)(sum_price_tax / (1 + tax_rate) / 10) + 1;				//	올림 처리해서 세금 계산
+		else																				// 과세 물품 총액의 세금을 계산했을 때 소수점이 없는 경우
+			tax = (int)(sum_price_tax / (1 + tax_rate) / 10);					//  그대로 세금 계산
+		sum_price_before_tax = sum_price_tax - tax; 							// 과세물품 세전 총액 = 과세물품 총액 - 세금
+		
+		document.write("\n");
+		document.write("%22s%19s\n", "총 품목 수량", itemname.length);					
+		document.write("%23s%19s\n", "(*)면 세  물 품", df.format(sum_price_taxFree));	
+		document.write("%23s%19s\n", "과 세  물 품", df.format(sum_price_before_tax));
+		document.write("%24s%19s\n", "부   가   세", df.format(tax));
+		document.write("%25s%19s\n", "합        계", df.format(sum_price_total));
+		
+		document.write("%s%29s\n", "결 제 대 상 금 액", df.format(sum_price_total));
+		document.write("----------------------------------------------\n");
+		
+		document.write("%s%33s\n", "0012 KEB 하나", "541707**0484/35860658");				
+		document.write("%8s%31s\n", "카드결제(IC)", "일시불 / " + df.format(sum_price_total));
+		
+		
+		document.write("----------------------------------------------\n");
+		document.write("%13s%s\n", "", "[신세계포인트 적립]");								
+		document.write("%s\n", "홍*두 고객님의 포인트 현황입니다.");
+		document.write("%s%21s%11s\n", "금회발생포인트", "9350**9995", df.format(sum_price_total / 1000));			// 적립 포인트 = 합계 / 1000
+		document.write("%s%19s%11s\n", "누계(가용)포인트", df.format(5473 + sum_price_total / 1000) + "(", "5,473)");	// 누적 포인트 = 적립 포인트 + 기존 포인트
+		document.write("%s\n", "신세계포인트 유효기간은 2년입니다.");
+		
+		document.write("----------------------------------------------\n");
+		document.write("%6s%s\n", "", "구매금액기준 무료주차시간 자동부여");						
+		document.write("%s%35s\n", "차량번호 :", "34저****");
+		document.write("%s%36s\n", "입차시간 :", "2021-03-03 20:20:04");
+		
+		document.write("----------------------------------------------\n");
+		document.write("%s%s%30s\n", "캐셔:", "084599 양OO", "1150");
+		document.write("%3s%s\n", "", "||||||||||||||||||||||||||||||||||||||||");		
+		document.write("%8s%s\n", "", sdt2.format(calt.getTime()) + "/00119861/00164980/31");
+	</script>
+</body>
+</html>								

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">			<!-- 문서의 텍스트 형식을 utf-8로 지정 -->
+	<style>
+		table, tr, td {
+			border: 1px solid black;	/* 꽉찬 검정 경계선 1px  */
+			border-cellpadding : 0;		/* 셀간 경계선 사이 여백 제거  */
+			border-collapse: collapse;	/* 셀간 경계선 충돌 허용 */
+		}
+		td {
+			text-align : center;		/* 문자 중앙 정렬, 높이 35px 설정 */
+			height : 35px;				
+		}
+		.button {
+			background-color: yellow;	/* button 클래스의 배경 노란색, 높이 30px, 너비 100px 설정 */
+			height : 30px;
+			width : 100px;
+		}
+		input::-webkit-inner-spin-button {
+			appearance : none;			/* number type의 input태그 옆에 값 조절 버튼 제거 */
+		}
+	</style>
+</head>
+
+<body>
+	<div align=center >
+		<h1>성적 조회 후 정정 / 삭제</h1>
+		
+		<br>
+		
+		<!-- 학번 조회 -->
+		<form id="insert_id" method="post" action="showREC.jsp" target="main">
+			<b>조회할 학번</b>&nbsp;<input type="number" name="id_str" required>	&nbsp;<input type="submit" class="button" value="조회" />
+		</form>
+		
+		<br>
+		
+		<!-- 조회한 데이터가 뿌려질 테이블 -->
+		<form id="insert_record" method="get" action="showREC.jsp">
+			<table>
+				<tr>
+					<td width=100px>
+						이름
+					</td>
+					<td width=250px>
+						<input type=text name="name_str" readonly>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						학번
+					</td>
+					<td>
+						<input type=number name="id_str" readonly>
+					</td>			
+				</tr>		
+				<tr>
+					<td>
+						국어
+					</td>
+					<td>
+						<input type=number name="score_kor" readonly>
+					</td>			
+				</tr>		
+				<tr>
+					<td>
+						영어
+					</td>
+					<td>
+						<input type=number name="score_eng" readonly>
+					</td>			
+				</tr>		
+				<tr>
+					<td>
+						수학
+					</td>
+					<td>
+						<input type=number name="score_mat" readonly>
+					</td>			
+				</tr>		
+			</table>
+		</form>
+	</div>
+	
+</body>
+</html>

@@ -1,0 +1,45 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>창 만들기 태그</title>
+	</head>
+	
+	<body>
+		<table border="1px solid black">				<!-- 테이블 태그를 이용하여 하위 테이블 관련 태그가 하나의 테이블임을 명시, 테이블 구분선 굵기를 1로 설정 -->
+			<tr align="center" bgcolor=gray>			<!-- tr 태그 : 하나의 행을 의미하는 태그로 내부 td태그가 현재 행 안의 열을 구성한다. 배경 회색 지정, 중앙 정렬 지정 -->
+				<th witdh="150">형식</th>					<!-- td 태그 : 하나의 열을 의미하는 태그, tr태그 하위에는 여러 개의 td 태그가 올 수 있다.-->
+				<th witdh="150">구성</th>					<!--    witdh 속성을 부여하여 너비를 고정시켰다. 첫번째 tr 태그에 적용하면 이어지는 tr태그에도 자동 적용된다. -->
+				<th witdh="300">내용</th>
+			</tr>
+			<tr>
+				<td rowspan="7">&lt;FRAME&gt;</td>		<!-- 열끼리 통합하고자 할 때는 통합하고자하는 가장 위의 첫번째 td태그에 rowspan속성을 통합하고자하는 칸의 수를 지정해준다. -->
+				<td>&lt;FRAMESET&gt;...&lt;/FRAMESET&gt;</td>
+				<td>창의 기본 틀을 지정합니다.</td>
+			</tr>			
+			<tr>			
+				<td>&lt;FRAMESET ROW=&quot;숫자 혹은 %&quot;&gt;</td>
+				<td>위 아래로 나눠줍니다.</td>
+			</tr>	
+			<tr>			
+				<td>&lt;FRAMESET COLS=&quot;숫자 혹은 %&quot;&gt;</td>
+				<td>좌우로 나눠줍니다.</td>
+			</tr>
+			<tr>			
+				<td>&lt;FRAMESET SRC=&quot;...&quot; MARGINWIDTH=&quot;...&quot;&gt;</td>
+				<td>창에 들어갈 좌우 여백을 정의합니다.</td>
+			</tr>
+			<tr>			
+				<td>&lt;FRAMESET SRC=&quot;...&quot; MARGINHEIGHT=&quot;...&quot;&gt;</td>
+				<td>창에 들어갈 상하 여백을 정의합니다.</td>
+			</tr>
+			<tr>			
+				<td>&lt;FRAMESET SCROLLING=&quot;...&quot;&gt;</td>
+				<td>스크롤바를 설정해 줍니다.</td>
+			</tr>	
+			<tr>			
+				<td>&lt;NOFRAMES&gt;...&lt;/NOFRAMES&gt;</td>
+				<td>프레임이 안보이게 해줍니다.</td>
+			</tr>			
+		</table>
+	</body>
+<html>

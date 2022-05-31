@@ -1,0 +1,46 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>문서의 기본 구조를 나타내 주는 태그</title>
+	</head>
+	
+	<body>
+		<table border="1px solid black">				<!-- 테이블 태그를 이용하여 하위 테이블 관련 태그가 하나의 테이블임을 명시, 테이블 구분선 굵기를 1로 설정 -->
+			<tr align="center" bgcolor=gray>			<!-- tr 태그 : 하나의 행을 의미하는 태그로 내부 td태그가 현재 행 안의 열을 구성한다. 배경 회색 지정, 중앙 정렬 지정 -->
+				<th witdh="150">형식</th>					<!-- td 태그 : 하나의 열을 의미하는 태그, tr태그 하위에는 여러 개의 td 태그가 올 수 있다.-->
+				<th witdh="150">구성</th>					<!--    witdh 속성을 부여하여 너비를 고정시켰다. 첫번째 tr 태그에 적용하면 이어지는 tr태그에도 자동 적용된다. -->
+				<th witdh="300">내용</th>
+			</tr>
+			<tr>
+				<td>&lt;HTML&gt;</td>					<!-- 부등호를 html에서 표시하려면 &lt;, gt;가 사용된다. -->
+				<td>&lt;HTML&gt;...&lt;/HTML&gt;</td>	
+				<td>HTML언어로 작성되어 있다는 것을 알려줍니다.</td>
+			</tr>
+			<tr>
+				<td>&lt;HEAD&gt;</td>
+				<td>&lt;HEAD&gt;...&lt;/HEAD&gt;</td>
+				<td>Heading의 준말로 글의 머리말에 해당합니다.</td>
+			</tr>
+			<tr>
+				<td>&lt;BODY&gt;</td>
+				<td>&lt;BODY&gt;...&lt;/BODY&gt;</td>
+				<td>본문에 해당하는 부분을 알려줍니다.</td>
+			</tr>				
+			<tr>
+				<td>&lt;TITLE&gt;</td>
+				<td>&lt;TITLE&gt;...&lt;/TITLE&gt;</td>
+				<td>타이틀바에 새겨질 글자를 정의합니다.</td>
+			</tr>
+			<tr>
+				<td>&lt;Hn&gt;</td>
+				<td>&lt;Hn&gt;...&lt;/Hn&gt;</td>
+				<td>표제 부분에 들어갈 말을 정의합니다. 1~6까지의 숫자를 사용하고 숫자가 커질수록 표제는 작아집니다. 기본값은 H4입니다.</td>
+			</tr>	
+			<tr>
+				<td>&lt;!-...-&gt;</td>
+				<td>&lt;!-주석내용-&gt;</td>
+				<td>주석을 달거나 잠시동안 이미지를 보이지 않게 할 때 사용합니다. (가급적 요즘은 – - 두 개..)</td>
+			</tr>
+		</table>
+	</body>
+<html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Click the button to put the new window in the second frame.</p>
+
+<button onclick="myFunction()">Try it</button>			<!-- 버튼이 눌리면 두번쨰 프레임에 내용 대체 -->
+
+<script>
+	function myFunction() {
+		doc = open("", "output");						// open함수의 첫번째 파라미터는 열 페이지의 url 주소, 두번째 파라미터는 프레임의 이름
+														// 즉 빈페이지를 output이라는 두번째 프레임에 빈페이지를 연다.
+		doc.document.write('<body><h1>hello!</h1></body>');	// 연 페이지에 hello!라는 내용을 쓴다.
+		doc.document.close();							// 연 document를 닫는다.
+	}
+</script>
+
+</body>
+</html>

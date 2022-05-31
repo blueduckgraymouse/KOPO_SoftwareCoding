@@ -1,0 +1,21 @@
+<html>
+<head>
+	<script> <!-- function의 위치가 호출 call()보다 위에 있어야 한다. -->
+		function call(mystr) {								<!-- 파라미터 mystr을 갖는 call 함수를 정의 -->
+			document.write("hello world" + mystr+"<br>");	<!-- 내장 함수 write를 이용하여 hello world mystr라고 함수가 호출되는 위치에 쓴다.
+		}
+	</script>
+</head>
+
+<body>
+	<script>
+		call("11");		<!-- 정의 해둔 call함수에 파라미터 11을 넣어 호출 -->
+	</script>
+	
+	Good..<br>
+	
+	<script>
+		call("22");		<!-- 정의 해둔 call함수에 파라미터 22을 넣어 호출 -->
+	</script>
+</body>
+</html>

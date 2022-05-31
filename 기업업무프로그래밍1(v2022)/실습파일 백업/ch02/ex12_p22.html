@@ -1,0 +1,22 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script> 
+		function call1() { 								// call1() 함수 정의
+			//window.location = "http://www.kopo.ac.kr"; 	// 현재 창을 폴리텍대학 홈페이지로 페이지 이동
+			//window.status = "hello, 어디에 표시되나요"; 		// 상태표시줄에 표시, 지금은 상태표시줄 자체가 없어짐
+			window.open("http://www.kopo.ac.kr", "newWindow", "toolbar=yes, width=200");	// 새로운 팝업창으로 폴리텍대학 홈페이지 띄우기, 둘바 표시 & 너비 200px 설정
+		}
+	</script>
+</head>
+
+
+<body>
+	<!-- <script>
+		call1();		// call1 함수 호출 - 웹페이지 로드 되자마다 call1함수에서 설정한 페이지 이동이 발생하므로 관측 불가
+	</script> -->
+	<button onclick="call1();" value>call1함수 호출</button>	<!-- 버튼이 눌리면 call1함수 호출 -->
+	<br>
+	Good...
+</body>
+</html>

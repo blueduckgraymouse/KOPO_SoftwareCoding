@@ -1,0 +1,138 @@
+<html>
+<head>
+	<meta charset="UTF-8">			<!-- 문서의 텍스트 형식을 utf-8로 지정 -->
+	<style>
+		table, tr, td {
+			border: 1px solid black;	/* 꽉찬 검정 경계선 1px  */
+			border-cellpadding : 0;		/* 셀간 경계선 사이 여백 제거  */
+			border-collapse: collapse;	/* 셀간 경계선 충돌 허용 */
+		}
+		td {
+			text-align : center;		/* 문자 중앙 정렬, 높이 35px 설정 */
+			height : 35px;				
+		}
+		.button {
+			background-color: yellow;	/* button 클래스의 배경 노란색, 높이 30px, 너비 100px 설정 */
+			height : 30px;
+			width : 100px;
+		}
+		input::-webkit-inner-spin-button {
+			appearance : none;			/* number type의 input태그 옆에 값 조절 버튼 제거 */
+		}
+	</style>
+</head>
+
+<body>
+	<div align=center>
+		<h1>성적 입력</h1>
+		
+		<form id="insert_form" method="post" action="insertDB.jsp">
+			<table>
+				<tr>
+					<td width=100px>
+						이름
+					</td>
+					<td width=250px>
+						<input type=text name="name_str">
+					</td>			
+				</tr>
+				<tr>
+					<td>
+						학번
+					</td>
+					<td>
+						빈 번호로 순차 부여
+					</td>			
+				</tr>		
+				<tr>
+					<td>
+						국어
+					</td>
+					<td>
+						<input type=number name="score_kor">
+					</td>			
+				</tr>		
+				<tr>
+					<td>
+						영어
+					</td>
+					<td>
+						<input type=number name="score_eng">
+					</td>			
+				</tr>		
+				<tr>
+					<td>
+						수학
+					</td>
+					<td>
+						<input type=number name="score_mat">
+					</td>			
+				</tr>		
+			</table>
+			<br><br>
+			<input type="submit" class="button" onsubmit="return checkValidation(this.form);" value="저장" />
+		</form>											<!-- 버튼 클릭시 checkValidation함수 호출 -->
+	</div>
+	
+	
+	
+	<script>
+		// 유효성 검사 함수
+		function checkValidation(form) {
+			// 이름 길이 1~20글자 제한
+			name = form.name_str.value;
+			if (name.length > 20 || name.length < 1) {
+				window.alert("이름은 1~20글자로 입력 가능합니다.");
+				form.name_str.focus();
+				return false;
+			}
+			// 이름에 들어갈 수 있는 문자 한글, 영서 숫자로 제한
+			const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
+			if (!regex.test(name)) {
+				window.alert("이름에는 한글, 영어, 숫자 입력이 가능합니다.");
+				form.name_str.focus();
+				return false;
+			}
+			// 국어점수 필수 입력
+			score_k = form.score_kor.value;
+			if (score_k.length < 1) {
+				window.alert("국어점수는 필수 입력입니다.");
+				form.name_str.focus();
+				return false;
+			}
+			// 국어점수 0~100점 입력 제한
+			if (score_k > 100 || score_k < 0) {
+				window.alert("국어 점수는 0~100점까지 입력이 가능합니다.");
+				form.score_kor.focus();
+				return false;
+			}
+			// 영어점수 필수 입력
+			score_e = form.score_eng.value;
+			if (score_e.length < 1) {
+				window.alert("영어 점수는 필수 입력입니다.");
+				form.name_str.focus();
+				return false;
+			}
+			// 영어점수 0~100점 입력 제한			
+			if (score_e > 100 || score_e < 0) {
+				window.alert("영어 점수는 0~100점까지 입력이 가능합니다.");
+				form.score_eng.focus();
+				return false;
+			}
+			// 수학점수 필수 입력
+			score_m = form.score_mat.value;
+			if (score_m.length < 1) {
+				window.alert("수학 점수는 필수 입력입니다.");
+				form.name_str.focus();
+				return false;
+			}	
+			// 수학점수 0~100점 입력 제한			
+			if (score_m > 100 || score_m < 0) {
+				window.alert("수학 점수는 0~100점까지 입력이 가능합니다.");
+				form.score_mat.focus();
+				return false;
+			}
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>글자의 모양을 정의해주는 태그</title>
+	</head>
+	
+	<body>
+		<table border="1px solid black">				<!-- 테이블 태그를 이용하여 하위 테이블 관련 태그가 하나의 테이블임을 명시, 테이블 구분선 굵기를 1로 설정 -->
+			<tr align="center" bgcolor=gray>			<!-- tr 태그 : 하나의 행을 의미하는 태그로 내부 td태그가 현재 행 안의 열을 구성한다. 배경 회색 지정, 중앙 정렬 지정 -->
+				<th witdh="150">형식</th>					<!-- td 태그 : 하나의 열을 의미하는 태그, tr태그 하위에는 여러 개의 td 태그가 올 수 있다.-->
+				<th witdh="150">구성</th>					<!--    witdh 속성을 부여하여 너비를 고정시켰다. 첫번째 tr 태그에 적용하면 이어지는 tr태그에도 자동 적용된다. -->
+				<th witdh="300">내용</th>
+			</tr>
+			<tr>
+				<td>&lt;STRONG&gt;</td>
+				<td>&lt;STRONG&gt;...&lt;/STRONG&gt;</td>
+				<td rowspan="2">굵은 글씨를 나타내 주는 태그입니다.</td>		<!-- 열끼리 통합하고자 할 때는 통합하고자하는 가장 위의 첫번째 td태그에 rowspan속성을 통합하고자하는 칸의 수를 지정해준다. -->
+			</tr>
+			<tr>
+				<td>&lt;B&gt;</td>
+				<td>&lt;B&gt;...&lt;/B&gt;</td>
+			</tr>	
+			<tr>
+				<td>&lt;EM&gt;</td>
+				<td>&lt;EM&gt;...&lt;/EM&gt;</td>
+				<td rowspan="2">이탤릭체의 글씨를 나타내 주는 태그입니다.</td>	<!-- 열끼리 통합하고자 할 때는 통합하고자하는 가장 위의 첫번째 td태그에 rowspan속성을 통합하고자하는 칸의 수를 지정해준다. -->
+			</tr>	
+			<tr>
+				<td>&lt;I&gt;</td>
+				<td>&lt;I&gt;...&lt;/I&gt;</td>
+
+			</tr>	
+			<tr>
+				<td>&lt;KBD&gt;</td>
+				<td>&lt;KBD&gt;...&lt;/KBD&gt;</td>
+				<td rowspan="3">타자기체의 글씨를 나타내 주는 태그입니다.</td>	<!-- 열끼리 통합하고자 할 때는 통합하고자하는 가장 위의 첫번째 td태그에 rowspan속성을 통합하고자하는 칸의 수를 지정해준다. -->
+			</tr>	
+			<tr>
+				<td>&lt;CODE&gt;</td>
+				<td>&lt;CODE&gt;...&lt;/CODE&gt;</td>
+			</tr>	
+			<tr>
+				<td>&lt;TT&gt;</td>
+				<td>&lt;TT&gt;...&lt;/TT&gt;</td>
+			</tr>				
+		</table>
+	</body>
+<html>

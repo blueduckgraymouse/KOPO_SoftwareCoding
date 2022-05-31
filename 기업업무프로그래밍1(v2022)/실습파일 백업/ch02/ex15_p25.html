@@ -1,0 +1,23 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script> 
+		var name = "hello";
+		
+		function call1() {
+			//history.go(-1);		// 이전 기록 중 첫번째 히스토리로 이동한다. -> -1이므로 뒤로가기와 동일
+			//	history.back();	// 이전 페이지 이동
+			history.forward(); // 다음 페이지 이동
+		}
+	</script>
+</head>
+
+<body>
+	<!-- <script>
+		call1();		// call1 함수 호출 - 웹페이지 로드 되자마다 call1함수에서 설정한 페이지 이동이 발생하므로 관측 불가
+	</script> -->
+	<button onclick="call1();" value>call1함수 호출</button>	<!-- 버튼이 눌리면 call1함수 호출 -->
+	<br>
+	Good..
+</body>
+</html>

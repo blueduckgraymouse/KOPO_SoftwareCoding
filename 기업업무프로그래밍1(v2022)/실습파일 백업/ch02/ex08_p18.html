@@ -1,0 +1,23 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+</head>
+
+<body>
+	<script> 
+		var d = new Date(2022, 5, 17);					<!-- 2022년 5월 17일 화요일 날짜 객체 변수에 저장2 -->
+		document.write("년도:" + (d.getYear()+1900) +	<!-- getYear는 연도 값을 1900년 기준으로 가져오므로 1900을 더해준다. -->
+			"월은 : " + d.getMonth() +					<!-- 월에 해당하는 값 가져오기 -->
+			"일은 : " + d.getDate() +						<!-- 일에 해당하는 값 가져오기 -->
+			"요일은 : " + d.getDay() +						<!-- 요일에 해당하는 값 가져오기 -->
+			"시는 : " + d.getHours() +					<!-- 시에 해당하는 값 가져오기 -->
+			"분은 : " + d.getMinutes() +					<!-- 분에 해당하는 값 가져오기 -->
+			"초는 : " + d.getSeconds() +					<!-- 초에 해당하는 값 가져오기 -->
+			"밀리초 : " + d.getMilliseconds() + "<hr>");	<!-- 밀리초에 해당하는 값 가져오기 -->
+		d.setYear(2010);								<!-- d 변수에 저장된 객체의 연도를 2010년도로 지정. -->
+		document.write(d + "<hr>");						<!-- d에 저장될 날짜 출력 -->
+		d.setMonth(7);									<!-- d 변수에 저장된 객체의 월을 8월로 지정. -->
+		document.write(d + "<hr>");						<!-- d에 저장될 날짜 출력 -->
+	</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>				<!-- chartjs라이브러리를 설치하는 대신 chartjs 페이지에서 제공하는 url을 연결하여 라이브러리의 내용을 사용할 수 있다. -->
+
+<body>
+	<canvas id="myChart" width="200" height="200"></canvas>	<!-- 차트를 만들어준 위치를 canvas태그를 이용하여 지정한다. 너비와 높이 200으로 설정. -->
+	
+	<script>
+		const ctx = document.getElementById('myChart').getContext('2d');	// id가 myChart인 canvas태그의 2D 렌더링 컨텍스트를 ctx 상수변수에 저장
+		const myChart = new Chart(ctx, {			// 차트 생성
+			type: 'bar',							// 차트 타입은 바 형태로 지정
+			data: {									// 차트에 들어갈 대이터 정보를 지정
+				labels: ['홍길01', '홍길02', '홍길03', '홍길04', '홍길05', '홍길06', '홍길07', '홍길08', '홍길09', '홍길10',	// 데이터의 이름(라벨)을 저장
+						'홍길11', '홍길12', '홍길13', '홍길14', '홍길15', '홍길16', '홍길17', '홍길18', '홍길19', '홍길20'],
+				datasets: [{
+					label: 'score of student',
+					data: [80, 72, 53, 96, 37, 77, 6, 29, 95, 70,	// 데이터의 값을 저장
+						18, 59, 98, 84, 36, 100, 84, 58, 90, 74],
+					backgroundColor: [			// 그려질 그래프의 배경 색 지정
+						'rgba(54, 162, 235, 0.2)'
+					],
+					borderColor: [				// 그려질 그래프 경계선 색 지정
+						'rgba(255, 99, 132, 1)'
+					],
+					borderWidth: 1				// 경계선의 두께 지정
+				}]
+			},
+			options: {}			// 별도의 옵션 없음
+		});
+	</script>
+	<br>
+</body>
+</html>

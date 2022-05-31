@@ -1,0 +1,35 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+</head>
+
+<body>
+	<script> 
+		var arr = new Array("빨간색", 1010, "deadfire", "Javascript", "XX");	<!-- 실습한 데이터를 배열array객체에 담아 변수에 저장 -->
+		document.write("<h2>original</h2>");
+		for (i = 0 ; i < arr.length ; i++) {								<!-- 배열에 담긴 모든 요소 출력 -->
+			document.write("arr[" + i + "]" + arr[i] + "<br>");
+		}
+		arr.sort();															<!-- 배열 array객체에 담긴 요소를 오른차순으로 정렬 -->
+		document.write("<hr><h2>기본정렬</h2>");
+		for (i = 0 ; i < arr.length ; i++) {								<!-- 배열에 담긴 모든 요소 출력 -->
+			document.write("arr[" + i + "]" + arr[i] + "<br>");
+		}
+		
+		function compare(a, b) {			<!-- 파라미터 a,b를 받는 compare함수 정의 -->
+		if (a < b)							<!-- a보다 b가 크면 -->
+			return 1;						<!-- 1 리턴 -->
+		else if ( a > b)					<!-- b보다 a가 크면 -->
+			return -1;						<!-- -1 리턴 -->
+		else								<!-- b보다 a가 같으면 -->
+			return 0;						<!-- 0 리턴 -->
+		}
+		
+		arr.sort(compare);					<!-- 배열 array객체에 담긴 요소를 함수 compare를 이용하여 정렬 -->
+		document.write("<hr><h2> 역순정렬 </h2>");
+		for (i = 0 ; i < arr.length ; i++) {								<!-- 배열에 담긴 모든 요소 출력 -->
+			document.write("arr[" + i + "]" + arr[i] + "<br>");
+		}
+	</script>
+</body>
+</html>

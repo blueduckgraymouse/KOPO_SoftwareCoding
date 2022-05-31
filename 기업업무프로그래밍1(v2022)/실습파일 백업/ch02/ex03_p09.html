@@ -1,0 +1,18 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+</head>
+
+<body>
+	<script> 
+		name = prompt("Enter Name", "홍길동");		<!-- prompt함수에 팝업 prompt창을 띄워 "Enter Name" 표시하고 입력창에 default값으로 "홍길동"을 쓴다. 제출된 값을 name 변수에 저장 -->
+		if(confirm("Continue ? \n Clinck Button") == true) {	<!-- 팝업 확인창을 띄워 "Continue ? \n Clinck Button" 표시하고 확인 버튼이 눌려 true가 반환되면 조건문 만족 -->
+			answer = 'true';									<!--    answer변수에 true가 저장 -->
+		} else {												<!-- 취소 버튼이 눌려 false가 반환된 경우 -->
+			answer ='false';									<!--    answer변수에 false 저장 -->
+		}
+		alert("Name: " + name + "\nAnswer : " + answer);		<!-- 입력한 이름과 누른 버튼에 따른 boolean값이 표시된 팝업 알림창 띄움 -->
+		document.write("your Name is " + name);					<!-- html에 prompt창에서 입력한 값 표시 -->
+	</script>
+</body>
+</html>
