@@ -23,7 +23,7 @@ public class K35_ex04_p14 {
 		
 		k35_txt = k35_br.readLine();
 		String[] k35_filename = k35_txt.split(",");
-		String[][] k35_datas = new String
+		//String[][] k35_datas = new String
 		
 		while ((k35_txt = k35_br.readLine()) != null) {
 			String[] k35_datas_line = k35_txt.split(",");
