@@ -1,3 +1,3 @@
-# KOPO_SoftwareCoding
+# KOPO_log
 
-소프트웨어코딩 실습 기록
+kopo에서 진행한 모든 파일
